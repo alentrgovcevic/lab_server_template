@@ -1,0 +1,16 @@
+.git
+.venv
+**/__pycache__
+.pytest_cache
+.ruff_cache
+sample_data
+oligo_export*.tab
+*.ab1
+tests
+docs
+Documentation
+session_recap
+deploy
+launchd
+*.md
+!requirements.txt

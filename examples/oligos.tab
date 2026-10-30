@@ -1,0 +1,14 @@
+Reference	Oligo_type	Oligo id 	Oligo name	Oligo target	Oligo sequence	Comment
+DEMO	sequencing	PM-00001	M13F(-20)	pUC/M13 vectors	GTAAAACGACGGCCAGT	universal sequencing primer	1/15/2024
+DEMO	sequencing	PM-00002	M13R	pUC/M13 vectors	CAGGAAACAGCTATGAC	universal sequencing primer	1/15/2024
+DEMO	sequencing	PM-00003	T7 promoter	T7 vectors	TAATACGACTCACTATAGGG	universal sequencing primer	1/15/2024
+DEMO	sequencing	PM-00004	T7 terminator	T7 vectors	GCTAGTTATTGCTCAGCGG	universal sequencing primer	1/15/2024
+DEMO	sequencing	PM-00005	SP6	SP6 vectors	ATTTAGGTGACACTATAG	universal sequencing primer	1/15/2024
+DEMO	sequencing	PM-00006	T3	T3 vectors	AATTAACCCTCACTAAAGGG	universal sequencing primer	1/15/2024
+DEMO	sequencing	PM-00007	CMV-F	CMV promoter	CGCAAATGGGCGGTAGGCGTG	universal sequencing primer	2/03/2024
+DEMO	sequencing	PM-00008	EGFP-C	EGFP 3' end	CATGGTCCTGCTGGAGTTCGTG	reads out of EGFP	2/03/2024
+DEMO	sequencing	PM-00009	EGFP-N	EGFP 5' end	CGTCGCCGTCCAGCTCGACCAG	reads back out of EGFP	2/03/2024
+DEMO	sequencing	PM-00010	pBR322ori-F	pMB1 origin	GGGAAACGCCTGGTATCTTT		2/03/2024
+DEMO	sequencing	PM-00011	Amp-R	bla (AmpR)	ATAATACCGCGCCACATAGC		2/03/2024
+DEMO	labelled	PM-00012	M13F-FAM	pUC/M13 vectors	[6FAM]GTAAAACGACGGCCAGT	example of a 5' modification	3/11/2024
+DEMO	cloning	PM-00013	EcoRI-GFP-F	EGFP	ggcgaattcATGGTGAGCAAGGGCGAGGAG	example of a tailed primer (EcoRI)	3/11/2024

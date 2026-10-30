@@ -1,0 +1,26 @@
+# Secrets, certificates and generated demo data
+deploy/.env
+deploy/certs/
+deploy/demo_data/
+deploy/errors/deploy-notice.json
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Genome browser data is built locally, never committed
+*.sqlite
+
+.DS_Store
+.claude/settings.local.json
+
+# Owner-only working notes (this repo is meant to be public)
+*_git_changes.md
+PLAN.md
+LEARNING_LOG.md
+TECHNICAL_DEBT.md
+_next_session.md
+CLAUDE.md

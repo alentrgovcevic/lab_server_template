@@ -1,0 +1,10 @@
+# Example unit: set WorkingDirectory to your checkout and the .mount names to your share's mount points.
+[Unit]
+Description=Plasmid map bank: copy new uploads to the map bank share (add-only), two-way workspace sync
+Requires=docker.service
+After=docker.service mnt-plasmid_map_bank_rw.mount
+
+[Service]
+Type=oneshot
+WorkingDirectory=/srv/lab_server_template
+ExecStart=/usr/bin/docker compose -f deploy/docker-compose.yml --env-file deploy/.env run --rm sync

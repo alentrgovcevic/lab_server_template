@@ -1,0 +1,6 @@
+{
+ "name": "Lotus japonicus chloroplast",
+ "description": "Demo genome: RefSeq NC_002694.1 (150 kb, 127 genes), from NCBI",
+ "fasta": "Lj_chloroplast_NC_002694.fa",
+ "tracks": [{"name": "genes", "kind": "genes", "path": "Lj_chloroplast_NC_002694.gff3"}]
+}

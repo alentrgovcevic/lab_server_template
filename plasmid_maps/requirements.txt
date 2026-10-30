@@ -1,0 +1,9 @@
+biopython==1.88
+primer3-py==2.3.1
+fastapi==0.142.2
+uvicorn==0.54.0
+python-multipart==0.0.32
+pytest==9.1.1
+segno==1.6.6
+python-barcode==0.16.1
+zxing-cpp==3.1.1

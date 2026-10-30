@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Lab admin</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%232b7a78' stroke-width='4'/%3E%3Cpath d='M16 5a11 11 0 0 1 11 11' fill='none' stroke='%23e07a5f' stroke-width='4'/%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #f7f7f5; --panel: #ffffff; --ink: #1d2327; --muted: #5f6b73; --line: #dde1e4; --ctl-line: #848d93;
+  --accent: #2b7a78; --accent-soft: #d8ecea; --on-accent: #fff; --warn: #946200; --warn-soft: #fbf0d9;
+  --bad: #a93226; --bad-soft: #f8dedb; --good: #2f855a; --good-soft: #dcefe3;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15191c; --panel: #1d2327; --ink: #e6e9eb; --muted: #9aa5ad; --line: #333b41; --ctl-line: #6b767e;
+    --accent: #5fb3b0; --accent-soft: #1f3a3a; --on-accent: #15191c; --warn: #e2b04a; --warn-soft: #3a3020;
+    --bad: #f07b6e; --bad-soft: #3d2422; --good: #6cc495; --good-soft: #1e3529;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+header { display: flex; align-items: baseline; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
+header h1 { font-size: 17px; margin: 0; }
+header .me { margin-left: auto; color: var(--muted); font-size: 13px; }
+a { color: var(--accent); }
+main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
+h2 { font-size: 15px; margin: 26px 0 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.tile { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; color: var(--ink); text-decoration: none; }
+a.tile:hover { border-color: var(--accent); background: var(--accent-soft); }
+.tile b { display: block; font-size: 15px; margin-bottom: 3px; }
+.tile span { color: var(--muted); font-size: 13px; }
+.tile.off { opacity: .55; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+input[type=text], input[type=search], textarea, select { font: inherit; color: var(--ink); padding: 6px 8px; border: 1px solid var(--ctl-line); border-radius: 6px; background: var(--bg); }
+textarea { width: 100%; min-height: 70px; resize: vertical; }
+button { font: inherit; color: var(--ink); border: 1px solid var(--ctl-line); background: var(--panel); border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+button.primary { background: var(--accent); color: var(--on-accent); border: 0; font-weight: 600; }
+button:disabled { opacity: .5; cursor: default; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { color: var(--muted); font-weight: 500; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.id { font-family: var(--mono); font-weight: 600; }
+.badge { display: inline-block; font-size: 11px; padding: 0 7px; border-radius: 9px; }
+.b-draft { background: var(--warn-soft); color: var(--warn); }
+.b-link { background: var(--accent-soft); color: var(--accent); }
+.b-bad { background: var(--bad-soft); color: var(--bad); }
+.note { color: var(--muted); font-size: 12px; }
+.ok { color: var(--good); } .err { color: var(--bad); }
+.plist .item { padding: 8px 10px; border-bottom: 1px solid var(--line); cursor: pointer; display: flex; gap: 10px; align-items: baseline; }
+.plist .item:hover { background: var(--accent-soft); }
+.hits div { padding: 3px 8px; cursor: pointer; }
+.hits div:hover { background: var(--accent-soft); }
+.fb { border-bottom: 1px solid var(--line); padding: 6px 0; font-size: 13px; white-space: pre-wrap; }
+.pw { font-family: var(--mono); font-size: 15px; background: var(--good-soft); color: var(--good); padding: 6px 10px; border-radius: 6px; user-select: all; }
+.diff { max-height: 260px; overflow: auto; }
+.overview { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 4px; }
+.ov { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; color: var(--ink); text-decoration: none; }
+a.ov:hover { border-color: var(--accent); background: var(--accent-soft); }
+.ov b { display: block; font-size: 13px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: .04em; }
+.ov .big { font-size: 22px; font-weight: 700; display: block; margin: 2px 0; }
+.ov .note { display: block; }
+.ov.alert { border-color: var(--warn); }
+h2 { scroll-margin-top: 12px; }
+th { white-space: nowrap; }
+.thbtn { all: unset; cursor: pointer; } .thbtn:hover { color: var(--ink); } .thbtn:focus-visible { outline: 2px solid var(--accent); }
+header nav { display: flex; gap: 12px; font-size: 13px; }
+.stale { color: var(--warn); }
+@media print {
+  header .me, .row, button { display: none !important; }
+  body { background: #fff; color: #000; }
+}
+</style>
+<script src="/ui.js"></script>
+<script src="/deploy-notice.js" defer></script>  <!-- restart warning, served by Caddy (deploy/errors/) -->
+</head>
+<body>
+<header><h1>Lab admin</h1><nav><a href="/">Dashboard</a><a href="/bank">Map bank</a></nav><span class="me"><span id="uictl" data-always="1"></span> <span id="me"></span></span></header>
+<main>
+  <p class="err" id="denied" hidden>This page is for admins. Ask an admin to change your role.</p>
+  <section id="admin" hidden>
+  <h2 id="overview" style="margin-top:6px">Overview</h2>
+  <div class="overview" id="ov"><p class="note">loading…</p></div>
+
+  <h2 id="accounts">Accounts</h2>
+  <div class="card">
+    <div class="row">
+      <input type="search" id="ufilter" placeholder="Find a user" aria-label="Find a user" style="flex:1;min-width:140px">
+      <span style="flex-basis:100%;height:0"></span>
+      <label for="nname"><b>New user</b></label> <input type="text" id="nname" placeholder="user name, lowercase" autocomplete="off" style="min-width:220px">
+      <select id="nrole"></select>
+      <button class="primary" id="nadd">Add user</button>
+      <span class="note" id="nmsg"></span>
+    </div>
+    <div id="shown"></div>
+    <div style="overflow-x:auto"><table><thead id="uhead"></thead><tbody id="users"></tbody></table></div>
+    <p class="note adv">A new account and a reset both get a one-time password, shown once here; the user is asked to choose their own at next sign-in.
+      Roles: <b>admin</b> manages accounts and the oligo export; <b>user</b> and <b>student</b> are the same for now (student limits wait for the approval queue).
+      The last admin cannot be demoted or removed. <b>Password set</b> is when the person last chose their own password (recorded since 2026-10-29; "—" means not since then).
+      <b>Last active</b> is the last request they made (recorded since 2026-10-29, to the minute). Click a column to sort.</p>
+  </div>
+
+  <!-- Your own modules' admin cards go here (see "Adding a module" in the README), e.g. a safety
+       quiz's questions and results, or the uploads of a chemical register. -->
+
+  <h2 id="basicview">Basic view</h2>
+  <div class="card">
+    <p class="note" style="margin-top:0">What people see in the map bank when they choose <b>Basic</b> (top right of every page). Unticked tools are only in <b>Advanced</b>.
+      Browsers that used the site before 29 October start in Advanced; new ones start in Basic. Everyone can switch at any time.</p>
+    <div id="bvlist" class="note">loading…</div>
+    <div class="row"><button class="primary" id="bvsave">Save</button><span class="note" id="bvmsg"></span></div>
+  </div>
+
+  <div class="adv"><h2 id="oligos">Oligo collection</h2>
+  <div class="card">
+    <div class="note" id="oinfo"></div>
+    <div class="row">
+      <input type="file" id="ofile" accept=".tab,.tsv,.txt,.csv">
+      <button id="oprev" disabled>Check differences</button>
+      <button class="primary" id="oapply" disabled>Add to the collection</button>
+    </div>
+    <p class="note">Upload the oligo database export (the whole export or only the newest rows). Rows are matched on Oligo id: new IDs are added,
+      an ID whose sequence changed is updated, and nothing is removed. The previous version is kept as one step of undo on the server.</p>
+    <div id="odiff"></div>
+  </div>
+
+  </div>
+  <div class="adv"><h2 id="sync-h">Share sync</h2>
+  <div class="card"><div id="sync" class="note">loading…</div>
+    <p class="note">Hourly: new numbered maps go to the share (add only), and each person's My workspace is synced both ways with
+      <i>Plasmid map bank/Workspaces/&lt;user&gt;/</i>. The scan re-indexes the bank daily at 07:00.</p></div>
+
+  </div>
+  <div class="adv"><h2 id="audit-h">Audit</h2>
+  <div class="card"><table><thead><tr><th>When</th><th>By</th><th>What</th><th>Account / file</th><th></th></tr></thead><tbody id="audit"></tbody></table></div></div>
+  <p class="note">Oligo collection, Share sync and the audit log are in <b>Advanced</b> view (top right).</p>
+  </section>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const api = async (url, opt) => {
+  const r = await fetch(url, opt);
+  if (r.status === 401) { location.href = "/login"; throw new Error("signed out"); }
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
+  return r.json();
+};
+const send = (method, url, body) => api(url, {method, headers: {"Content-Type": "application/json"}, body: JSON.stringify(body ?? {})});
+let me = null, roles = [], mode = "none";
+
+async function init() {
+  me = await api("/api/me");
+  if (me.auth !== "none") $("#me").innerHTML = `${esc(me.user)} · <a href="/logout">sign out</a>`;
+  if (me.role !== "admin") { $("#denied").hidden = false; return; }
+  $("#admin").hidden = false;
+  $("#nadd").onclick = addUser;
+  $("#nname").onkeydown = e => { if (e.key === "Enter") addUser(); };
+  $("#ofile").onchange = () => { $("#oprev").disabled = !$("#ofile").files.length; $("#oapply").disabled = true; $("#odiff").innerHTML = ""; };
+  $("#oprev").onclick = () => uploadOligos(false);
+  $("#oapply").onclick = () => uploadOligos(true);
+  $("#ufilter").oninput = drawUsers;
+  $("#bvsave").onclick = saveBasicView;
+  await Promise.all([loadUsers(), loadOligoInfo(), loadAudit(), loadSync(), loadBasicView()]);
+  drawOverview();
+  if (location.hash.length > 1) { const t = document.getElementById(location.hash.slice(1)); if (t?.closest(".adv")) pmUI.setView("advanced"); t?.scrollIntoView(); }
+}
+
+let users = [], usort = {k: "name", d: 1}, info = {};
+const UCOLS = [["name", "User"], ["role", "Role"], ["last_active", "Last active"], ["last_sign_in", "Last sign-in"], ["password_set", "Password set"]];
+const when = s => s ? s.replace("T", " ") : "";
+const ago = s => { if (!s) return ""; const d = (Date.now() - new Date(s)) / 864e5; return d < 1 ? "today" : d < 2 ? "yesterday" : `${Math.floor(d)} days ago`; };
+
+async function loadUsers() {
+  const r = await api("/api/admin/users");
+  roles = r.roles; mode = r.auth; users = r.users;
+  $("#nrole").innerHTML = roles.map(x => `<option${x === "user" ? " selected" : ""}>${x}</option>`).join("");
+  drawUsers();
+}
+
+function drawUsers() {
+  const f = $("#ufilter").value.trim().toLowerCase();
+  const cols = UCOLS.filter(([k]) => k !== "password_set" || mode === "local");
+  $("#uhead").innerHTML = `<tr>${cols.map(([k, t]) => `<th aria-sort="${usort.k === k ? (usort.d > 0 ? "ascending" : "descending") : "none"}"><button type="button" class="thbtn" data-us="${k}">${t} ${usort.k === k ? (usort.d > 0 ? "▲" : "▼") : ""}</button></th>`).join("")}<th></th></tr>`;
+  $("#uhead").onclick = e => { const th = e.target.closest("[data-us]"); if (!th) return;
+    const k = th.dataset.us; usort = {k, d: usort.k === k ? -usort.d : (k === "name" || k === "role" ? 1 : -1)}; drawUsers(); };
+  const rows = users.filter(u => !f || u.name.includes(f) || u.role.includes(f))
+    .sort((a, b) => ((a[usort.k] || "") > (b[usort.k] || "") ? 1 : (a[usort.k] || "") < (b[usort.k] || "") ? -1 : 0) * usort.d);
+  $("#users").innerHTML = rows.map(u => `<tr>
+    <td class="id">${esc(u.name)}${u.name === me.user ? ` <span class="note">(you)</span>` : ""}${u.must_change ? ` <span class="badge b-draft">one-time password</span>` : ""}</td>
+    <td><select data-role="${esc(u.name)}" aria-label="Role of ${esc(u.name)}">${roles.map(x => `<option${x === u.role ? " selected" : ""}>${x}</option>`).join("")}</select></td>
+    <td class="note" title="${esc(when(u.last_active))}">${esc(ago(u.last_active) || "—")}</td>
+    <td class="note">${esc(when(u.last_sign_in) || "never")}</td>
+    ${mode === "local" ? `<td class="note">${esc(when(u.password_set) || "—")}</td>` : ""}
+    <td>${mode === "local" ? `<button data-reset="${esc(u.name)}">reset password</button>` : ""}
+        ${u.name !== me.user ? `<button data-rm="${esc(u.name)}">remove</button>` : ""}</td></tr>`).join("") || `<tr><td colspan="6" class="note">${users.length ? "No user matches." : "No accounts yet."}</td></tr>`;
+  document.querySelectorAll("[data-role]").forEach(s => s.onchange = async () => {
+    try { await send("PUT", `/api/admin/users/${encodeURIComponent(s.dataset.role)}/role`, {role: s.value}); }
+    catch (e) { alert(e.message); }
+    loadUsers(); loadAudit();
+  });
+  document.querySelectorAll("[data-reset]").forEach(b => b.onclick = async () => {
+    if (!confirm(`Reset the password of ${b.dataset.reset}? Their current password stops working.`)) return;
+    try {
+      const r = await send("POST", `/api/admin/users/${encodeURIComponent(b.dataset.reset)}/reset`);
+      await loadUsers(); showPassword(r);
+    } catch (e) { alert(e.message); }
+    loadAudit();
+  });
+  document.querySelectorAll("[data-rm]").forEach(b => b.onclick = async () => {
+    if (!confirm(`Remove the account ${b.dataset.rm}? Their projects and files stay.`)) return;
+    try { await send("DELETE", `/api/admin/users/${encodeURIComponent(b.dataset.rm)}`); }
+    catch (e) { alert(e.message); }
+    loadUsers(); loadAudit();
+  });
+}
+
+// The box sits above the user table; with ~75 accounts the reset button is far below it, so the password
+// used to appear off-screen ("reset doesn't print a new password"). Scroll to it, and
+// also show it in that user's row.
+function showPassword(r) {
+  if (r.password) {
+    const row = [...document.querySelectorAll("#users tr")].find(tr => tr.querySelector(".id")?.firstChild?.textContent.trim() === r.name);
+    row?.insertAdjacentHTML("afterend", `<tr class="pwrow"><td colspan="6">New one-time password for <b>${esc(r.name)}</b>: <span class="pw">${esc(r.password)}</span> <span class="note">shown only now; also in the box at the top of Accounts</span></td></tr>`);
+    setTimeout(() => $("#shown")?.scrollIntoView({behavior: "smooth", block: "center"}), 50);
+  }
+  $("#shown").innerHTML = r.password
+    ? `<div class="card" style="background:var(--bg)">One-time password for <b>${esc(r.name)}</b> (shown only now, copy it and pass it on):
+       <div class="row"><span class="pw">${esc(r.password)}</span><button id="cp">copy</button><button id="hide">done</button></div></div>`
+    : `<p class="note">${esc(r.name)} added; the login proxy handles their password.</p>`;
+  $("#cp")?.addEventListener("click", () => navigator.clipboard?.writeText(r.password));
+  $("#hide")?.addEventListener("click", () => $("#shown").innerHTML = "");
+}
+
+async function addUser() {
+  const name = $("#nname").value.trim().toLowerCase();
+  if (!name) return;
+  try {
+    const r = await send("POST", "/api/admin/users", {name, role: $("#nrole").value});
+    await loadUsers(); showPassword(r);
+    $("#nname").value = ""; $("#nmsg").textContent = "";
+  } catch (e) { $("#nmsg").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+  loadAudit();
+}
+
+function drawOverview() {
+  const admins = users.filter(u => u.role === "admin").length, otp = users.filter(u => u.must_change).length;
+  const week = users.filter(u => u.last_active && Date.now() - new Date(u.last_active) < 7 * 864e5).length;
+  const s = info.sync, o = info.oligos;
+  const card = (href, title, big, sub, alert) => `<a class="ov${alert ? " alert" : ""}" href="${href}"${["#oligos", "#sync-h"].includes(href) ? " data-adv" : ""}><b>${title}</b><span class="big">${big}</span><span class="note">${sub}</span></a>`;
+  $("#ov").innerHTML = [
+    card("#accounts", "Accounts", users.length, `${admins} admin(s) · ${week} active this week${otp ? ` · <span class="stale">${otp} still on a one-time password</span>` : ""}`, otp),
+    o ? card("#oligos", "Oligos", o.oligos.toLocaleString(), `highest ${esc(o.highest_pm || "—")}`) : "",
+    s ? card("#sync-h", "Share", s.o_reachable === false ? "not reachable" : s.o_reachable ? "reachable" : "not checked", `${s.queued} upload(s) waiting${s.workspaces?.conflicts ? ` · <span class="stale">${s.workspaces.conflicts} conflicts</span>` : ""}`, s.o_reachable === false || s.workspaces?.conflicts) : "",
+  ].join("");
+  $("#ov").onclick = e => { const a = e.target.closest("a[data-adv]"); if (a && window.pmUI?.view !== "advanced") pmUI.setView("advanced"); };
+}
+
+let bv = null;
+async function loadBasicView() {
+  bv = await api("/api/ui/view");
+  $("#bvlist").innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 16px">${bv.items.map(i =>
+    `<label><input type="checkbox" data-bv="${esc(i.id)}"${i.basic ? " checked" : ""}> ${esc(i.label)}</label>`).join("")}</div>`;
+}
+async function saveBasicView() {
+  const basic = [...document.querySelectorAll("[data-bv]:checked")].map(x => x.dataset.bv);
+  try { await send("PUT", "/api/admin/ui/view", {basic, version: bv.version}); $("#bvmsg").innerHTML = `<span class="ok">Saved. People see it at their next page load.</span>`; }
+  catch (e) { $("#bvmsg").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+  loadBasicView(); loadAudit();
+}
+
+async function loadOligoInfo() {
+  const o = info.oligos = await api("/api/admin/oligos");
+  $("#oinfo").textContent = `${o.oligos.toLocaleString()} oligos · highest ${o.highest_pm || "—"} · ${o.source === "uploaded" ? "last upload" : "from the server's seed file,"} ${o.updated || ""}`;
+}
+
+async function uploadOligos(apply) {
+  const fd = new FormData(); fd.append("file", $("#ofile").files[0]); fd.append("apply", apply ? "true" : "false");
+  $("#odiff").innerHTML = `<p class="note">${apply ? "Adding…" : "Comparing…"}</p>`;
+  try {
+    const d = await api("/api/admin/oligos", {method: "POST", body: fd});
+    const list = (rows, f) => rows.length ? `<div class="diff"><table>${rows.map(f).join("")}</table></div>` : "";
+    $("#odiff").innerHTML = `<p><b>${d.new.length}</b> new · <b>${d.changed.length}</b> changed · ${d.unchanged.toLocaleString()} unchanged
+        ${d.without_id ? ` · <span class="err">${d.without_id} row(s) without an Oligo id were skipped</span>` : ""}
+        · ${d.in_upload.toLocaleString()} rows in the file</p>
+      ${d.applied ? `<p class="ok">Added. The collection now has ${d.oligos.toLocaleString()} oligos (highest ${esc(d.highest_pm || "—")}).</p>` : ""}
+      ${list(d.new, r => `<tr><td class="id">${esc(r.id)}</td><td>${esc(r.name)}</td><td style="font-family:var(--mono)">${esc(r.sequence)}</td></tr>`)}
+      ${d.changed.length ? `<p class="note">Changed sequences (the upload wins):</p>` : ""}
+      ${list(d.changed, r => `<tr><td class="id">${esc(r.id)}</td><td>${esc(r.name)}</td><td style="font-family:var(--mono)">${esc(r.old)}<br>→ ${esc(r.new)}</td></tr>`)}`;
+    $("#oapply").disabled = apply || !(d.new.length || d.changed.length);
+    if (apply) { loadOligoInfo(); loadAudit(); }
+  } catch (e) { $("#odiff").innerHTML = `<p class="err">${esc(e.message)}</p>`; }
+}
+
+async function loadSync() {
+  const r = info.sync = await api("/api/admin/sync"), w = r.workspaces;
+  const list = (title, xs) => xs && xs.length ? `<div><b>${title}</b><ul>${xs.map(x => `<li><code>${esc(x)}</code></li>`).join("")}</ul></div>` : "";
+  $("#sync").innerHTML = `<div>lab share: <b>${r.o_reachable === false ? "not reachable" : r.o_reachable ? "reachable" : "not checked yet"}</b>
+      · uploads waiting: <b>${r.queued}</b> · ${Object.entries(r.uploads).map(([k, v]) => `${esc(k)} ${v}`).join(", ") || "no uploads yet"}</div>
+    ${w ? `<div>Workspaces, last run ${esc(w.finished)}: written ${w.written}, pulled from the share ${w.pulled}, imported ${w.imported}, moved ${w.moved},
+      to _deleted ${w.deleted}, removed in the app ${w.removed_in_app}, conflicts ${w.conflicts}, unreadable ${w.unreadable}, waiting ${w.waiting}</div>
+      ${list("Conflicts (both copies kept)", w.conflict_files)}${list("Files the app cannot read (export them as GenBank)", w.unreadable_files)}${list("Errors", w.error_list)}`
+      : `<div>Workspaces: no run yet.</div>`}
+    ${r.overwrites && r.overwrites.length ? `<div style="margin-top:6px"><b>Overwrites on the share</b> (newest first)
+      <span class="note">Delete a stuck or unwanted request: a waiting one is then never written to the share; a finished one only leaves this list (the share and <i>_replaced/</i> are not touched).</span>
+      <table><thead><tr><th>When</th><th>By</th><th>File</th><th>Status</th><th></th></tr></thead><tbody>${
+      r.overwrites.map(o => `<tr><td class="note">${esc((o.requested || "").replace("T", " "))}</td><td>${esc(o.user)}</td><td><code>${esc(o.rel)}</code>${o.new_name && !o.rel.endsWith(o.new_name) ? ` → <code>${esc(o.new_name)}</code>` : ""}</td>
+        <td>${esc(o.status)}${o.message ? ` <span class="note">${esc(o.message)}</span>` : ""}</td>
+        <td><button data-owdel="${esc(o.id)}" data-st="${esc(o.status)}" data-rel="${esc(o.rel)}">Delete</button></td></tr>`).join("")}</tbody></table></div>` : ""}`;
+  document.querySelectorAll("[data-owdel]").forEach(b => b.onclick = async () => {
+    const waiting = b.dataset.st === "queued";
+    if (!confirm(waiting ? `Cancel the overwrite of ${b.dataset.rel}? It will not be written to the share.`
+                         : `Remove this ${b.dataset.st} overwrite of ${b.dataset.rel} from the list? Nothing on the share changes.`)) return;
+    try { await api(`/api/admin/overwrites/${encodeURIComponent(b.dataset.owdel)}`, {method: "DELETE"}); loadSync(); loadAudit(); }
+    catch (e) { alert(e.message); }
+  });
+}
+
+async function loadAudit() {
+  const rows = await api("/api/admin/audit");
+  $("#audit").innerHTML = rows.map(r => `<tr><td class="note">${esc(when(r.time))}</td><td>${esc(r.by)}</td><td>${esc(r.action)}</td><td>${esc(r.target)}</td><td class="note">${esc(r.detail)}</td></tr>`).join("")
+    || `<tr><td colspan="5" class="note">Nothing yet.</td></tr>`;
+}
+
+init().catch(e => document.body.insertAdjacentHTML("beforeend", `<p class="err">${esc(e.message)}</p>`));
+</script>
+</body>
+</html>

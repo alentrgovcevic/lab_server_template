@@ -1,0 +1,90 @@
+# HTTPS front for both services on ONE hostname ({$SITE_ADDRESS}: your server's DNS name, or
+# localhost for the demo). The plasmid bank's lab dashboard is the site root; the genome browser
+# lives under /genomes/. handle_path strips the prefix, so the browser still sees /api/... and
+# its page uses relative URLs. {$VARS} come from deploy/.env.
+# Sign-in for /genomes/: forward_auth asks the bank (app:8765/auth/check) first. On 200 the bank's
+# X-Auth-User/-Role are copied onto the request; otherwise its redirect to /login (or a 401 for
+# API calls) goes back to the browser. Whatever a browser sends in those headers is dropped first.
+# TLS_DIRECTIVE options:
+#   tls internal                          self-signed by Caddy's own CA (testing; browsers warn)
+#   tls /certs/cert.pem /certs/key.pem    a certificate from your IT department, placed in CERT_DIR
+#   (empty)                               Let's Encrypt; only works if the name is reachable from the internet
+{$SITE_ADDRESS} {
+	{$TLS_DIRECTIVE}
+	encode gzip
+	request_body {
+		max_size 50MB
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy same-origin
+		# the pages use inline scripts and styles; everything else must come from this server
+		Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+		-Server
+	}
+
+	redir /genomes /genomes/ 308
+	handle /genomes/healthz {
+		uri strip_prefix /genomes
+		reverse_proxy genomes:8766
+	}
+	handle_path /genomes/* {
+		# route: run in the order written (by default Caddy runs request_header AFTER forward_auth,
+		# which would strip the identity forward_auth just copied in)
+		route {
+			request_header -X-Auth-User
+			request_header -X-Auth-Role
+			forward_auth app:8765 {
+				uri /auth/check
+				header_up -X-Forwarded-User
+				header_up -X-Forwarded-Email
+				copy_headers X-Auth-User X-Auth-Role
+			}
+			request_body {
+				max_size 40MB
+			}
+			reverse_proxy genomes:8766 {
+				header_up -X-Forwarded-User
+				header_up -X-Forwarded-Email
+			}
+		}
+	}
+	# restart warning: every page loads deploy-notice.js, which polls deploy-notice.json. Write
+	# {"deploy_at": <unix seconds>} to deploy/errors/deploy-notice.json a few minutes before a planned restart
+	# and users see a countdown; delete it afterwards. Served by Caddy, so it answers while the app is
+	# down, and without sign-in (it holds a time only).
+	handle /deploy-notice.js {
+		root * /srv/errors
+		header Cache-Control no-cache
+		file_server
+	}
+	handle /deploy-notice.json {
+		root * /srv/errors
+		header Cache-Control no-store
+		@pending file
+		handle @pending {
+			file_server
+		}
+		respond 204
+	}
+	handle {
+		# never pass identity headers from the browser (they would matter in PLASMIDBANK_AUTH=header mode)
+		reverse_proxy app:8765 {
+			header_up -X-Forwarded-User
+			header_up -X-Forwarded-Email
+		}
+	}
+
+	# while a service is (re)starting it refuses connections; say so instead of a blank 502.
+	# The page is deploy/errors/starting.html (a directory mount, so editing it needs no restart); it is
+	# self-contained because nothing behind Caddy is up to serve its parts.
+	handle_errors 502 503 {
+		root * /srv/errors
+		rewrite * /starting.html
+		header Retry-After 5
+		header Cache-Control no-store
+		file_server
+	}
+}

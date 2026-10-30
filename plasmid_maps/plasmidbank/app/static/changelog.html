@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Changelog</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M8 6h16M8 13h16M8 20h10M8 27h7' stroke='%232b7a78' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+/* The changelog. It lists every release in
+   whatsnew.js (window.pmReleases), so the What's new card and this page never disagree. */
+:root {
+  --bg: #f7f7f5; --panel: #ffffff; --ink: #1d2327; --muted: #5f6b73; --line: #dde1e4;
+  --accent: #2b7a78; --accent-soft: #d8ecea;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #15191c; --panel: #1d2327; --ink: #e6e9eb; --muted: #9aa5ad; --line: #333b41; --accent: #5fb3b0; --accent-soft: #1f3a3a; }
+}
+:root[data-theme="light"] { --bg: #f7f7f5; --panel: #ffffff; --ink: #1d2327; --muted: #5f6b73; --line: #dde1e4; --accent: #2b7a78; --accent-soft: #d8ecea; }
+:root[data-theme="dark"] { --bg: #15191c; --panel: #1d2327; --ink: #e6e9eb; --muted: #9aa5ad; --line: #333b41; --accent: #5fb3b0; --accent-soft: #1f3a3a; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+header { display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid var(--line); background: var(--panel); }
+header h1 { margin: 0; font-size: 20px; }
+header a { color: var(--accent); }
+header .sp { margin-left: auto; }
+main { max-width: 820px; margin: 0 auto; padding: 18px 16px 60px; }
+.intro { color: var(--muted); margin: 0 0 18px; }
+.rel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+.rel h2 { margin: 0 0 2px; font-size: 18px; }
+.rel .date { color: var(--muted); font-size: 13px; }
+.rel .rintro { color: var(--muted); font-size: 14px; margin: 6px 0 4px; }
+.rel ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.rel li { display: flex; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); }
+.rel .ic { width: 26px; text-align: center; flex: none; font-size: 18px; }
+.rel .t { flex: 1; }
+.rel .t b { display: block; }
+.rel .t span { color: var(--muted); font-size: 14px; }
+.rel .t span b { display: inline; color: var(--ink); }
+.rel a.show { flex: none; align-self: flex-start; font-size: 13px; color: var(--accent); white-space: nowrap; }
+.empty { color: var(--muted); }
+#q { width: 100%; max-width: 360px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--ink); font: inherit; margin-bottom: 14px; }
+@media print { header, #q, a.show { display: none; } .rel { border: 0; padding: 0; break-inside: avoid; } body { background: #fff; color: #000; } }
+</style>
+</head>
+<body>
+<header><a href="/">← Dashboard</a><a href="/bank">Plasmid map bank</a><h1>Changelog</h1><span class="sp" id="uictl"></span></header>
+<main>
+  <p class="intro">Every release, newest first. The newest one also opens as the <i>What's new</i> card; <b>Show me</b> walks you through a change on its page.</p>
+  <input type="search" id="q" placeholder="Search the changes…" aria-label="Search the changes">
+  <div id="list"><p class="empty">Loading…</p></div>
+</main>
+<script src="/whatsnew.js"></script>
+<script src="/ui.js"></script>
+<script>
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const when = id => /^\d{4}-\d{2}-\d{2}$/.test(id) ? new Date(id + "T12:00:00").toLocaleDateString("en-GB", {day: "numeric", month: "long", year: "numeric"}) : id;
+// item texts are written by us in whatsnew.js and may carry <b>/<i>; the search runs on their plain text
+const plain = h => { const d = document.createElement("div"); d.innerHTML = h; return d.textContent; };
+function draw() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const rels = (window.pmReleases || []).map(r => ({...r, items: r.items.filter(x => !q || (x.title + " " + plain(x.text)).toLowerCase().includes(q))}))
+    .filter(r => r.items.length);
+  document.getElementById("list").innerHTML = rels.length ? rels.map(r => `<section class="rel" id="r${esc(r.id)}">
+      <h2>${esc(r.title.replace(/^What's new\s*[—-]\s*/, "") || when(r.id))}</h2><div class="date">${esc(when(r.id))}</div>
+      ${r.intro && !q ? `<p class="rintro">${r.intro}</p>` : ""}
+      <ul>${r.items.map(x => `<li><span class="ic">${x.icon || ""}</span><span class="t"><b>${esc(x.title)}</b><span>${x.text}</span></span>
+        <a class="show" href="${x.page === "home" ? "/" : "/bank"}#whatsnew/${encodeURIComponent(x.id)}">Show me →</a></li>`).join("")}</ul></section>`).join("")
+    : `<p class="empty">${q ? "No change matches that." : "No releases yet."}</p>`;
+}
+document.getElementById("q").oninput = draw;
+draw();
+</script>
+</body>
+</html>

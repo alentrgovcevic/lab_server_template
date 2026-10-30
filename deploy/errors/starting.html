@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta http-equiv="refresh" content="5">
+<title>Lab server is starting</title>
+<!-- Served by Caddy itself while the app (re)starts (Caddyfile handle_errors), so it must be self-contained. -->
+<style>
+:root { --bg: #f7f7f5; --ink: #1d2327; --muted: #5f6b73; --line: #dde1e4; --accent: #2b7a78; --f1: #e07a5f; --f2: #3d85c6; --f3: #f2cc8f; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #15191c; --ink: #e6e9eb; --muted: #9aa5ad; --line: #333b41; --accent: #5fb3b0; --f1: #f0907a; --f2: #6fa8dc; --f3: #f2cc8f; }
+}
+html, body { height: 100%; margin: 0; }
+body { display: grid; place-items: center; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, sans-serif; text-align: center; padding: 0 16px; }
+main { max-width: 420px; }
+svg { width: min(280px, 80vw); height: auto; display: block; margin: 0 auto 8px; }
+h1 { font-size: 20px; margin: 0 0 6px; }
+p { margin: 0; color: var(--muted); }
+.ring { fill: none; stroke: var(--line); stroke-width: 6; }
+.feat { fill: none; stroke-width: 10; stroke-linecap: round; }
+.spin { transform-origin: 90px 80px; animation: spin 3.2s linear infinite; }
+.foot { transform-origin: 216px 150px; animation: tap .5s ease-in-out infinite alternate; }
+.arm { transform-origin: 214px 92px; animation: look 4s ease-in-out infinite; }
+.kid { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; fill: none; }
+.dots span { animation: blink 1.2s infinite; }
+.dots span:nth-child(2) { animation-delay: .2s; }
+.dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes tap { from { transform: rotate(0); } to { transform: rotate(-18deg); } }
+@keyframes look { 0%, 55%, 100% { transform: rotate(0); } 65%, 90% { transform: rotate(-70deg); } }
+@keyframes blink { 0%, 100% { opacity: .2; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .spin, .foot, .arm, .dots span { animation: none; } }
+@media print { svg { display: none; } }
+</style>
+</head>
+<body>
+<main>
+  <svg viewBox="0 0 260 170" role="img" aria-label="A plasmid map turning while a little figure waits, tapping a foot">
+    <g class="spin">
+      <circle class="ring" cx="90" cy="80" r="56"/>
+      <path class="feat" stroke="var(--accent)" d="M90 24 A56 56 0 0 1 146 80"/>
+      <path class="feat" stroke="var(--f1)" d="M128 121 A56 56 0 0 1 75 134"/>
+      <path class="feat" stroke="var(--f2)" d="M38 101 A56 56 0 0 1 45 47"/>
+      <circle cx="90" cy="24" r="5" fill="var(--f3)"/>
+    </g>
+    <text x="90" y="85" text-anchor="middle" font-size="13" fill="var(--muted)">LAB</text>
+    <!-- the waiting kid: head, body, the watch arm that comes up now and then, a tapping foot -->
+    <g class="kid">
+      <circle cx="214" cy="68" r="11"/>
+      <line x1="214" y1="79" x2="214" y2="120"/>
+      <line x1="214" y1="92" x2="200" y2="110"/>
+      <g class="arm"><line x1="214" y1="92" x2="230" y2="110"/><circle cx="230" cy="110" r="2.5" fill="var(--accent)" stroke="none"/></g>
+      <line x1="214" y1="120" x2="204" y2="152"/>
+      <g class="foot"><line x1="214" y1="120" x2="222" y2="150"/><line x1="222" y1="150" x2="230" y2="150"/></g>
+      <line x1="204" y1="152" x2="196" y2="152"/>
+    </g>
+    <line x1="170" y1="155" x2="250" y2="155" stroke="var(--line)" stroke-width="2"/>
+  </svg>
+  <h1>Lab server is starting<span class="dots"><span>.</span><span>.</span><span>.</span></span></h1>
+  <p>The plasmid bank loads its index first. This page reloads by itself every 5 seconds.</p>
+</main>
+</body>
+</html>

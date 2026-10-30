@@ -1,0 +1,105 @@
+# lab_server: the plasmid map bank + the genome browser behind one Caddy. Steps: deploy/README.md.
+# Quickest start (demo data): deploy/quickstart.sh up
+# By hand, from the repo root:
+#   cp deploy/.env.example deploy/.env   # then edit it
+#   docker compose -f deploy/docker-compose.yml --env-file deploy/.env up -d --build
+# Relative paths in .env are relative to deploy/. App ports are NOT published: only Caddy is
+# reachable, which is what makes header-based single sign-on safe. One hostname (SITE_ADDRESS):
+# Caddy sends /genomes/ to the genome browser and everything else to the bank.
+name: lab_server
+
+services:
+  app:
+    build: ../plasmid_maps
+    image: plasmidbank:latest
+    restart: unless-stopped
+    environment:
+      PLASMIDBANK_HOST: 0.0.0.0
+      PLASMIDBANK_AUTH: ${PLASMIDBANK_AUTH:-local}
+      PLASMIDBANK_SECRET: ${PLASMIDBANK_SECRET:?set PLASMIDBANK_SECRET in .env}
+      PLASMIDBANK_SECURE_COOKIE: ${PLASMIDBANK_SECURE_COOKIE:-1}
+      # bearer token a label printer / lab database sends for /api/qr/… and /api/code128/… label images; empty = those refuse it (503)
+      PLASMIDBANK_LABEL_TOKEN: ${PLASMIDBANK_LABEL_TOKEN:-}
+      # the dashboard's genome-browser tile: the browser follows it, so it is the path Caddy serves it on
+      # (the app's own default, http://127.0.0.1:8766, only works when both run bare on a laptop)
+      PLASMIDBANK_GENOMES_URL: /genomes/
+    volumes:
+      - ${BANK_MOUNT:?set BANK_MOUNT in .env}:/data/bank:ro       # your map bank folder, read-only
+      - ${OLIGO_FILE:?set OLIGO_FILE in .env}:/data/oligos/oligo_export.tab:ro  # seed only: an admin upload (/admin) in /state wins
+      - state:/state                                             # index, mirror, outboxes, accounts, reports
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    mem_limit: 2048m   # app + genomes fit a 4 GB VM
+    cpus: 1.5
+
+  # The genome browser: lab members upload genomes on its page; they live in the `genomes` volume.
+  # Sign-in comes from the bank: Caddy asks app:8765/auth/check before every request (Caddyfile).
+  genomes:
+    build: ../genome_browser
+    image: genomebrowser:latest
+    restart: unless-stopped
+    environment:
+      GENOMES_AUTH: header
+      GENOMES_MAX_UPLOAD_GB: ${GENOMES_MAX_UPLOAD_GB:-50}
+      GENOMES_UPLOADS: ${GENOMES_UPLOADS:-admins}
+      GENOMES_SEED_DIR: /seed
+      GENOMES_IMPORT_DIR: ${GENOMES_IMPORT_DIR:+/import}
+    volumes:
+      - genomes:/data/genomes
+      - ${GENOMES_SEED:-../examples/genome}:/seed:ro                # demo genome, built on first start
+      - ${GENOMES_IMPORT_DIR:-../examples/genome}:/import:ro       # files admins can import without uploading
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    mem_limit: 1536m   # a build of a large plant genome streams, but SQLite still wants room
+    cpus: 1.5
+
+  # One-shot scanner: `docker compose ... run --rm scan` (schedule it, e.g. monthly, for a large bank).
+  # Without an index the app starts empty, so run `scan` once before the first `up` (quickstart does).
+  scan:
+    image: plasmidbank:latest
+    profiles: [tools]
+    volumes:
+      - ${BANK_MOUNT}:/data/bank:ro
+      - state:/state
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    entrypoint: ["sh", "-c", "mkdir -p /state/reports && python -m plasmidbank.scan /data/bank --db /state/index.sqlite --mirror /state/mirror --report /state/reports/scan_$$(date +%F).html"]
+
+  # Hourly `docker compose ... run --rm sync`: the add-only copy of new uploads to the bank share, the
+  # two-way sync of My workspace with <share>/Workspaces/<user>/, and confirmed overwrites (old file kept in _replaced/).
+  # Needs a SEPARATE read-write mount of the map bank; the app and scan keep the read-only one.
+  sync:
+    image: plasmidbank:latest
+    profiles: [tools]
+    environment:
+      PLASMIDBANK_DISCORD_WEBHOOK: ${PLASMIDBANK_DISCORD_WEBHOOK:-}
+      PLASMIDBANK_DISCORD_MENTION: ${PLASMIDBANK_DISCORD_MENTION:-}
+    volumes:
+      - ${BANK_MOUNT_RW:-/mnt/plasmid_map_bank_rw}:/data/bank-rw
+      - state:/state
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    entrypoint: ["python", "-m", "plasmidbank.uploads", "--uploads", "/state/uploads", "--dest", "/data/bank-rw", "--write"]
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on: [app]
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:?set SITE_ADDRESS in .env}
+      TLS_DIRECTIVE: ${TLS_DIRECTIVE:-tls internal}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./errors:/srv/errors:ro                  # the "starting" page (Caddyfile handle_errors)
+      - ${CERT_DIR:-./certs}:/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  state:
+  genomes:
+  caddy_data:
+  caddy_config:

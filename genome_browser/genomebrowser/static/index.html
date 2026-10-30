@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Genome browser</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='14' width='26' height='4' rx='2' fill='%232b7a78'/%3E%3Crect x='8' y='9' width='6' height='14' rx='1' fill='%23e07a5f'/%3E%3Crect x='19' y='11' width='4' height='10' rx='1' fill='%234c78a8'/%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #f7f7f5; --panel: #ffffff; --ink: #1d2327; --muted: #5f6b73; --line: #dde1e4;
+  --accent: #2b7a78; --accent-soft: #d8ecea; --warn: #b7791f; --bad: #c0392b; --good: #2f855a;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --gene: #4c78a8; --gene-lc: #8fa9c6;
+  --t1: #e15759; --t2: #f28e2b; --t3: #59a14f; --t4: #b07aa1; --t5: #9c755f; --t6: #76b7b2; --t7: #9c9c9c;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15191c; --panel: #1d2327; --ink: #e6e9eb; --muted: #9aa5ad; --line: #333b41;
+    --accent: #5fb3b0; --accent-soft: #1f3a3a; --warn: #e2b04a; --bad: #f07b6e; --good: #6cc495;
+    --gene: #6a9bd1; --gene-lc: #4f6a88;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+header { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
+header h1 { font-size: 17px; margin: 0 8px 0 0; }
+input, select, button, textarea { font: inherit; color: var(--ink); }
+input[type=text], input[type=search], select, textarea { padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); max-width: 100%; }
+button { border: 1px solid var(--line); background: var(--bg); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.danger { color: var(--bad); }
+.searchbox { position: relative; }
+#q { width: 280px; }
+#hits { position: absolute; top: 100%; left: 0; z-index: 10; width: min(560px, 92vw); max-height: 60vh; overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+#hits div { padding: 6px 10px; border-bottom: 1px solid var(--line); cursor: pointer; font-size: 13px; }
+#hits div:hover, #hits div.on { background: var(--accent-soft); }
+#hits .d { color: var(--muted); font-size: 12px; }
+#loc { width: 300px; font-family: var(--mono); font-size: 13px; }
+.note { color: var(--muted); font-size: 12px; }
+.err { color: var(--bad); }
+main { padding: 12px 16px; }
+#browser { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; }
+#gsvg { width: 100%; display: block; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+#gsvg.drag { cursor: grabbing; }
+#gsvg .hit { cursor: pointer; }
+#detail { margin-top: 14px; }
+.card { border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: var(--panel); margin-bottom: 12px; }
+.card h2 { margin: 0 0 4px; font-size: 18px; }
+.card h2.id { font-family: var(--mono); }
+dl { display: grid; grid-template-columns: max-content 1fr; gap: 3px 14px; margin: 8px 0; font-size: 13px; }
+dt { color: var(--muted); } dd { margin: 0; word-break: break-word; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+th { color: var(--muted); font-weight: 500; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+tr.click { cursor: pointer; } tr.click:hover td { background: var(--accent-soft); }
+.w-CDS { color: var(--bad); font-weight: 600; } .w-intron { color: var(--muted); }
+a { color: var(--accent); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 6px; }
+.chip { font-size: 12px; border: 1px solid var(--line); border-radius: 12px; padding: 1px 9px; cursor: pointer; user-select: none; }
+.chip.off { opacity: .45; text-decoration: line-through; }
+.chip i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
+.grid { display: grid; grid-template-columns: max-content 1fr; gap: 8px 12px; align-items: center; }
+.bar { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; min-width: 120px; flex: 1; }
+.bar > div { height: 100%; background: var(--accent); width: 0; }
+.status-done { color: var(--good); } .status-failed { color: var(--bad); } .status-running, .status-queued { color: var(--warn); }
+pre.log { font: 12px/1.35 var(--mono); background: var(--bg); padding: 8px; border-radius: 6px; max-height: 200px; overflow: auto; white-space: pre-wrap; }
+@media (max-width: 640px) { #q, #loc { width: 100%; } header { padding: 8px; } main { padding: 8px; } .grid { grid-template-columns: 1fr; } }
+@media print { header, #browser button, .chips, #add { display: none !important; } body { background: #fff; color: #000; } }
+</style>
+<script src="/deploy-notice.js" defer></script>  <!-- restart warning, served by Caddy (deploy/errors/) -->
+</head>
+<body>
+<header>
+  <h1>Genome browser</h1>
+  <select id="genome" title="genome"></select>
+  <span class="searchbox"><input id="q" type="search" placeholder="Gene, feature ID, or words (kinase)" autocomplete="off"><div id="hits" hidden></div></span>
+  <select id="chr" title="sequence"></select>
+  <input id="loc" type="text" title="sequence:start-end, then Enter">
+  <button data-z="out" title="zoom out">－</button><button data-z="in" title="zoom in">＋</button>
+  <button data-z="left" title="pan left">◀</button><button data-z="right" title="pan right">▶</button>
+  <button id="addbtn" class="primary" title="upload a genome or tracks">＋ Add</button>
+  <span class="note" id="asm"></span>
+</header>
+<main>
+  <div id="browser" hidden><div class="chips" id="chips"></div><div id="gbody" class="note">loading…</div>
+    <div class="note">Scroll to zoom · drag to pan · drag the ruler (or shift+drag) to zoom to a region · click a feature for details · click a track name above to hide it. Wider than 2 Mb shows feature density.</div></div>
+  <div id="empty" class="card" hidden><h2>No genomes yet</h2><p>An admin adds genomes with <b>＋ Add</b>: a FASTA (plain or .gz) and, optionally, gene models (GFF3) and any extra tracks (GFF3 or BED).</p></div>
+  <div id="add" hidden></div>
+  <div id="detail"></div>
+</main>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+async function api(u, opt = {}) {
+  const r = await fetch(u, opt);
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
+  return r.json();
+}
+const post = (u, body) => api(u, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+const fmt = n => Number(n).toLocaleString("en-US");
+const size = n => n >= 1e9 ? (n / 1e9).toFixed(1) + " GB" : n >= 1e6 ? (n / 1e6).toFixed(1) + " MB" : fmt(Math.ceil(n / 1e3)) + " kB";
+const bp = n => n >= 1e6 ? fmt(n / 1e6) + " Mb" : n >= 1e3 ? fmt(n / 1e3) + " kb" : fmt(n) + " bp";
+
+let me = null, genomes = [], G = null, info = null, seqs = [], view = null, data = null, hits = [], reqNo = 0;
+let hl = null;  // {track, id, pos}: the selected feature (e.g. an insertion line); all its locations are ringed on the track
+const hidden = new Set();
+const W = 1000;
+const g_ = u => `api/g/${encodeURIComponent(G)}/${u}`;
+
+async function init() {
+  me = await api("api/me");
+  bindNav(); bindSearch();
+  $("#addbtn").onclick = () => showAdd();
+  $("#addbtn").hidden = !me.can_add;
+  $("#genome").onchange = () => openGenome($("#genome").value);
+  window.onhashchange = fromHash;
+  await loadGenomes();
+  const want = decodeURIComponent(location.hash.slice(1)).split("/")[0];
+  if (!genomes.length) { $("#empty").hidden = false; if (me.can_add) showAdd(); return; }
+  await openGenome(genomes.some(g => g.slug === want) ? want : genomes[0].slug, true);
+}
+
+async function loadGenomes() {
+  genomes = await api("api/genomes");
+  $("#genome").innerHTML = genomes.map(g => `<option value="${esc(g.slug)}">${esc(g.name)}</option>`).join("");
+  if (G) $("#genome").value = G;
+  $("#empty").hidden = genomes.length > 0;
+}
+
+async function openGenome(slug, useHash) {
+  G = slug; $("#genome").value = slug;
+  info = await api(g_("seqs"));
+  seqs = info.seqs; hidden.clear();
+  const total = seqs.reduce((a, s) => a + s.length, 0);
+  $("#asm").textContent = `${fmt(seqs.length)} sequence${seqs.length > 1 ? "s" : ""} · ${fmt(total)} bp`;
+  $("#chr").innerHTML = seqs.slice(0, 5000).map(x => `<option>${esc(x.name)}</option>`).join("");
+  $("#browser").hidden = false;
+  showGenomeCard();
+  if (!(useHash && fromHash())) go(seqs[0].name, 1, Math.min(seqs[0].length, 2_000_000));
+}
+
+const seqLen = n => (seqs.find(x => x.name === n) || {length: 1}).length;
+
+function bindNav() {
+  $("#chr").onchange = () => go($("#chr").value, 1, seqLen($("#chr").value));
+  $("#loc").onkeydown = e => { if (e.key === "Enter") parseLoc(e.target.value); };
+  document.querySelectorAll("button[data-z]").forEach(b => b.onclick = () => {
+    if (!view) return;
+    const w = view.end - view.start + 1, c = (view.start + view.end) / 2;
+    ({in: () => go(view.seq, c - w / 4, c + w / 4), out: () => go(view.seq, c - w, c + w),
+      left: () => go(view.seq, view.start - w / 2, view.end - w / 2), right: () => go(view.seq, view.start + w / 2, view.end + w / 2)})[b.dataset.z]();
+  });
+}
+
+function fromHash() {
+  const h = decodeURIComponent(location.hash.slice(1)), i = h.indexOf("/");
+  const slug = i < 0 ? h : h.slice(0, i), rest = i < 0 ? "" : h.slice(i + 1);
+  if (!slug || !G) return false;
+  if (slug !== G) { if (genomes.some(g => g.slug === slug)) openGenome(slug, true); return true; }
+  if (rest.startsWith("gene=")) { showFeature(rest.slice(5), "", true); return true; }
+  if (rest) return parseLoc(rest);
+  return false;
+}
+
+function parseLoc(t) {
+  const m = t.replace(/,/g, "").match(/^\s*([^\s:]+)\s*:\s*(\d+)\s*(?:-|\.\.)\s*(\d+)\s*$/);
+  if (m && seqs.some(x => x.name === m[1])) { go(m[1], +m[2], +m[3]); return true; }
+  return false;
+}
+
+async function go(seq, start, end) {
+  const L = seqLen(seq);
+  let w = Math.max(40, Math.round(end - start + 1));
+  w = Math.min(w, L);
+  start = Math.round(Math.max(1, Math.min(start, L - w + 1)));
+  view = {seq, start, end: start + w - 1};
+  if ([...$("#chr").options].some(o => o.value === seq)) $("#chr").value = seq;
+  $("#loc").value = `${seq}:${fmt(view.start)}-${fmt(view.end)}`;
+  history.replaceState(null, "", `#${G}/${seq}:${view.start}-${view.end}`);
+  const my = ++reqNo;
+  const d = await api(g_(`region?seq=${encodeURIComponent(seq)}&start=${view.start}&end=${view.end}`));
+  if (my !== reqNo) return;
+  data = d; draw();
+}
+
+/* ── drawing ─────────────────────────────────────────────────────── */
+const X = p => (p - view.start) / (view.end - view.start + 1) * W;
+function colour(name) {
+  const t = data.track_list.find(x => x.name === name);
+  if (t && t.kind === "genes") return css("--gene");
+  const i = data.track_list.filter(x => x.kind !== "genes").findIndex(x => x.name === name);
+  return css(`--t${i % 7 + 1}`);
+}
+
+function ruler(y) {
+  const w = view.end - view.start + 1;
+  const step = [1, 2, 5].flatMap(m => [1, 10, 100, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9].map(e => m * e)).sort((a, b) => a - b).find(v => w / v <= 10);
+  let s = `<line x1="0" y1="${y}" x2="${W}" y2="${y}" stroke="${css("--muted")}"/>`;
+  for (let p = Math.ceil(view.start / step) * step; p <= view.end; p += step) {
+    const lbl = step >= 1e6 ? fmt(p / 1e6) + " Mb" : step >= 1e3 ? fmt(p / 1e3) + " kb" : fmt(p);
+    s += `<line x1="${X(p)}" y1="${y - 4}" x2="${X(p)}" y2="${y + 4}" stroke="${css("--muted")}"/><text x="${X(p)}" y="${y - 7}" font-size="10" text-anchor="middle" fill="${css("--muted")}">${lbl}</text>`;
+  }
+  return s;
+}
+
+const label = (y, t) => `<text x="2" y="${y}" font-size="11" font-weight="600" fill="${css("--muted")}">${esc(t)}</text>`;
+
+function drawChips() {
+  $("#chips").innerHTML = data.track_list.map(t => `<span class="chip${hidden.has(t.name) ? " off" : ""}" data-t="${esc(t.name)}"><i style="background:${colour(t.name)}"></i>${esc(t.name)}</span>`).join("");
+  $("#chips").querySelectorAll(".chip").forEach(c => c.onclick = () => { hidden.has(c.dataset.t) ? hidden.delete(c.dataset.t) : hidden.add(c.dataset.t); draw(); });
+}
+
+function draw() {
+  drawChips();
+  let s = "", y = 20;
+  s += ruler(y); y += 14;
+  const shown = data.track_list.filter(t => !hidden.has(t.name));
+  if (!data.track_list.length) { s += label(y + 10, "No tracks: the sequence only. Add tracks with ＋ Add."); y += 20; }
+  if (data.density) {
+    for (const t of shown) {
+      const bins = data.density[t.name] || [], mx = Math.max(1, ...bins.map(b => b[1])), h = 40;
+      s += label(y + 10, `${t.name}: ${t.kind === "genes" ? "genes" : "features"} per ${bp(data.bin)} (max ${fmt(mx)})`);
+      y += 14;
+      for (const [b, n] of bins) {
+        const x1 = X(b * data.bin + 1), x2 = X((b + 1) * data.bin + 1), bh = n / mx * h;
+        s += `<rect x="${x1}" y="${y + h - bh}" width="${Math.max(x2 - x1 - 0.3, 0.5)}" height="${bh}" fill="${colour(t.name)}"><title>${fmt(b * data.bin + 1)}–${fmt((b + 1) * data.bin)}: ${fmt(n)}</title></rect>`;
+      }
+      y += h + 12;
+    }
+  } else {
+    if (data.bases && data.end - data.start + 1 <= 150) {
+      const comp = {A: "T", C: "G", G: "C", T: "A"};
+      [...data.bases].forEach((ch, i) => {
+        const cx = X(data.start + i + 0.5);
+        s += `<text x="${cx}" y="${y + 6}" font-size="11" font-family="var(--mono)" text-anchor="middle" fill="${css("--ink")}">${ch}</text>`;
+        s += `<text x="${cx}" y="${y + 20}" font-size="11" font-family="var(--mono)" text-anchor="middle" fill="${css("--muted")}">${comp[ch] || "N"}</text>`;
+      });
+      y += 30;
+    }
+    for (const t of shown) {
+      const feats = data.tracks[t.name] || [], cut = (data.truncated || []).includes(t.name);
+      [s, y] = t.kind === "genes" ? drawGenes(s, y, t.name, feats, cut) : drawFeatures(s, y, t.name, feats, cut);
+    }
+  }
+  s += `<rect x="0" y="0" width="${W}" height="34" fill="transparent" style="cursor:crosshair"><title>drag along the ruler to zoom to a region</title></rect>`;
+  $("#gbody").innerHTML = `<svg id="gsvg" viewBox="0 0 ${W} ${y + 4}" role="img" aria-label="genome view">${s}</svg>`;
+  bindGestures();
+}
+
+function pack(items, gap) {  // greedy rows; items need x1, x2 (px)
+  const rows = [];
+  for (const it of items.sort((a, b) => a.x1 - b.x1)) {
+    let r = rows.findIndex(end => end + gap <= it.x1);
+    if (r < 0) { rows.push(0); r = rows.length - 1; }
+    rows[r] = it.x2; it.row = r;
+  }
+  return rows.length;
+}
+
+function drawGenes(s, y, track, feats, cut) {
+  const genes = feats.filter(f => f.type === "gene" || f.type === "pseudogene");
+  let models = feats.filter(f => f.type === "mRNA" || f.type === "transcript");
+  const kids = {};
+  for (const f of feats) if (f.parent && f.type !== "mRNA" && f.type !== "transcript") (kids[f.parent] ||= []).push(f);
+  // a gene with no transcript (e.g. organelle GFF3: gene → CDS) is drawn as its own model
+  const withModel = new Set(models.map(t => t.parent));
+  models = models.concat(genes.filter(g => !withModel.has(g.fid)).map(g => ({...g, parent: g.fid})));
+  const detailed = view.end - view.start + 1 <= 400_000;
+  const items = (detailed ? models : genes).map(f => {
+    const gid = detailed ? f.parent : f.fid, g = genes.find(x => x.fid === gid) || f;
+    const lbl = g.name && g.name !== g.fid ? g.name : (f.fid || "");
+    const x1 = Math.max(X(f.start), -5), x2 = Math.min(X(f.end + 1), W + 5);
+    return {f, g, gid, lbl, x1, x2: Math.max(x2, x1 + 2, x1 + (detailed ? lbl.length * 5.6 : 0))};
+  });
+  const nrows = pack(items, 6), rh = detailed ? 30 : 12;
+  s += label(y + 10, `${track} (${fmt(genes.length)} genes${detailed ? `, ${fmt(models.length)} models` : ""})${cut ? " · too many to show all, zoom in" : ""}`);
+  y += 16;
+  for (const it of items) {
+    const {f, gid} = it, yy = y + it.row * rh, col = /_LC$/.test(gid || "") ? css("--gene-lc") : colour(track);
+    const x1 = X(f.start), x2 = X(f.end + 1);
+    if (!detailed) { s += `<rect class="hit" data-f="${esc(gid)}" data-t="${esc(track)}" x="${x1}" y="${yy}" width="${Math.max(x2 - x1, 1.5)}" height="8" fill="${col}"><title>${esc(it.lbl)}</title></rect>`; continue; }
+    const mid = yy + 7, parts = kids[f.fid] || [];
+    s += `<g class="hit" data-f="${esc(gid)}" data-t="${esc(track)}"><title>${esc(it.lbl)} ${esc(f.fid)} ${f.strand} ${fmt(f.start)}–${fmt(f.end)}${it.g.defline ? "\n" + esc(it.g.defline) : ""}</title>`;
+    s += `<rect x="${x1}" y="${yy}" width="${Math.max(x2 - x1, 2)}" height="14" fill="transparent"/>`;  // under the parts, so a click on an exon reaches it
+    s += `<line x1="${x1}" y1="${mid}" x2="${x2}" y2="${mid}" stroke="${col}" stroke-width="1.2"/>`;
+    const dir = f.strand === "-" ? -1 : f.strand === "+" ? 1 : 0;  // chevrons point 5′→3′ (2026-10-27: minus genes drew bars)
+    const chev = (px, c) => `<path d="M${px - 3 * dir},${mid - 4} L${px + 3 * dir},${mid} L${px - 3 * dir},${mid + 4}" fill="none" stroke="${c}" stroke-width="1.5" pointer-events="none"/>`;
+    if (dir) for (let px = Math.max(x1, 0) + 8; px < Math.min(x2, W) - 4; px += 28) s += chev(px, col);
+    const solid = parts.filter(p => p.type !== "exon");
+    for (const p of solid.length ? solid : parts) {
+      const h = p.type === "CDS" ? 12 : 7, a = X(p.start), b = X(p.end + 1);
+      s += `<rect x="${a}" y="${mid - h / 2}" width="${Math.max(b - a, 1)}" height="${h}" fill="${col}" data-tx="${esc(f.fid)}" data-ex="${p.start}" style="cursor:pointer"><title>${esc(p.type)} ${fmt(p.start)}–${fmt(p.end)}: click for its sequence</title></rect>`;
+    }
+    if (!parts.length) s += `<rect x="${x1}" y="${mid - 4}" width="${Math.max(x2 - x1, 1)}" height="8" fill="${col}"/>`;
+    const blocks = parts.length ? (solid.length ? solid : parts).map(p => [X(p.start), X(p.end + 1)]) : [[x1, x2]];
+    if (dir) for (let px = Math.max(x1, 0) + 8; px < Math.min(x2, W) - 4; px += 28)
+      if (blocks.some(([a, b]) => px - 4 >= a && px + 4 <= b)) s += chev(px, css("--bg"));  // over an exon, where the line is hidden
+    s += `<text x="${Math.max(x1, 0)}" y="${yy + 24}" font-size="10" fill="${css("--ink")}">${esc(it.lbl)}</text></g>`;
+  }
+  return [s, y + Math.max(nrows, 1) * rh + 8];
+}
+
+function drawFeatures(s, y, track, feats, cut) {
+  s += label(y + 10, `${track} (${fmt(feats.length)})${cut ? " · too many to show all, zoom in" : ""}`);
+  y += 16;
+  const col = colour(track), span = view.end - view.start + 1;
+  const pointish = f => f.end - f.start < Math.max(20, span / 2000);
+  const items = feats.map(f => pointish(f)
+    ? {f, pt: true, x1: X(f.start + 0.5) - 3, x2: X(f.start + 0.5) + 3}
+    : {f, x1: X(f.start), x2: Math.max(X(f.end + 1), X(f.start) + 1)});
+  const nrows = Math.min(pack(items, span < 5000 ? 1 : -2), 8), rh = 10;
+  for (const it of items) {
+    if (it.row > 7) continue;
+    const f = it.f, yy = y + it.row * rh, id = f.fid || f.name || "";
+    const tip = `${esc(f.type)} ${esc(id)} ${fmt(f.start)}${f.end !== f.start ? "–" + fmt(f.end) : ""} (${f.strand || "."})`;
+    const attrs = `class="hit" data-f="${esc(id)}" data-t="${esc(track)}" data-pos="${f.start}" data-end="${f.end}"`;
+    const on = hl && hl.track === track && hl.id === id && id, cur = on && f.start === hl.pos;
+    if (on) s += `<rect x="${it.x1 - 3}" y="${yy - 3}" width="${it.x2 - it.x1 + 6}" height="14" rx="3" fill="none" stroke="${css("--ink")}" stroke-width="${cur ? 2.5 : 1.2}"/>`;
+    if (it.pt) {
+      const cx = X(f.start + 0.5);
+      s += `<path ${attrs} d="M${cx - 4},${yy} L${cx + 4},${yy} L${cx},${yy + 8} Z" fill="${col}" fill-opacity="${f.strand === "-" ? .6 : 1}"><title>${tip}</title></path>`;
+    } else {
+      s += `<rect ${attrs} x="${it.x1}" y="${yy}" width="${it.x2 - it.x1}" height="7" fill="${col}"><title>${tip}</title></rect>`;
+    }
+  }
+  return [s, y + Math.max(nrows, 1) * rh + 10];
+}
+
+function bindGestures() {
+  const svg = $("#gsvg");
+  svg.addEventListener("wheel", e => {
+    e.preventDefault();
+    const r = svg.getBoundingClientRect(), frac = (e.clientX - r.left) / r.width, w = view.end - view.start + 1;
+    const at = view.start + frac * w, nw = w * (e.deltaY > 0 ? 1.3 : 0.77);
+    go(view.seq, at - frac * nw, at - frac * nw + nw);
+  }, {passive: false});
+  let drag = null;
+  svg.addEventListener("pointerdown", e => {
+    const r = svg.getBoundingClientRect(), y = (e.clientY - r.top) / r.height * svg.viewBox.baseVal.height;
+    drag = {x: e.clientX, x1: e.clientX, start: view.start, end: view.end, moved: false, r, select: e.shiftKey || y < 34};
+    if (drag.select) {
+      e.preventDefault(); svg.setPointerCapture(e.pointerId);
+      svg.insertAdjacentHTML("beforeend", `<rect id="selbox" x="0" y="0" width="0" height="${svg.viewBox.baseVal.height}" fill="${css("--accent")}" fill-opacity=".18" stroke="${css("--accent")}"/>`);
+    }
+  });
+  svg.addEventListener("pointermove", e => {
+    if (!drag) return;
+    const r = drag.r;
+    if (drag.select) {
+      drag.x1 = Math.min(Math.max(e.clientX, r.left), r.right);
+      const a = (Math.min(drag.x, drag.x1) - r.left) / r.width * W, b = (Math.max(drag.x, drag.x1) - r.left) / r.width * W, box = $("#selbox");
+      if (box) { box.setAttribute("x", a); box.setAttribute("width", b - a); }
+      return;
+    }
+    const dx = e.clientX - drag.x;
+    if (Math.abs(dx) < 3 && !drag.moved) return;
+    if (!drag.moved) { drag.moved = true; svg.setPointerCapture(e.pointerId); svg.classList.add("drag"); }
+    svg.style.transform = `translateX(${dx}px)`;
+    drag.dbp = dx / r.width * (drag.end - drag.start + 1);
+  });
+  const end = () => {
+    const d = drag; drag = null; svg.classList.remove("drag");
+    if (!d) return;
+    if (d.select) {
+      if (Math.abs(d.x1 - d.x) < 4) { $("#selbox")?.remove(); return; }
+      svg.dataset.selected = "1";
+      const w = d.end - d.start + 1, fa = (Math.min(d.x, d.x1) - d.r.left) / d.r.width, fb = (Math.max(d.x, d.x1) - d.r.left) / d.r.width;
+      go(view.seq, d.start + fa * w, d.start + fb * w);
+    } else if (d.moved) { svg.style.transform = ""; go(view.seq, d.start - d.dbp, d.end - d.dbp); }
+  };
+  svg.addEventListener("pointerup", end); svg.addEventListener("pointercancel", end);
+  svg.addEventListener("click", e => {
+    if (svg.dataset.selected) { delete svg.dataset.selected; return; }
+    const h = e.target.closest("[data-f]");
+    if (!h) { if (hl) { hl = null; draw(); } return; }  // a click on empty space drops the highlight
+    const ex = e.target.closest("[data-ex]");
+    if (h.dataset.f) showFeature(h.dataset.f, h.dataset.t, false, +h.dataset.pos || null, ex ? {tx: ex.dataset.tx, at: +ex.dataset.ex} : null);
+    else if (h.dataset.pos) go(view.seq, +h.dataset.pos - 200, +h.dataset.end + 200);  // a feature without an ID: zoom to it
+  });
+}
+
+/* ── details ─────────────────────────────────────────────────────── */
+const faLink = (seq, st, en, sd, name) => g_(`fasta?seq=${encodeURIComponent(seq)}&start=${Math.max(1, Math.round(st))}&end=${Math.round(en)}&strand=${sd === "-" ? "-" : "%2B"}&fid=${encodeURIComponent(name)}`);
+const card = html => { $("#detail").innerHTML = `<div class="card">${html}</div>`; };
+
+async function showFeature(id, track, jump, pos, exon) {
+  let f;
+  try { f = await api(g_(`feature/${encodeURIComponent(id)}${track ? `?track=${encodeURIComponent(track)}` : ""}`)); }
+  catch (e) { card(`<span class="err">${esc(e.message)}</span>`); return; }
+  if (f.type !== "gene" && f.n_occurrences > 1) return showOccurrences(f.track, id, pos, jump);
+  hl = f.type === "gene" || f.type === "mRNA" || f.type === "transcript" ? null : {track: f.track, id, pos: f.start};
+  if (jump || !view || view.seq !== f.seqid) { const pad = Math.max(500, (f.end - f.start) * 0.4); await go(f.seqid, f.start - pad, f.end + pad); }
+  else if (data && !data.density) draw();
+  const head = `<h2 class="id">${esc(f.name && f.name !== f.fid ? `${f.name} · ${f.fid}` : f.fid)}</h2><div>${esc(f.defline || (f.type === "gene" ? "no description" : f.type))}</div>
+    <dl><dt>Track</dt><dd>${esc(f.track)}</dd><dt>Location</dt><dd>${esc(f.seqid)}:${fmt(f.start)}–${fmt(f.end)} (${f.strand}) · ${fmt(f.end - f.start + 1)} bp</dd>
+    ${f.transcripts ? `<dt>Transcripts</dt><dd>${f.transcripts.map(t => esc(t.fid)).join(", ") || "—"}</dd>` : ""}
+    <dt>Sequence</dt><dd><a href="${faLink(f.seqid, f.start, f.end, f.strand, f.fid)}" target="_blank">genomic (feature strand)</a> ·
+      <a href="${faLink(f.seqid, f.start - 1000, f.end + 1000, f.strand, f.fid + " ±1kb")}" target="_blank">with 1 kb flanks</a></dd></dl>`;
+  const isTx = f.type === "mRNA" || f.type === "transcript";
+  if (f.type !== "gene") {
+    card(head + (isTx ? txBlock([f.fid]) : "") + `<details><summary class="note">attributes</summary><pre class="log">${esc(f.attrs || "")}</pre></details>`);
+    if (isTx) wireTx(exon && exon.at);
+    return;
+  }
+  const ov = f.overlaps || [], fam = f.family && f.family.genes.length > 1 ? f.family : null;
+  // the gene's copies: every gene of its PANTHER subfamily
+  const famBlock = fam ? `<h3 style="margin:12px 0 4px">Copies in this genome: ${fam.genes.length} <span class="note">(same subfamily, ${esc(fam.id)}; click one to go there)</span></h3>
+    <table><thead><tr><th>Gene</th><th>Sequence</th><th class="num">Position</th><th>Strand</th></tr></thead><tbody>${
+      fam.genes.map((r, i) => `<tr class="click" data-fam="${i}"${r.fid === f.fid ? ' style="font-weight:600"' : ""}><td style="font-family:var(--mono)">${esc(r.name && r.name !== r.fid ? `${r.name} · ${r.fid}` : r.fid)}${r.fid === f.fid ? " (this one)" : ""}</td><td>${esc(r.seqid)}</td><td class="num">${fmt(r.start)}</td><td>${r.strand}</td></tr>`).join("")}</tbody></table>` : "";
+  const counts = ov.reduce((a, r) => (a[r.where || "?"] = (a[r.where || "?"] || 0) + 1, a), {});
+  card(head + famBlock + `<h3 style="margin:12px 0 4px">Features from other tracks in this gene: ${ov.length} ${ov.length ? `<span class="note">(${Object.entries(counts).map(([k, v]) => `${v} ${esc(k)}`).join(", ")}; position class from the first transcript)</span>` : ""}</h3>
+    ${ov.length ? `<table><thead><tr><th>Track</th><th>ID</th><th class="num">Position</th><th>Strand</th><th>In</th></tr></thead><tbody>${
+      ov.map((r, i) => `<tr class="click" data-i="${i}"><td>${esc(r.track)}</td><td style="font-family:var(--mono)">${esc(r.fid || r.name || r.type)}</td><td class="num">${fmt(r.start)}</td><td>${r.strand}</td><td class="w-${esc((r.where || "").split(" ")[0])}">${esc(r.where || "")}</td></tr>`).join("")}</tbody></table>`
+      : `<p class="note">None.</p>`}` + txBlock(f.transcripts.length ? f.transcripts.map(t => t.fid) : [f.fid], exon && exon.tx));
+  $("#detail").querySelectorAll("tr[data-fam]").forEach(tr => tr.onclick = () => { const r = fam.genes[+tr.dataset.fam]; showFeature(r.fid, r.track, true, r.start); });
+  $("#detail").querySelectorAll("tr[data-i]").forEach(tr => tr.onclick = () => { const r = ov[+tr.dataset.i]; r.fid ? showFeature(r.fid, r.track, false, r.start) : go(f.seqid, r.start - 60, r.end + 60); });
+  wireTx(exon && exon.at);
+  history.replaceState(null, "", `#${G}/gene=${encodeURIComponent(f.fid)}`);
+}
+
+/* one transcript spliced: mRNA, CDS, protein, exon/intron table (derived on the server from the GFF3) */
+const txBlock = (ids, sel) => { sel = ids.includes(sel) ? sel : ids[0];
+  return `<h3 style="margin:14px 0 4px">Transcript ${ids.length > 1 ? `<select id="txsel">${ids.map(i => `<option${i === sel ? " selected" : ""}>${esc(i)}</option>`).join("")}</select>` : `<span class="id" style="font-family:var(--mono)">${esc(ids[0])}</span>`}</h3><div id="tx" data-fid="${esc(sel)}"></div>`; };
+const wireTx = at => { const s = $("#txsel"); if (s) s.onchange = () => showTranscript(s.value); showTranscript($("#tx").dataset.fid, at); };
+const faText = (head, s) => `>${head}\n${(s.match(/.{1,60}/g) || []).join("\n")}\n`;
+const faHref = (head, s) => URL.createObjectURL(new Blob([faText(head, s)], {type: "text/plain"}));
+
+async function showTranscript(fid, at) {
+  const box = $("#tx");
+  box.innerHTML = `<p class="note">loading ${esc(fid)}…</p>`;
+  let t;
+  try { t = await api(g_(`transcript/${encodeURIComponent(fid)}`)); }
+  catch (e) { box.innerHTML = `<p class="note">${esc(e.message)}</p>`; return; }
+  const n = t.cds.length, u5 = t.utr5;
+  const marked = n ? t.mrna.slice(0, u5).toLowerCase() + t.mrna.slice(u5, u5 + n) + t.mrna.slice(u5 + n).toLowerCase() : t.mrna;
+  const loc = `${t.seqid}:${t.start}-${t.end}(${t.strand})`;
+  const warn = n ? [!t.starts_atg && "CDS does not start with ATG", !t.ends_stop && "no stop codon at the end",
+    t.internal_stops && `${t.internal_stops} in-frame stop${t.internal_stops > 1 ? "s" : ""} (a low-confidence model?)`,
+    !t.cds_whole_codons && `CDS is ${n} bp, not a whole number of codons`].filter(Boolean) : ["no CDS: non-coding or low-confidence model"];
+  const dl = (kind, s) => s ? `<a href="${faHref(`${fid} ${kind} ${loc}`, s)}" download="${esc(fid)}_${kind}.fa">${kind}</a>` : "";
+  const rows = [];
+  let off = 0;  // the mRNA is the exons joined in transcription order, so each exon is a slice of it
+  t.exons.forEach((e, i) => {
+    e.seq = t.mrna.slice(off, off += e.length);
+    rows.push(`<tr class="click" data-s="${e.start}" data-e="${e.end}" data-x="${i}"><td>exon ${e.n}</td><td class="num">${fmt(e.start)}</td><td class="num">${fmt(e.end)}</td><td class="num">${fmt(e.length)}</td><td class="num">${e.utr5 || ""}</td><td class="num">${e.cds || ""}</td><td class="num">${e.utr3 || ""}</td><td class="num">${e.phase ?? ""}</td></tr>`);
+    const x = t.introns.find(r => r.n === i + 1);
+    if (x) rows.push(`<tr class="click w-intron" data-s="${x.start}" data-e="${x.end}"><td>intron ${x.n}</td><td class="num">${fmt(x.start)}</td><td class="num">${fmt(x.end)}</td><td class="num">${fmt(x.length)}</td><td colspan="4" style="font-family:var(--mono)">${esc(x.splice)}</td></tr>`);
+  });
+  const pre = s => `<pre class="log" style="word-break:break-all">${esc(s)}</pre>`;
+  box.innerHTML = `<dl><dt>mRNA</dt><dd>${fmt(t.mrna.length)} nt · ${t.exons.length} exon${t.exons.length > 1 ? "s" : ""}${n ? ` · 5′ UTR ${fmt(t.utr5)} · 3′ UTR ${fmt(t.utr3)}` : ""}</dd>
+    ${n ? `<dt>CDS</dt><dd>${fmt(n)} bp · protein ${fmt(t.protein.length)} aa</dd>` : ""}
+    ${warn.length ? `<dt>Note</dt><dd class="w-CDS">${warn.map(esc).join("; ")}</dd>` : ""}
+    <dt>FASTA</dt><dd>${[dl("mRNA", t.mrna), dl("CDS", t.cds), dl("protein", t.protein)].filter(Boolean).join(" · ")}</dd></dl>
+    <table><thead><tr><th>Part</th><th class="num">Start</th><th class="num">End</th><th class="num">Length</th><th class="num">5′ UTR</th><th class="num">CDS</th><th class="num">3′ UTR</th><th class="num">Phase</th></tr></thead><tbody>${rows.join("")}</tbody></table>
+    <p class="note">Numbered in the direction of transcription; intron rows show the splice-site dinucleotides (GT…AG is canonical). Click a row to view it; an exon row also shows its sequence (as is an exon clicked on the track).</p>
+    <details><summary class="note">mRNA (UTRs in lower case)</summary>${pre(marked)}</details>
+    ${n ? `<details><summary class="note">CDS</summary>${pre(t.cds)}</details><details open><summary class="note">protein</summary>${pre(t.protein)}</details>` : ""}`;
+  const exonSeq = (tr, scroll) => {  // a row under the exon with its sequence (transcript strand), Copy and FASTA
+    const e = t.exons[+tr.dataset.x], nx = tr.nextElementSibling;
+    if (nx && nx.classList.contains("exseq")) { nx.remove(); return; }
+    tr.insertAdjacentHTML("afterend", `<tr class="exseq"><td colspan="8"><div class="note">${fid} exon ${e.n} · ${fmt(e.length)} nt (${t.strand} strand) ·
+      <a href="#" data-copy>copy</a> · <a href="${faLink(t.seqid, e.start, e.end, t.strand, `${fid} exon ${e.n}`)}" target="_blank">FASTA</a></div>${pre(e.seq)}</td></tr>`);
+    const row = tr.nextElementSibling;
+    row.querySelector("[data-copy]").onclick = ev => { ev.preventDefault(); navigator.clipboard.writeText(e.seq).then(() => ev.target.textContent = "copied"); };
+    if (scroll) row.scrollIntoView({block: "nearest"});
+  };
+  box.querySelectorAll("tr[data-s]").forEach(tr => tr.onclick = () => { if (tr.dataset.x) exonSeq(tr); go(t.seqid, +tr.dataset.s - 50, +tr.dataset.e + 50); });
+  const hit = at && t.exons.findIndex(e => e.start <= at && at <= e.end);
+  if (at && hit >= 0) exonSeq(box.querySelector(`tr[data-x="${hit}"]`), true);
+}
+
+async function showOccurrences(track, id, pos, jump) {
+  let d;
+  try { d = await api(g_(`occurrences/${encodeURIComponent(track)}/${encodeURIComponent(id)}`)); }
+  catch (e) { card(`<span class="err">${esc(e.message)}</span>`); return; }
+  const occ = d.occurrences, cur = occ.find(r => r.start === pos) || occ[0];
+  hl = {track, id, pos: cur.start};
+  if (jump) await go(cur.seqid, cur.start - 2500, cur.end + 2500);
+  else if (data && !data.density) draw();
+  const genic = occ.filter(r => r.gene).length, cds = occ.filter(r => r.where === "CDS").length;
+  card(`<h2 class="id">${esc(id)}</h2><div class="note">track ${esc(track)}</div>
+    <dl><dt>This one</dt><dd>${esc(cur.seqid)}:${fmt(cur.start)} (${cur.strand}) · ${cur.gene ? `in <a href="#${G}/gene=${encodeURIComponent(cur.gene)}">${esc(cur.gene)}</a> (${esc(cur.where || "")})` : "intergenic"} · <a href="${faLink(cur.seqid, cur.start - 500, cur.end + 500, cur.strand, id + " ±500")}" target="_blank">±500 bp FASTA</a></dd>
+      <dt>In total</dt><dd>${occ.length} location${occ.length > 1 ? "s" : ""}; ${genic} in genes, ${cds} in a CDS</dd></dl>
+    <table><thead><tr><th>Sequence</th><th class="num">Position</th><th>Strand</th><th>Gene</th><th>In</th><th>Description</th></tr></thead><tbody>${
+      occ.map((r, i) => `<tr class="click" data-i="${i}"${r === cur ? ' style="font-weight:600"' : ""}><td>${esc(r.seqid)}</td><td class="num">${fmt(r.start)}</td><td>${r.strand}</td><td style="font-family:var(--mono)">${esc(r.gene || "")}</td><td class="w-${esc((r.where || "").split(" ")[0])}">${esc(r.where || "intergenic")}</td><td class="note">${esc(r.defline || "")}</td></tr>`).join("")}</tbody></table>
+    <p class="note">"In" uses each gene's first transcript. Its locations are ringed on the track (the bold ring is this one); click empty space on the track to clear.</p>`);
+  $("#detail").querySelectorAll("tr[data-i]").forEach(tr => tr.onclick = () => { const r = occ[+tr.dataset.i]; showOccurrences(track, id, r.start, true); });
+}
+
+function showGenomeCard() {
+  const g = genomes.find(x => x.slug === G) || {};
+  const mine = me.admin || g.added_by === me.user;
+  card(`<h2>${esc(g.name)}</h2>${g.description ? `<div>${esc(g.description)}</div>` : ""}
+    <dl><dt>Added</dt><dd>${esc((g.added || "").slice(0, 10))}${g.added_by ? ` by ${esc(g.added_by)}` : ""}</dd><dt>On disk</dt><dd>${size(g.size || 0)}</dd></dl>
+    <table><thead><tr><th>Track</th><th>Kind</th><th class="num">Features</th><th>Added by</th><th></th></tr></thead><tbody>${
+      info.tracks.map(t => `<tr><td>${esc(t.name)}</td><td>${esc(t.kind)}</td><td class="num">${fmt(t.n)}</td><td>${esc(t.added_by || "")}</td><td>${mine || t.added_by === me.user ? `<button class="danger" data-drop="${esc(t.name)}">remove</button>` : ""}</td></tr>`).join("") || `<tr><td colspan="5" class="note">No tracks yet.</td></tr>`}</tbody></table>
+    <div class="row">${me.can_add ? `<button data-addtracks>＋ Add tracks to this genome</button>` : `<span class="note">Need another genome or track? Ask an admin.</span>`}${mine ? `<button class="danger" data-delg>Delete this genome</button>` : ""}</div>`);
+  $("[data-addtracks]")?.addEventListener("click", () => showAdd(G));
+  $("[data-delg]")?.addEventListener("click", async () => {
+    if (!confirm(`Delete ${g.name} for everyone? This cannot be undone.`)) return;
+    try { await api(`api/genomes/${encodeURIComponent(G)}`, {method: "DELETE"}); location.hash = ""; location.reload(); }
+    catch (e) { alert(e.message); }
+  });
+  $("#detail").querySelectorAll("[data-drop]").forEach(b => b.onclick = async () => {
+    if (!confirm(`Remove track ${b.dataset.drop} for everyone?`)) return;
+    try { const j = await api(g_(`tracks/${encodeURIComponent(b.dataset.drop)}`), {method: "DELETE"}); showAdd(G, j.id); }
+    catch (e) { alert(e.message); }
+  });
+}
+
+/* ── adding genomes and tracks ───────────────────────────────────── */
+let serverFiles = null;
+
+function fileField(key) {
+  const srv = me.server_import && me.admin;
+  return `<span class="row" style="margin:0"><input type="file" data-file="${key}">${srv ? `<span class="note">or on the server</span><select data-path="${key}"><option value="">—</option></select>` : ""}</span>`;
+}
+
+function trackRow(i, genes) {
+  return `<div class="row" data-track="${i}"><input type="text" placeholder="track name" data-tname value="${genes ? "genes" : ""}" style="width:150px">
+    <select data-tkind><option value="genes"${genes ? " selected" : ""}>gene models (GFF3)</option><option value="features"${genes ? "" : " selected"}>features (GFF3/BED)</option></select>
+    ${fileField("t" + i)}<button data-rm title="remove this row">✕</button></div>`;
+}
+
+function showAdd(slug, jobId) {
+  const box = $("#add"); box.hidden = false;
+  const g = genomes.find(x => x.slug === slug);
+  box.innerHTML = `<div class="card"><h2>${slug ? `Add tracks to ${esc(g?.name || slug)}` : "Add a genome"}</h2>
+    <p class="note">Files go up in ${size(me.chunk)} pieces, so big genomes work and a broken connection resumes. Gzipped files (.gz) are fine. The server has ${size(me.disk.free)} free of ${size(me.disk.total)}. Everything you add is visible to every signed-in lab member; you (or an admin) can remove it.</p>
+    <div class="grid">${slug ? "" : `<label>Name</label><input type="text" data-name placeholder="e.g. Barley Morex V3" maxlength="80">
+      <label>Description</label><input type="text" data-desc placeholder="assembly, source, version" maxlength="500">
+      <label>Genome FASTA</label>${fileField("fasta")}`}
+      <label>Tracks</label><div data-tracks>${trackRow(0, !slug)}</div>
+      <span></span><span><button data-more>＋ another track</button></span>
+      <label>Descriptions <span class="note">(optional)</span></label><span>${fileField("defl")} <span class="note">TSV: gene ID, then description. GFF3 description/Note/product attributes are used anyway.</span></span></div>
+    <div class="row"><button class="primary" data-go>${slug ? "Upload and add" : "Upload and build"}</button><button data-close>Close</button><span data-msg class="note"></span></div>
+    <div data-progress></div></div><div class="card"><h2>Recent builds</h2><div data-jobs class="note">loading…</div></div>`;
+  let n = 1;
+  const bindRm = () => box.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => b.closest("[data-track]").remove());
+  bindRm();
+  box.querySelector("[data-more]").onclick = () => { box.querySelector("[data-tracks]").insertAdjacentHTML("beforeend", trackRow(n++, false)); bindRm(); fillServer(); };
+  box.querySelector("[data-close]").onclick = () => { box.hidden = true; clearTimeout(jobTimer); };
+  box.querySelector("[data-go]").onclick = () => submitAdd(slug);
+  fillServer();
+  box.scrollIntoView({behavior: "smooth"});
+  showJobs(jobId);
+}
+
+async function fillServer() {
+  if (!(me.server_import && me.admin)) return;
+  serverFiles ||= await api("api/server-files").catch(() => []);
+  const opts = `<option value="">—</option>` + serverFiles.map(f => `<option value="${esc(f.path)}">${esc(f.path)} (${size(f.size)})</option>`).join("");
+  document.querySelectorAll("select[data-path]").forEach(s => { if (s.options.length <= 1) s.innerHTML = opts; });
+}
+
+async function uploadFile(file, bar) {
+  const u = await post("api/uploads", {filename: file.name, size: file.size});
+  let offset = 0, tries = 0;
+  while (offset < file.size) {
+    try {
+      const r = await fetch(`api/uploads/${u.id}?offset=${offset}`, {method: "PUT", body: file.slice(offset, offset + u.chunk)});
+      if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
+      offset = (await r.json()).received; tries = 0;
+    } catch (e) {
+      if (++tries > 5) throw new Error(`${file.name}: ${e.message}`);
+      await new Promise(res => setTimeout(res, 1000 * tries));
+      offset = (await api(`api/uploads/${u.id}`)).received;  // resume where the server is
+    }
+    bar(offset / file.size);
+  }
+  return {upload: u.id};
+}
+
+async function submitAdd(slug) {
+  const box = $("#add"), msg = box.querySelector("[data-msg]"), prog = box.querySelector("[data-progress]"), btn = box.querySelector("[data-go]");
+  const src = key => {
+    const f = box.querySelector(`[data-file="${key}"]`)?.files[0], p = box.querySelector(`[data-path="${key}"]`)?.value;
+    return f ? {file: f} : p ? {path: p} : null;
+  };
+  try {
+    const name = box.querySelector("[data-name]")?.value.trim();
+    if (!slug && !name) throw new Error("give the genome a name");
+    const fasta = slug ? null : src("fasta");
+    if (!slug && !fasta) throw new Error("choose the genome FASTA");
+    const tracks = [...box.querySelectorAll("[data-track]")].map(r => ({name: r.querySelector("[data-tname]").value.trim(), kind: r.querySelector("[data-tkind]").value, src: src("t" + r.dataset.track)})).filter(t => t.src);
+    if (tracks.some(t => !t.name)) throw new Error("every track needs a name");
+    const defl = src("defl");
+    const all = [fasta, ...tracks.map(t => t.src), defl].filter(Boolean);
+    if (!all.length) throw new Error("choose at least one file");
+    btn.disabled = true; msg.textContent = "Uploading…";
+    prog.innerHTML = all.map((s, i) => `<div class="row"><span style="width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.file ? s.file.name : s.path)}</span><div class="bar"><div data-bar="${i}"${s.file ? "" : ' style="width:100%"'}></div></div></div>`).join("");
+    const done = [];
+    for (const [i, s] of all.entries())
+      done.push(s.file ? await uploadFile(s.file, f => { box.querySelector(`[data-bar="${i}"]`).style.width = (f * 100).toFixed(1) + "%"; }) : {path: s.path});
+    const ref = s => done[all.indexOf(s)];
+    const tr = tracks.map(t => ({name: t.name, kind: t.kind, source: ref(t.src)}));
+    const job = slug
+      ? await post(g_("tracks"), {tracks: tr, deflines: defl ? ref(defl) : null})
+      : await post("api/genomes", {name, description: box.querySelector("[data-desc]").value, fasta: ref(fasta), tracks: tr, deflines: defl ? ref(defl) : null});
+    msg.textContent = "Uploaded. Building on the server…";
+    showJobs(job.id);
+  } catch (e) { msg.innerHTML = `<span class="err">${esc(e.message)}</span>`; btn.disabled = false; }
+}
+
+let jobTimer = null;
+async function showJobs(follow) {
+  clearTimeout(jobTimer);
+  const el = $("#add [data-jobs]");
+  const list = await api("api/jobs").catch(() => []);
+  const what = j => j.kind === "new_genome" ? `new genome ${j.name}` : j.kind === "add_tracks" ? `tracks for ${j.slug}` : `remove ${j.track} from ${j.slug}`;
+  if (el) el.innerHTML = list.length ? `<table><thead><tr><th>When</th><th>What</th><th>Who</th><th>Status</th><th>Result</th></tr></thead><tbody>${
+    list.map(j => `<tr><td>${esc((j.created || "").replace("T", " ").slice(0, 16))}</td><td>${esc(what(j))}</td><td>${esc(j.user)}</td><td class="status-${esc(j.status)}">${esc(j.status)}</td><td>${esc(j.error || j.result || "")}</td></tr>`).join("")}</tbody></table>` : "No builds yet.";
+  const busy = list.some(j => j.status === "queued" || j.status === "running");
+  if (follow) {
+    const j = await api(`api/jobs/${follow}`).catch(() => null), p = $("#add [data-progress]");
+    if (j && p) { p.querySelector("pre")?.remove(); p.insertAdjacentHTML("beforeend", `<pre class="log">${esc(j.log || j.status)}</pre>`); }
+    if (j && (j.status === "done" || j.status === "failed")) {
+      const m = $("#add [data-msg]");
+      if (m) m.innerHTML = j.status === "done" ? `<span class="status-done">${esc(j.result)}</span>` : `<span class="err">Build failed: ${esc(j.error)}</span>`;
+      if (j.status === "done") { await loadGenomes(); if (j.slug && genomes.some(g => g.slug === j.slug)) await openGenome(j.slug); }
+      follow = null;
+    }
+  }
+  if (busy || follow) jobTimer = setTimeout(() => showJobs(follow), 2000);
+  else if (!genomes.length) { await loadGenomes(); if (genomes.length) openGenome(genomes[0].slug); }
+}
+
+/* ── search ──────────────────────────────────────────────────────── */
+function bindSearch() {
+  const q = $("#q"), box = $("#hits");
+  let t, sel = -1;
+  q.oninput = () => { clearTimeout(t); t = setTimeout(async () => {
+    const v = q.value.trim();
+    if (!G || parseLoc(v) || v.length < 2) { box.hidden = true; return; }
+    hits = await api(g_(`search?q=${encodeURIComponent(v)}`)); sel = -1;
+    box.innerHTML = hits.length ? hits.map((h, i) => `<div data-i="${i}"><b style="font-family:var(--mono)">${esc(h.name && h.name !== h.fid ? `${h.name} · ${h.fid}` : h.fid)}</b> <span class="note">${esc(h.type)} · ${esc(h.track)} · ${esc(h.seqid)}:${fmt(h.start)}</span>${h.defline ? `<div class="d">${esc(h.defline)}</div>` : ""}</div>`).join("") : `<div class="note">No matches.</div>`;
+    box.hidden = false;
+    box.querySelectorAll("div[data-i]").forEach(d => d.onclick = () => pick(+d.dataset.i));
+  }, 200); };
+  const pick = i => { const h = hits[i]; box.hidden = true; q.value = h.name || h.fid; showFeature(h.fid, h.track, true, h.start); };
+  q.onkeydown = e => {
+    const items = box.querySelectorAll("div[data-i]");
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") { e.preventDefault(); sel = Math.max(0, Math.min(items.length - 1, sel + (e.key === "ArrowDown" ? 1 : -1))); items.forEach((d, i) => d.classList.toggle("on", i === sel)); }
+    if (e.key === "Enter") { if (parseLoc(q.value)) return; if (hits.length) pick(Math.max(sel, 0)); }
+    if (e.key === "Escape") box.hidden = true;
+  };
+  document.addEventListener("click", e => { if (!e.target.closest(".searchbox")) box.hidden = true; });
+}
+
+init().catch(e => { $("#gbody").textContent = e.message; $("#browser").hidden = false; });
+</script>
+</body>
+</html>

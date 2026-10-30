@@ -1,0 +1,485 @@
+{
+ "source": "Common oligo modification codes (5'/3' labels, internal modifications); edit to match your oligo supplier",
+ "mods": [
+  {
+   "name": "2′,3′-ddC",
+   "code": "[23ddC]",
+   "positions": [
+    "3"
+   ]
+  },
+  {
+   "name": "2,6-Diaminopurine",
+   "code": "[26AP]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "2-Aminopurine",
+   "code": "[2AMP]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "3′-dA (chain terminator)",
+   "code": "[3d_A]",
+   "positions": [
+    "3"
+   ]
+  },
+  {
+   "name": "3′-dC (chain terminator)",
+   "code": "[3d_C]",
+   "positions": [
+    "3"
+   ]
+  },
+  {
+   "name": "3′-dG (chain terminator)",
+   "code": "[3d_G]",
+   "positions": [
+    "3"
+   ]
+  },
+  {
+   "name": "3′-dT (chain terminator)",
+   "code": "[3d_T]",
+   "positions": [
+    "3"
+   ]
+  },
+  {
+   "name": "5-Br-dC",
+   "code": "[5BrdC]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "5-Br-dU",
+   "code": "[5BrdU]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "5-Me-dC",
+   "code": "[5MedC]",
+   "positions": [
+    "5",
+    "internal",
+    "3"
+   ]
+  },
+  {
+   "name": "5-Nitroindole",
+   "code": "[5NITI]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "6-FAM (fluorescein)",
+   "code": "[6FAM]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "8-Br-dA",
+   "code": "[8BrdA]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "8-Br-dG",
+   "code": "[8BrdG]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "8-oxo-dA",
+   "code": "[OXOA]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "8-oxo-dG",
+   "code": "[OXOG]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "Sulfonated Fluorescein 488",
+   "code": "[A488]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Amino-Modifier C2 dT",
+   "code": "[AmC2dT]",
+   "positions": [
+    "internal"
+   ]
+  },
+  {
+   "name": "Amino-Modifier C3",
+   "code": "[AmC3]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Amino-Modifier C6",
+   "code": "[AmC6]",
+   "positions": [
+    "5"
+   ]
+  },
+  {
+   "name": "Amino-Modifier C6 dT",
+   "code": "[AmC6dT]",
+   "positions": [
+    "internal"
+   ]
+  },
+  {
+   "name": "Amino-Modifier C7",
+   "code": "[AmC7]",
+   "positions": [
+    "3"
+   ]
+  },
+  {
+   "name": "Amino-Modifier C12",
+   "code": "[AmC12]",
+   "positions": [
+    "5"
+   ]
+  },
+  {
+   "name": "ATTO 488",
+   "code": "[Atto488]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "ATTO 532",
+   "code": "[Atto532]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "ATTO 550",
+   "code": "[Atto550]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "ATTO 565",
+   "code": "[Atto565]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "ATTO 647N",
+   "code": "[Atto647N]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "ATTO 680",
+   "code": "[Atto680]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Biotin",
+   "code": "[Btn]",
+   "positions": [
+    "5"
+   ]
+  },
+  {
+   "name": "Biotin dT",
+   "code": "[BtndT]",
+   "positions": [
+    "internal"
+   ]
+  },
+  {
+   "name": "Biotin TEG",
+   "code": "[BtnTg]",
+   "positions": [
+    "5",
+    "internal",
+    "3"
+   ]
+  },
+  {
+   "name": "Cholesteryl TEG",
+   "code": "[CholTEG]",
+   "positions": [
+    "5",
+    "internal",
+    "3"
+   ]
+  },
+  {
+   "name": "Cyanine 3",
+   "code": "[Cyanine3]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Cyanine 5",
+   "code": "[Cyanine5]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Cyanine 5.5",
+   "code": "[Cyanine55]",
+   "positions": [
+    "5"
+   ]
+  },
+  {
+   "name": "dA-5′ (5' to 3' synthesis)",
+   "code": "[dA5F]",
+   "positions": [
+    "5",
+    "internal",
+    "3"
+   ]
+  },
+  {
+   "name": "dC-5′ (5 to 3' synthesis)",
+   "code": "[dC5F]",
+   "positions": [
+    "5",
+    "internal",
+    "3"
+   ]
+  },
+  {
+   "name": "dG-5′ (5' to 3' synthesis)",
+   "code": "[dG5F]",
+   "positions": [
+    "5",
+    "internal",
+    "3"
+   ]
+  },
+  {
+   "name": "dT-5′ (5' to 3' synthesis)",
+   "code": "[dT5F]",
+   "positions": [
+    "5",
+    "internal",
+    "3"
+   ]
+  },
+  {
+   "name": "Dabcyl",
+   "code": "[DABC]",
+   "positions": [
+    "3"
+   ]
+  },
+  {
+   "name": "Digoxigenin",
+   "code": "[DIG]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "dSpacer",
+   "code": "[DSPC]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "Fluorescein-dT",
+   "code": "[FlcdT]",
+   "positions": [
+    "internal"
+   ]
+  },
+  {
+   "name": "HEX",
+   "code": "[HEX]",
+   "positions": [
+    "5"
+   ]
+  },
+  {
+   "name": "JOE",
+   "code": "[JOE]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Phosphate",
+   "code": "[Phos]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "ROX",
+   "code": "[ROX]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Spacer 9",
+   "code": "[Sp9]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "Spacer 18",
+   "code": "[SP18]",
+   "positions": [
+    "5",
+    "internal"
+   ]
+  },
+  {
+   "name": "Spacer C3",
+   "code": "[SpcC3]",
+   "positions": [
+    "5",
+    "internal",
+    "3"
+   ]
+  },
+  {
+   "name": "TAMRA",
+   "code": "[TAM]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "TET",
+   "code": "[TET]",
+   "positions": [
+    "5"
+   ]
+  },
+  {
+   "name": "TxRd",
+   "code": "[TxRd]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Thiol-Modifier C6 S-S",
+   "code": "[ThiC6]",
+   "positions": [
+    "5",
+    "3"
+   ]
+  },
+  {
+   "name": "Thiol-Modifier C3 S-S",
+   "code": "[ThiC3]",
+   "positions": [
+    "3"
+   ]
+  }
+ ],
+ "order": {
+  "scale": [
+   0.025,
+   0.05,
+   0.2,
+   10
+  ],
+  "purification": [
+   "Desalt",
+   "Cartridge",
+   "HPLC"
+  ],
+  "format": [
+   "Dry",
+   "In Solution (water)",
+   "In Solution (TE)"
+  ],
+  "concentration": [
+   "None",
+   20,
+   50,
+   200
+  ],
+  "tubes": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "columns": [
+   "Oligo Name",
+   "5' Mod",
+   "Sequence",
+   "3' Mod",
+   "Scale (mmole)",
+   "Purification",
+   "Format",
+   "Concentration (mM)",
+   "Number of Tubes",
+   "Notes"
+  ]
+ }
+}

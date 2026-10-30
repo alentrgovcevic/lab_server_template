@@ -1,0 +1,332 @@
+##gff-version 3
+#!gff-spec-version 1.21
+#!processor NCBI annotwriter
+##sequence-region NC_002694.1 1 150519
+##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=34305
+NC_002694.1	RefSeq	region	1	150519	.	+	.	ID=NC_002694.1:1..150519;Dbxref=taxon:34305;Is_circular=true;Name=Pltd;clone=LjBI08I01%3B LjBI04M24;gbkey=Src;genome=chloroplast;mol_type=genomic DNA;strain=Accession MG-20
+NC_002694.1	RefSeq	gene	48	121	.	-	.	ID=gene-LocoCt094;Dbxref=GeneID:802905;Name=trnH;gbkey=Gene;gene=trnH;gene_biotype=tRNA;locus_tag=LocoCt094
+NC_002694.1	RefSeq	tRNA	48	121	.	-	.	ID=rna-LocoCt094;Parent=gene-LocoCt094;Dbxref=GeneID:802905;gbkey=tRNA;gene=trnH;locus_tag=LocoCt094;product=tRNA-His
+NC_002694.1	RefSeq	exon	48	121	.	-	.	ID=exon-LocoCt094-1;Parent=rna-LocoCt094;Dbxref=GeneID:802905;gbkey=tRNA;gene=trnH;locus_tag=LocoCt094;product=tRNA-His
+NC_002694.1	RefSeq	gene	412	1473	.	-	.	ID=gene-LocoCp001;Dbxref=GeneID:802882;Name=psbA;gbkey=Gene;gene=psbA;gene_biotype=protein_coding;locus_tag=LocoCp001
+NC_002694.1	RefSeq	CDS	412	1473	.	-	0	ID=cds-NP_084778.1;Parent=gene-LocoCp001;Dbxref=GenBank:NP_084778.1,GeneID:802882;Name=NP_084778.1;gbkey=CDS;gene=psbA;locus_tag=LocoCp001;product=photosystem II protein D1;protein_id=NP_084778.1;transl_table=11
+NC_002694.1	RefSeq	gene	1780	4478	.	-	.	ID=gene-LocoCt095;Dbxref=GeneID:802848;Name=trnK;gbkey=Gene;gene=trnK;gene_biotype=tRNA;locus_tag=LocoCt095
+NC_002694.1	RefSeq	tRNA	1780	4478	.	-	.	ID=rna-LocoCt095;Parent=gene-LocoCt095;Dbxref=GeneID:802848;gbkey=tRNA;gene=trnK;locus_tag=LocoCt095;product=tRNA-Lys
+NC_002694.1	RefSeq	exon	4442	4478	.	-	.	ID=exon-LocoCt095-1;Parent=rna-LocoCt095;Dbxref=GeneID:802848;gbkey=tRNA;gene=trnK;locus_tag=LocoCt095;product=tRNA-Lys
+NC_002694.1	RefSeq	exon	1780	1814	.	-	.	ID=exon-LocoCt095-2;Parent=rna-LocoCt095;Dbxref=GeneID:802848;gbkey=tRNA;gene=trnK;locus_tag=LocoCt095;product=tRNA-Lys
+NC_002694.1	RefSeq	gene	2174	3700	.	-	.	ID=gene-LocoCp002;Dbxref=GeneID:802951;Name=matK;gbkey=Gene;gene=matK;gene_biotype=protein_coding;locus_tag=LocoCp002
+NC_002694.1	RefSeq	CDS	2174	3700	.	-	0	ID=cds-NP_084779.1;Parent=gene-LocoCp002;Dbxref=GenBank:NP_084779.1,GeneID:802951;Name=NP_084779.1;gbkey=CDS;gene=matK;locus_tag=LocoCp002;product=maturase K;protein_id=NP_084779.1;transl_table=11
+NC_002694.1	RefSeq	gene	5158	6585	.	-	.	ID=gene-LocoCp003;Dbxref=GeneID:802906;Name=rbcL;gbkey=Gene;gene=rbcL;gene_biotype=protein_coding;locus_tag=LocoCp003
+NC_002694.1	RefSeq	CDS	5158	6585	.	-	0	ID=cds-NP_084780.1;Parent=gene-LocoCp003;Dbxref=GenBank:NP_084780.1,GeneID:802906;Name=NP_084780.1;gbkey=CDS;gene=rbcL;locus_tag=LocoCp003;product=ribulose-1%2C5-bisphosphate carboxylase/oxygenase large subunit;protein_id=NP_084780.1;transl_table=11
+NC_002694.1	RefSeq	gene	7367	8863	.	+	.	ID=gene-LocoCp004;Dbxref=GeneID:802864;Name=atpB;gbkey=Gene;gene=atpB;gene_biotype=protein_coding;locus_tag=LocoCp004
+NC_002694.1	RefSeq	CDS	7367	8863	.	+	0	ID=cds-NP_084781.1;Parent=gene-LocoCp004;Dbxref=GenBank:NP_084781.1,GeneID:802864;Name=NP_084781.1;Note=ATP synthase CF1 beta subunit;gbkey=CDS;gene=atpB;locus_tag=LocoCp004;product=ATP synthase CF1 beta subunit;protein_id=NP_084781.1;transl_table=11
+NC_002694.1	RefSeq	gene	8860	9261	.	+	.	ID=gene-LocoCp005;Dbxref=GeneID:802845;Name=atpE;gbkey=Gene;gene=atpE;gene_biotype=protein_coding;locus_tag=LocoCp005
+NC_002694.1	RefSeq	CDS	8860	9261	.	+	0	ID=cds-NP_084782.1;Parent=gene-LocoCp005;Dbxref=GenBank:NP_084782.1,GeneID:802845;Name=NP_084782.1;gbkey=CDS;gene=atpE;locus_tag=LocoCp005;product=ATP synthase CF1 epsilon subunit;protein_id=NP_084782.1;transl_table=11
+NC_002694.1	RefSeq	gene	9408	9480	.	-	.	ID=gene-LocoCt096;Dbxref=GeneID:802946;Name=trnM;gbkey=Gene;gene=trnM;gene_biotype=tRNA;locus_tag=LocoCt096
+NC_002694.1	RefSeq	tRNA	9408	9480	.	-	.	ID=rna-LocoCt096;Parent=gene-LocoCt096;Dbxref=GeneID:802946;gbkey=tRNA;gene=trnM;locus_tag=LocoCt096;product=tRNA-Met
+NC_002694.1	RefSeq	exon	9408	9480	.	-	.	ID=exon-LocoCt096-1;Parent=rna-LocoCt096;Dbxref=GeneID:802946;gbkey=tRNA;gene=trnM;locus_tag=LocoCt096;product=tRNA-Met
+NC_002694.1	RefSeq	gene	9658	10329	.	+	.	ID=gene-LocoCt097;Dbxref=GeneID:802850;Name=trnV;gbkey=Gene;gene=trnV;gene_biotype=tRNA;locus_tag=LocoCt097
+NC_002694.1	RefSeq	tRNA	9658	10329	.	+	.	ID=rna-LocoCt097;Parent=gene-LocoCt097;Dbxref=GeneID:802850;gbkey=tRNA;gene=trnV;locus_tag=LocoCt097;product=tRNA-Val
+NC_002694.1	RefSeq	exon	9658	9695	.	+	.	ID=exon-LocoCt097-1;Parent=rna-LocoCt097;Dbxref=GeneID:802850;gbkey=tRNA;gene=trnV;locus_tag=LocoCt097;product=tRNA-Val
+NC_002694.1	RefSeq	exon	10295	10329	.	+	.	ID=exon-LocoCt097-2;Parent=rna-LocoCt097;Dbxref=GeneID:802850;gbkey=tRNA;gene=trnV;locus_tag=LocoCt097;product=tRNA-Val
+NC_002694.1	RefSeq	gene	10699	11061	.	+	.	ID=gene-LocoCp006;Dbxref=GeneID:802910;Name=ndhC;gbkey=Gene;gene=ndhC;gene_biotype=protein_coding;gene_synonym=ndh3;locus_tag=LocoCp006
+NC_002694.1	RefSeq	CDS	10699	11061	.	+	0	ID=cds-NP_084783.1;Parent=gene-LocoCp006;Dbxref=GenBank:NP_084783.1,GeneID:802910;Name=NP_084783.1;gbkey=CDS;gene=ndhC;locus_tag=LocoCp006;product=NADH dehydrogenase subunit 3;protein_id=NP_084783.1;transl_table=11
+NC_002694.1	RefSeq	gene	11104	11796	.	+	.	ID=gene-LocoCp007;Dbxref=GeneID:802836;Name=ndhK;gbkey=Gene;gene=ndhK;gene_biotype=protein_coding;locus_tag=LocoCp007
+NC_002694.1	RefSeq	CDS	11104	11796	.	+	0	ID=cds-NP_084784.1;Parent=gene-LocoCp007;Dbxref=GenBank:NP_084784.1,GeneID:802836;Name=NP_084784.1;gbkey=CDS;gene=ndhK;locus_tag=LocoCp007;product=NADH dehydrogenase subunit K;protein_id=NP_084784.1;transl_table=11
+NC_002694.1	RefSeq	gene	11932	12408	.	+	.	ID=gene-LocoCp008;Dbxref=GeneID:802942;Name=ndhJ;gbkey=Gene;gene=ndhJ;gene_biotype=protein_coding;locus_tag=LocoCp008
+NC_002694.1	RefSeq	CDS	11932	12408	.	+	0	ID=cds-NP_084785.1;Parent=gene-LocoCp008;Dbxref=GenBank:NP_084785.1,GeneID:802942;Name=NP_084785.1;gbkey=CDS;gene=ndhJ;locus_tag=LocoCp008;product=NADH dehydrogenase subunit J;protein_id=NP_084785.1;transl_table=11
+NC_002694.1	RefSeq	gene	13031	13103	.	-	.	ID=gene-LocoCt098;Dbxref=GeneID:802919;Name=trnF;gbkey=Gene;gene=trnF;gene_biotype=tRNA;locus_tag=LocoCt098
+NC_002694.1	RefSeq	tRNA	13031	13103	.	-	.	ID=rna-LocoCt098;Parent=gene-LocoCt098;Dbxref=GeneID:802919;gbkey=tRNA;gene=trnF;locus_tag=LocoCt098;product=tRNA-Phe
+NC_002694.1	RefSeq	exon	13031	13103	.	-	.	ID=exon-LocoCt098-1;Parent=rna-LocoCt098;Dbxref=GeneID:802919;gbkey=tRNA;gene=trnF;locus_tag=LocoCt098;product=tRNA-Phe
+NC_002694.1	RefSeq	gene	13267	13921	.	-	.	ID=gene-LocoCt099;Dbxref=GeneID:1497224;Name=LocoCt099;gbkey=Gene;gene_biotype=tRNA;locus_tag=LocoCt099
+NC_002694.1	RefSeq	tRNA	13267	13921	.	-	.	ID=rna-LocoCt099;Parent=gene-LocoCt099;Dbxref=GeneID:1497224;gbkey=tRNA;locus_tag=LocoCt099;product=tRNA-Leu
+NC_002694.1	RefSeq	exon	13887	13921	.	-	.	ID=exon-LocoCt099-1;Parent=rna-LocoCt099;Dbxref=GeneID:1497224;gbkey=tRNA;locus_tag=LocoCt099;product=tRNA-Leu
+NC_002694.1	RefSeq	exon	13267	13316	.	-	.	ID=exon-LocoCt099-2;Parent=rna-LocoCt099;Dbxref=GeneID:1497224;gbkey=tRNA;locus_tag=LocoCt099;product=tRNA-Leu
+NC_002694.1	RefSeq	gene	14857	14929	.	+	.	ID=gene-LocoCt100;Dbxref=GeneID:802856;Name=trnT;gbkey=Gene;gene=trnT;gene_biotype=tRNA;locus_tag=LocoCt100
+NC_002694.1	RefSeq	tRNA	14857	14929	.	+	.	ID=rna-LocoCt100;Parent=gene-LocoCt100;Dbxref=GeneID:802856;gbkey=tRNA;gene=trnT;locus_tag=LocoCt100;product=tRNA-Thr
+NC_002694.1	RefSeq	exon	14857	14929	.	+	.	ID=exon-LocoCt100-1;Parent=rna-LocoCt100;Dbxref=GeneID:802856;gbkey=tRNA;gene=trnT;locus_tag=LocoCt100;product=tRNA-Thr
+NC_002694.1	RefSeq	gene	15228	15833	.	+	.	ID=gene-LocoCp010;Dbxref=GeneID:802936;Name=rps4;gbkey=Gene;gene=rps4;gene_biotype=protein_coding;locus_tag=LocoCp010
+NC_002694.1	RefSeq	CDS	15228	15833	.	+	0	ID=cds-NP_084786.1;Parent=gene-LocoCp010;Dbxref=GenBank:NP_084786.1,GeneID:802936;Name=NP_084786.1;gbkey=CDS;gene=rps4;locus_tag=LocoCp010;product=ribosomal protein S4;protein_id=NP_084786.1;transl_table=11
+NC_002694.1	RefSeq	gene	16063	16150	.	-	.	ID=gene-LocoCt101;Dbxref=GeneID:802857;Name=trnS;gbkey=Gene;gene=trnS;gene_biotype=tRNA;locus_tag=LocoCt101
+NC_002694.1	RefSeq	tRNA	16063	16150	.	-	.	ID=rna-LocoCt101;Parent=gene-LocoCt101;Dbxref=GeneID:802857;gbkey=tRNA;gene=trnS;locus_tag=LocoCt101;product=tRNA-Ser
+NC_002694.1	RefSeq	exon	16063	16150	.	-	.	ID=exon-LocoCt101-1;Parent=rna-LocoCt101;Dbxref=GeneID:802857;gbkey=tRNA;gene=trnS;locus_tag=LocoCt101;product=tRNA-Ser
+NC_002694.1	RefSeq	gene	16399	18320	.	+	.	ID=gene-LocoCp011;Dbxref=GeneID:802900;Name=ycf3;gbkey=Gene;gene=ycf3;gene_biotype=protein_coding;locus_tag=LocoCp011
+NC_002694.1	RefSeq	CDS	16399	16524	.	+	0	ID=cds-NP_084787.2;Parent=gene-LocoCp011;Dbxref=GenBank:NP_084787.2,GeneID:802900;Name=NP_084787.2;gbkey=CDS;gene=ycf3;locus_tag=LocoCp011;product=photosystem I assembly protein Ycf3;protein_id=NP_084787.2;transl_table=11
+NC_002694.1	RefSeq	CDS	17245	17472	.	+	0	ID=cds-NP_084787.2;Parent=gene-LocoCp011;Dbxref=GenBank:NP_084787.2,GeneID:802900;Name=NP_084787.2;gbkey=CDS;gene=ycf3;locus_tag=LocoCp011;product=photosystem I assembly protein Ycf3;protein_id=NP_084787.2;transl_table=11
+NC_002694.1	RefSeq	CDS	18168	18320	.	+	0	ID=cds-NP_084787.2;Parent=gene-LocoCp011;Dbxref=GenBank:NP_084787.2,GeneID:802900;Name=NP_084787.2;gbkey=CDS;gene=ycf3;locus_tag=LocoCp011;product=photosystem I assembly protein Ycf3;protein_id=NP_084787.2;transl_table=11
+NC_002694.1	RefSeq	gene	19017	21269	.	+	.	ID=gene-LocoCp012;Dbxref=GeneID:802865;Name=psaA;gbkey=Gene;gene=psaA;gene_biotype=protein_coding;locus_tag=LocoCp012
+NC_002694.1	RefSeq	CDS	19017	21269	.	+	0	ID=cds-NP_084788.1;Parent=gene-LocoCp012;Dbxref=GenBank:NP_084788.1,GeneID:802865;Name=NP_084788.1;Note=PsaA;gbkey=CDS;gene=psaA;locus_tag=LocoCp012;product=photosystem I P700 chlorophyll a apoprotein A1;protein_id=NP_084788.1;transl_table=11
+NC_002694.1	RefSeq	gene	21295	23499	.	+	.	ID=gene-LocoCp013;Dbxref=GeneID:802932;Name=psaB;gbkey=Gene;gene=psaB;gene_biotype=protein_coding;locus_tag=LocoCp013
+NC_002694.1	RefSeq	CDS	21295	23499	.	+	0	ID=cds-NP_084789.1;Parent=gene-LocoCp013;Dbxref=GenBank:NP_084789.1,GeneID:802932;Name=NP_084789.1;Note=PsaB;gbkey=CDS;gene=psaB;locus_tag=LocoCp013;product=photosystem I P700 chlorophyll a apoprotein A2;protein_id=NP_084789.1;transl_table=11
+NC_002694.1	RefSeq	gene	23628	23930	.	+	.	ID=gene-LocoCp014;Dbxref=GeneID:802886;Name=rps14;gbkey=Gene;gene=rps14;gene_biotype=protein_coding;locus_tag=LocoCp014
+NC_002694.1	RefSeq	CDS	23628	23930	.	+	0	ID=cds-NP_084790.1;Parent=gene-LocoCp014;Dbxref=GenBank:NP_084790.1,GeneID:802886;Name=NP_084790.1;gbkey=CDS;gene=rps14;locus_tag=LocoCp014;product=ribosomal protein S14;protein_id=NP_084790.1;transl_table=11
+NC_002694.1	RefSeq	gene	24093	24166	.	+	.	ID=gene-LocoCt102;Dbxref=GeneID:802958;Name=trnM;gbkey=Gene;gene=trnM;gene_biotype=tRNA;locus_tag=LocoCt102
+NC_002694.1	RefSeq	tRNA	24093	24166	.	+	.	ID=rna-LocoCt102;Parent=gene-LocoCt102;Dbxref=GeneID:802958;Note=fMet;gbkey=tRNA;gene=trnM;locus_tag=LocoCt102;product=tRNA-Met
+NC_002694.1	RefSeq	exon	24093	24166	.	+	.	ID=exon-LocoCt102-1;Parent=rna-LocoCt102;Dbxref=GeneID:802958;Note=fMet;gbkey=tRNA;gene=trnM;locus_tag=LocoCt102;product=tRNA-Met
+NC_002694.1	RefSeq	gene	24306	24376	.	-	.	ID=gene-LocoCt103;Dbxref=GeneID:802831;Name=trnG;gbkey=Gene;gene=trnG;gene_biotype=tRNA;locus_tag=LocoCt103
+NC_002694.1	RefSeq	tRNA	24306	24376	.	-	.	ID=rna-LocoCt103;Parent=gene-LocoCt103;Dbxref=GeneID:802831;gbkey=tRNA;gene=trnG;locus_tag=LocoCt103;product=tRNA-Gly
+NC_002694.1	RefSeq	exon	24306	24376	.	-	.	ID=exon-LocoCt103-1;Parent=rna-LocoCt103;Dbxref=GeneID:802831;gbkey=tRNA;gene=trnG;locus_tag=LocoCt103;product=tRNA-Gly
+NC_002694.1	RefSeq	gene	25158	25346	.	-	.	ID=gene-LocoCp015;Dbxref=GeneID:802933;Name=psbZ;gbkey=Gene;gene=psbZ;gene_biotype=protein_coding;locus_tag=LocoCp015
+NC_002694.1	RefSeq	CDS	25158	25346	.	-	0	ID=cds-NP_084791.1;Parent=gene-LocoCp015;Dbxref=GenBank:NP_084791.1,GeneID:802933;Name=NP_084791.1;Note=YCF9;gbkey=CDS;gene=psbZ;locus_tag=LocoCp015;product=photosystem II protein Z;protein_id=NP_084791.1;transl_table=11
+NC_002694.1	RefSeq	gene	25728	25816	.	+	.	ID=gene-LocoCt104;Dbxref=GeneID:802873;Name=trnS;gbkey=Gene;gene=trnS;gene_biotype=tRNA;locus_tag=LocoCt104
+NC_002694.1	RefSeq	tRNA	25728	25816	.	+	.	ID=rna-LocoCt104;Parent=gene-LocoCt104;Dbxref=GeneID:802873;gbkey=tRNA;gene=trnS;locus_tag=LocoCt104;product=tRNA-Ser
+NC_002694.1	RefSeq	exon	25728	25816	.	+	.	ID=exon-LocoCt104-1;Parent=rna-LocoCt104;Dbxref=GeneID:802873;gbkey=tRNA;gene=trnS;locus_tag=LocoCt104;product=tRNA-Ser
+NC_002694.1	RefSeq	gene	26019	27440	.	-	.	ID=gene-LocoCp016;Dbxref=GeneID:802890;Name=psbC;gbkey=Gene;gene=psbC;gene_biotype=protein_coding;locus_tag=LocoCp016
+NC_002694.1	RefSeq	CDS	26019	27440	.	-	0	ID=cds-NP_084792.1;Parent=gene-LocoCp016;Dbxref=GenBank:NP_084792.1,GeneID:802890;Name=NP_084792.1;Note=CP43;gbkey=CDS;gene=psbC;locus_tag=LocoCp016;product=photosystem II 44 kDa protein;protein_id=NP_084792.1;transl_table=11
+NC_002694.1	RefSeq	gene	27388	28449	.	-	.	ID=gene-LocoCp017;Dbxref=GeneID:802875;Name=psbD;gbkey=Gene;gene=psbD;gene_biotype=protein_coding;locus_tag=LocoCp017
+NC_002694.1	RefSeq	CDS	27388	28449	.	-	0	ID=cds-NP_084793.1;Parent=gene-LocoCp017;Dbxref=GenBank:NP_084793.1,GeneID:802875;Name=NP_084793.1;gbkey=CDS;gene=psbD;locus_tag=LocoCp017;product=photosystem II protein D2;protein_id=NP_084793.1;transl_table=11
+NC_002694.1	RefSeq	gene	29739	29810	.	-	.	ID=gene-LocoCt105;Dbxref=GeneID:802855;Name=trnT;gbkey=Gene;gene=trnT;gene_biotype=tRNA;locus_tag=LocoCt105
+NC_002694.1	RefSeq	tRNA	29739	29810	.	-	.	ID=rna-LocoCt105;Parent=gene-LocoCt105;Dbxref=GeneID:802855;gbkey=tRNA;gene=trnT;locus_tag=LocoCt105;product=tRNA-Thr
+NC_002694.1	RefSeq	exon	29739	29810	.	-	.	ID=exon-LocoCt105-1;Parent=rna-LocoCt105;Dbxref=GeneID:802855;gbkey=tRNA;gene=trnT;locus_tag=LocoCt105;product=tRNA-Thr
+NC_002694.1	RefSeq	gene	30426	30498	.	+	.	ID=gene-LocoCt106;Dbxref=GeneID:802922;Name=trnE;gbkey=Gene;gene=trnE;gene_biotype=tRNA;locus_tag=LocoCt106
+NC_002694.1	RefSeq	tRNA	30426	30498	.	+	.	ID=rna-LocoCt106;Parent=gene-LocoCt106;Dbxref=GeneID:802922;gbkey=tRNA;gene=trnE;locus_tag=LocoCt106;product=tRNA-Glu
+NC_002694.1	RefSeq	exon	30426	30498	.	+	.	ID=exon-LocoCt106-1;Parent=rna-LocoCt106;Dbxref=GeneID:802922;gbkey=tRNA;gene=trnE;locus_tag=LocoCt106;product=tRNA-Glu
+NC_002694.1	RefSeq	gene	30559	30642	.	+	.	ID=gene-LocoCt107;Dbxref=GeneID:802837;Name=trnY;gbkey=Gene;gene=trnY;gene_biotype=tRNA;locus_tag=LocoCt107
+NC_002694.1	RefSeq	tRNA	30559	30642	.	+	.	ID=rna-LocoCt107;Parent=gene-LocoCt107;Dbxref=GeneID:802837;gbkey=tRNA;gene=trnY;locus_tag=LocoCt107;product=tRNA-Tyr
+NC_002694.1	RefSeq	exon	30559	30642	.	+	.	ID=exon-LocoCt107-1;Parent=rna-LocoCt107;Dbxref=GeneID:802837;gbkey=tRNA;gene=trnY;locus_tag=LocoCt107;product=tRNA-Tyr
+NC_002694.1	RefSeq	gene	31105	31178	.	+	.	ID=gene-LocoCt108;Dbxref=GeneID:802839;Name=trnD;gbkey=Gene;gene=trnD;gene_biotype=tRNA;locus_tag=LocoCt108
+NC_002694.1	RefSeq	tRNA	31105	31178	.	+	.	ID=rna-LocoCt108;Parent=gene-LocoCt108;Dbxref=GeneID:802839;gbkey=tRNA;gene=trnD;locus_tag=LocoCt108;product=tRNA-Asp
+NC_002694.1	RefSeq	exon	31105	31178	.	+	.	ID=exon-LocoCt108-1;Parent=rna-LocoCt108;Dbxref=GeneID:802839;gbkey=tRNA;gene=trnD;locus_tag=LocoCt108;product=tRNA-Asp
+NC_002694.1	RefSeq	gene	31598	31702	.	+	.	ID=gene-LocoCp018;Dbxref=GeneID:802924;Name=psbM;gbkey=Gene;gene=psbM;gene_biotype=protein_coding;locus_tag=LocoCp018
+NC_002694.1	RefSeq	CDS	31598	31702	.	+	0	ID=cds-NP_084794.1;Parent=gene-LocoCp018;Dbxref=GenBank:NP_084794.1,GeneID:802924;Name=NP_084794.1;gbkey=CDS;gene=psbM;locus_tag=LocoCp018;product=photosystem II protein M;protein_id=NP_084794.1;transl_table=11
+NC_002694.1	RefSeq	gene	32379	32468	.	-	.	ID=gene-LocoCp019;Dbxref=GeneID:802904;Name=petN;gbkey=Gene;gene=petN;gene_biotype=protein_coding;gene_synonym=ycf6;locus_tag=LocoCp019
+NC_002694.1	RefSeq	CDS	32379	32468	.	-	0	ID=cds-NP_084795.1;Parent=gene-LocoCp019;Dbxref=GenBank:NP_084795.1,GeneID:802904;Name=NP_084795.1;gbkey=CDS;gene=petN;locus_tag=LocoCp019;product=cytochrome b6/f complex subunit VIII;protein_id=NP_084795.1;transl_table=11
+NC_002694.1	RefSeq	gene	33599	33669	.	-	.	ID=gene-LocoCt109;Dbxref=GeneID:802862;Name=trnC;gbkey=Gene;gene=trnC;gene_biotype=tRNA;locus_tag=LocoCt109
+NC_002694.1	RefSeq	tRNA	33599	33669	.	-	.	ID=rna-LocoCt109;Parent=gene-LocoCt109;Dbxref=GeneID:802862;gbkey=tRNA;gene=trnC;locus_tag=LocoCt109;product=tRNA-Cys
+NC_002694.1	RefSeq	exon	33599	33669	.	-	.	ID=exon-LocoCt109-1;Parent=rna-LocoCt109;Dbxref=GeneID:802862;gbkey=tRNA;gene=trnC;locus_tag=LocoCt109;product=tRNA-Cys
+NC_002694.1	RefSeq	gene	34384	37596	.	+	.	ID=gene-LocoCp020;Dbxref=GeneID:802853;Name=rpoB;gbkey=Gene;gene=rpoB;gene_biotype=protein_coding;locus_tag=LocoCp020
+NC_002694.1	RefSeq	CDS	34384	37596	.	+	0	ID=cds-NP_084796.1;Parent=gene-LocoCp020;Dbxref=GenBank:NP_084796.1,GeneID:802853;Name=NP_084796.1;Note=one of four subunits of the minimal PEP RNA polymerase catalytic core;gbkey=CDS;gene=rpoB;locus_tag=LocoCp020;product=RNA polymerase beta subunit;protein_id=NP_084796.1;transl_table=11
+NC_002694.1	RefSeq	gene	37623	40428	.	+	.	ID=gene-LocoCp021;Dbxref=GeneID:802956;Name=rpoC1;gbkey=Gene;gene=rpoC1;gene_biotype=protein_coding;locus_tag=LocoCp021
+NC_002694.1	RefSeq	CDS	37623	38054	.	+	0	ID=cds-NP_084797.1;Parent=gene-LocoCp021;Dbxref=GenBank:NP_084797.1,GeneID:802956;Name=NP_084797.1;gbkey=CDS;gene=rpoC1;locus_tag=LocoCp021;product=RNA polymerase beta' subunit;protein_id=NP_084797.1;transl_table=11
+NC_002694.1	RefSeq	CDS	38812	40428	.	+	0	ID=cds-NP_084797.1;Parent=gene-LocoCp021;Dbxref=GenBank:NP_084797.1,GeneID:802956;Name=NP_084797.1;gbkey=CDS;gene=rpoC1;locus_tag=LocoCp021;product=RNA polymerase beta' subunit;protein_id=NP_084797.1;transl_table=11
+NC_002694.1	RefSeq	gene	40631	44629	.	+	.	ID=gene-LocoCp022;Dbxref=GeneID:802880;Name=rpoC2;gbkey=Gene;gene=rpoC2;gene_biotype=protein_coding;locus_tag=LocoCp022
+NC_002694.1	RefSeq	CDS	40631	44629	.	+	0	ID=cds-NP_084798.1;Parent=gene-LocoCp022;Dbxref=GenBank:NP_084798.1,GeneID:802880;Name=NP_084798.1;Note=one of four subunits of the minimal PEP RNA polymerase catalytic core;gbkey=CDS;gene=rpoC2;locus_tag=LocoCp022;product=RNA polymerase beta'' subunit;protein_id=NP_084798.1;transl_table=11
+NC_002694.1	RefSeq	gene	44956	45666	.	+	.	ID=gene-LocoCp023;Dbxref=GeneID:802927;Name=rps2;gbkey=Gene;gene=rps2;gene_biotype=protein_coding;locus_tag=LocoCp023
+NC_002694.1	RefSeq	CDS	44956	45666	.	+	0	ID=cds-NP_084799.1;Parent=gene-LocoCp023;Dbxref=GenBank:NP_084799.1,GeneID:802927;Name=NP_084799.1;gbkey=CDS;gene=rps2;locus_tag=LocoCp023;product=ribosomal protein S2;protein_id=NP_084799.1;transl_table=11
+NC_002694.1	RefSeq	gene	45827	46570	.	+	.	ID=gene-LocoCp024;Dbxref=GeneID:802840;Name=atpI;gbkey=Gene;gene=atpI;gene_biotype=protein_coding;locus_tag=LocoCp024
+NC_002694.1	RefSeq	CDS	45827	46570	.	+	0	ID=cds-NP_084800.1;Parent=gene-LocoCp024;Dbxref=GenBank:NP_084800.1,GeneID:802840;Name=NP_084800.1;Note=ATP synthase CF0 A chain;gbkey=CDS;gene=atpI;locus_tag=LocoCp024;product=ATP synthase CF0 A subunit;protein_id=NP_084800.1;transl_table=11
+NC_002694.1	RefSeq	gene	47154	47399	.	+	.	ID=gene-LocoCp025;Dbxref=GeneID:802832;Name=atpH;gbkey=Gene;gene=atpH;gene_biotype=protein_coding;locus_tag=LocoCp025
+NC_002694.1	RefSeq	CDS	47154	47399	.	+	0	ID=cds-NP_084801.1;Parent=gene-LocoCp025;Dbxref=GenBank:NP_084801.1,GeneID:802832;Name=NP_084801.1;Note=ATP synthase CF0 C chain;gbkey=CDS;gene=atpH;locus_tag=LocoCp025;product=ATP synthase CF0 C subunit;protein_id=NP_084801.1;transl_table=11
+NC_002694.1	RefSeq	gene	47983	49291	.	+	.	ID=gene-LocoCp026;Dbxref=GeneID:802833;Name=atpF;gbkey=Gene;gene=atpF;gene_biotype=protein_coding;locus_tag=LocoCp026
+NC_002694.1	RefSeq	CDS	47983	48127	.	+	0	ID=cds-NP_084802.1;Parent=gene-LocoCp026;Dbxref=GenBank:NP_084802.1,GeneID:802833;Name=NP_084802.1;gbkey=CDS;gene=atpF;locus_tag=LocoCp026;product=ATP synthase CF0 B subunit;protein_id=NP_084802.1;transl_table=11
+NC_002694.1	RefSeq	CDS	48882	49291	.	+	2	ID=cds-NP_084802.1;Parent=gene-LocoCp026;Dbxref=GenBank:NP_084802.1,GeneID:802833;Name=NP_084802.1;gbkey=CDS;gene=atpF;locus_tag=LocoCp026;product=ATP synthase CF0 B subunit;protein_id=NP_084802.1;transl_table=11
+NC_002694.1	RefSeq	gene	49365	50897	.	+	.	ID=gene-LocoCp027;Dbxref=GeneID:802852;Name=atpA;gbkey=Gene;gene=atpA;gene_biotype=protein_coding;locus_tag=LocoCp027
+NC_002694.1	RefSeq	CDS	49365	50897	.	+	0	ID=cds-NP_084803.1;Parent=gene-LocoCp027;Dbxref=GenBank:NP_084803.1,GeneID:802852;Name=NP_084803.1;Note=ATPase alpha subunit;gbkey=CDS;gene=atpA;locus_tag=LocoCp027;product=ATP synthase CF1 alpha subunit;protein_id=NP_084803.1;transl_table=11
+NC_002694.1	RefSeq	gene	51182	51253	.	-	.	ID=gene-LocoCt110;Dbxref=GeneID:802935;Name=trnR;gbkey=Gene;gene=trnR;gene_biotype=tRNA;locus_tag=LocoCt110
+NC_002694.1	RefSeq	tRNA	51182	51253	.	-	.	ID=rna-LocoCt110;Parent=gene-LocoCt110;Dbxref=GeneID:802935;gbkey=tRNA;gene=trnR;locus_tag=LocoCt110;product=tRNA-Arg
+NC_002694.1	RefSeq	exon	51182	51253	.	-	.	ID=exon-LocoCt110-1;Parent=rna-LocoCt110;Dbxref=GeneID:802935;gbkey=tRNA;gene=trnR;locus_tag=LocoCt110;product=tRNA-Arg
+NC_002694.1	RefSeq	gene	51449	52229	.	-	.	ID=gene-LocoCt111;Dbxref=GeneID:1497225;Name=LocoCt111;gbkey=Gene;gene_biotype=tRNA;locus_tag=LocoCt111
+NC_002694.1	RefSeq	tRNA	51449	52229	.	-	.	ID=rna-LocoCt111;Parent=gene-LocoCt111;Dbxref=GeneID:1497225;gbkey=tRNA;locus_tag=LocoCt111;product=tRNA-Gly
+NC_002694.1	RefSeq	exon	52207	52229	.	-	.	ID=exon-LocoCt111-1;Parent=rna-LocoCt111;Dbxref=GeneID:1497225;gbkey=tRNA;locus_tag=LocoCt111;product=tRNA-Gly
+NC_002694.1	RefSeq	exon	51449	51497	.	-	.	ID=exon-LocoCt111-2;Parent=rna-LocoCt111;Dbxref=GeneID:1497225;gbkey=tRNA;locus_tag=LocoCt111;product=tRNA-Gly
+NC_002694.1	RefSeq	gene	52945	53031	.	+	.	ID=gene-LocoCt112;Dbxref=GeneID:802868;Name=trnS;gbkey=Gene;gene=trnS;gene_biotype=tRNA;locus_tag=LocoCt112
+NC_002694.1	RefSeq	tRNA	52945	53031	.	+	.	ID=rna-LocoCt112;Parent=gene-LocoCt112;Dbxref=GeneID:802868;gbkey=tRNA;gene=trnS;locus_tag=LocoCt112;product=tRNA-Ser
+NC_002694.1	RefSeq	exon	52945	53031	.	+	.	ID=exon-LocoCt112-1;Parent=rna-LocoCt112;Dbxref=GeneID:802868;gbkey=tRNA;gene=trnS;locus_tag=LocoCt112;product=tRNA-Ser
+NC_002694.1	RefSeq	gene	53221	53331	.	-	.	ID=gene-LocoCp029;Dbxref=GeneID:802929;Name=psbI;gbkey=Gene;gene=psbI;gene_biotype=protein_coding;locus_tag=LocoCp029
+NC_002694.1	RefSeq	CDS	53221	53331	.	-	0	ID=cds-NP_084804.1;Parent=gene-LocoCp029;Dbxref=GenBank:NP_084804.1,GeneID:802929;Name=NP_084804.1;gbkey=CDS;gene=psbI;locus_tag=LocoCp029;product=photosystem II protein I;protein_id=NP_084804.1;transl_table=11
+NC_002694.1	RefSeq	gene	53801	53986	.	-	.	ID=gene-LocoCp030;Dbxref=GeneID:802926;Name=psbK;gbkey=Gene;gene=psbK;gene_biotype=protein_coding;locus_tag=LocoCp030
+NC_002694.1	RefSeq	CDS	53801	53986	.	-	0	ID=cds-NP_084805.1;Parent=gene-LocoCp030;Dbxref=GenBank:NP_084805.1,GeneID:802926;Name=NP_084805.1;gbkey=CDS;gene=psbK;locus_tag=LocoCp030;product=photosystem II protein K;protein_id=NP_084805.1;transl_table=11
+NC_002694.1	RefSeq	gene	54540	54611	.	+	.	ID=gene-LocoCt113;Dbxref=GeneID:802947;Name=trnQ;gbkey=Gene;gene=trnQ;gene_biotype=tRNA;locus_tag=LocoCt113
+NC_002694.1	RefSeq	tRNA	54540	54611	.	+	.	ID=rna-LocoCt113;Parent=gene-LocoCt113;Dbxref=GeneID:802947;gbkey=tRNA;gene=trnQ;locus_tag=LocoCt113;product=tRNA-Gln
+NC_002694.1	RefSeq	exon	54540	54611	.	+	.	ID=exon-LocoCt113-1;Parent=rna-LocoCt113;Dbxref=GeneID:802947;gbkey=tRNA;gene=trnQ;locus_tag=LocoCt113;product=tRNA-Gln
+NC_002694.1	RefSeq	gene	55046	56179	.	+	.	ID=gene-LocoCp031;Dbxref=GeneID:802894;Name=rps16;gbkey=Gene;gene=rps16;gene_biotype=protein_coding;locus_tag=LocoCp031
+NC_002694.1	RefSeq	CDS	55046	55085	.	+	0	ID=cds-NP_084806.1;Parent=gene-LocoCp031;Dbxref=GenBank:NP_084806.1,GeneID:802894;Name=NP_084806.1;gbkey=CDS;gene=rps16;locus_tag=LocoCp031;product=ribosomal protein S16;protein_id=NP_084806.1;transl_table=11
+NC_002694.1	RefSeq	CDS	55977	56179	.	+	2	ID=cds-NP_084806.1;Parent=gene-LocoCp031;Dbxref=GenBank:NP_084806.1,GeneID:802894;Name=NP_084806.1;gbkey=CDS;gene=rps16;locus_tag=LocoCp031;product=ribosomal protein S16;protein_id=NP_084806.1;transl_table=11
+NC_002694.1	RefSeq	gene	56803	58308	.	+	.	ID=gene-LocoCp032;Dbxref=GeneID:802909;Name=accD;gbkey=Gene;gene=accD;gene_biotype=protein_coding;locus_tag=LocoCp032
+NC_002694.1	RefSeq	CDS	56803	58308	.	+	0	ID=cds-NP_084807.1;Parent=gene-LocoCp032;Dbxref=GenBank:NP_084807.1,GeneID:802909;Name=NP_084807.1;gbkey=CDS;gene=accD;locus_tag=LocoCp032;product=acetyl-CoA carboxylase beta subunit;protein_id=NP_084807.1;transl_table=11
+NC_002694.1	RefSeq	gene	58487	58591	.	+	.	ID=gene-LocoCp033;Dbxref=GeneID:802902;Name=psaI;gbkey=Gene;gene=psaI;gene_biotype=protein_coding;locus_tag=LocoCp033
+NC_002694.1	RefSeq	CDS	58487	58591	.	+	0	ID=cds-NP_084808.1;Parent=gene-LocoCp033;Dbxref=GenBank:NP_084808.1,GeneID:802902;Name=NP_084808.1;gbkey=CDS;gene=psaI;locus_tag=LocoCp033;product=photosystem I subunit VIII;protein_id=NP_084808.1;transl_table=11
+NC_002694.1	RefSeq	gene	58839	59441	.	+	.	ID=gene-LocoCp034;Dbxref=GeneID:802901;Name=ycf4;gbkey=Gene;gene=ycf4;gene_biotype=protein_coding;locus_tag=LocoCp034
+NC_002694.1	RefSeq	CDS	58839	59441	.	+	0	ID=cds-NP_084809.1;Parent=gene-LocoCp034;Dbxref=GenBank:NP_084809.1,GeneID:802901;Name=NP_084809.1;gbkey=CDS;gene=ycf4;locus_tag=LocoCp034;product=photosystem I assembly protein Ycf4;protein_id=NP_084809.1;transl_table=11
+NC_002694.1	RefSeq	gene	59718	60407	.	+	.	ID=gene-LocoCp035;Dbxref=GeneID:802860;Name=cemA;gbkey=Gene;gene=cemA;gene_biotype=protein_coding;gene_synonym=ycf10;locus_tag=LocoCp035
+NC_002694.1	RefSeq	CDS	59718	60407	.	+	0	ID=cds-NP_084810.1;Parent=gene-LocoCp035;Dbxref=GenBank:NP_084810.1,GeneID:802860;Name=NP_084810.1;gbkey=CDS;gene=cemA;locus_tag=LocoCp035;product=envelope membrane protein;protein_id=NP_084810.1;transl_table=11
+NC_002694.1	RefSeq	gene	60636	61598	.	+	.	ID=gene-LocoCp036;Dbxref=GeneID:802881;Name=petA;gbkey=Gene;gene=petA;gene_biotype=protein_coding;locus_tag=LocoCp036
+NC_002694.1	RefSeq	CDS	60636	61598	.	+	0	ID=cds-NP_084811.1;Parent=gene-LocoCp036;Dbxref=GenBank:NP_084811.1,GeneID:802881;Name=NP_084811.1;Note=component of cytochrome b6/f complex;gbkey=CDS;gene=petA;locus_tag=LocoCp036;product=cytochrome f;protein_id=NP_084811.1;transl_table=11
+NC_002694.1	RefSeq	gene	61995	62117	.	-	.	ID=gene-LocoCp037;Dbxref=GeneID:802928;Name=psbJ;gbkey=Gene;gene=psbJ;gene_biotype=protein_coding;locus_tag=LocoCp037
+NC_002694.1	RefSeq	CDS	61995	62117	.	-	0	ID=cds-NP_084812.1;Parent=gene-LocoCp037;Dbxref=GenBank:NP_084812.1,GeneID:802928;Name=NP_084812.1;gbkey=CDS;gene=psbJ;locus_tag=LocoCp037;product=photosystem II protein J;protein_id=NP_084812.1;transl_table=11
+NC_002694.1	RefSeq	gene	62262	62378	.	-	.	ID=gene-LocoCp038;Dbxref=GeneID:802925;Name=psbL;gbkey=Gene;gene=psbL;gene_biotype=protein_coding;locus_tag=LocoCp038
+NC_002694.1	RefSeq	CDS	62262	62378	.	-	0	ID=cds-NP_084813.1;Parent=gene-LocoCp038;Dbxref=GenBank:NP_084813.1,GeneID:802925;Name=NP_084813.1;exception=RNA editing;gbkey=CDS;gene=psbL;locus_tag=LocoCp038;product=photosystem II protein L;protein_id=NP_084813.1;transl_table=11
+NC_002694.1	RefSeq	gene	62401	62520	.	-	.	ID=gene-LocoCp039;Dbxref=GeneID:802893;Name=psbF;gbkey=Gene;gene=psbF;gene_biotype=protein_coding;locus_tag=LocoCp039
+NC_002694.1	RefSeq	CDS	62401	62520	.	-	0	ID=cds-NP_084814.1;Parent=gene-LocoCp039;Dbxref=GenBank:NP_084814.1,GeneID:802893;Name=NP_084814.1;gbkey=CDS;gene=psbF;locus_tag=LocoCp039;product=photosystem II protein VI;protein_id=NP_084814.1;transl_table=11
+NC_002694.1	RefSeq	gene	62530	62781	.	-	.	ID=gene-LocoCp040;Dbxref=GeneID:802944;Name=psbE;gbkey=Gene;gene=psbE;gene_biotype=protein_coding;locus_tag=LocoCp040
+NC_002694.1	RefSeq	CDS	62530	62781	.	-	0	ID=cds-NP_084815.1;Parent=gene-LocoCp040;Dbxref=GenBank:NP_084815.1,GeneID:802944;Name=NP_084815.1;gbkey=CDS;gene=psbE;locus_tag=LocoCp040;product=photosystem II protein V;protein_id=NP_084815.1;transl_table=11
+NC_002694.1	RefSeq	gene	63079	63174	.	+	.	ID=gene-LocoCp041;Dbxref=GeneID:802915;Name=petL;gbkey=Gene;gene=petL;gene_biotype=protein_coding;locus_tag=LocoCp041
+NC_002694.1	RefSeq	CDS	63079	63174	.	+	0	ID=cds-NP_084816.1;Parent=gene-LocoCp041;Dbxref=GenBank:NP_084816.1,GeneID:802915;Name=NP_084816.1;gbkey=CDS;gene=petL;locus_tag=LocoCp041;product=cytochrome b6/f complex subunit VI;protein_id=NP_084816.1;transl_table=11
+NC_002694.1	RefSeq	gene	63344	63457	.	+	.	ID=gene-LocoCp042;Dbxref=GeneID:802877;Name=petG;gbkey=Gene;gene=petG;gene_biotype=protein_coding;locus_tag=LocoCp042
+NC_002694.1	RefSeq	CDS	63344	63457	.	+	0	ID=cds-NP_084817.1;Parent=gene-LocoCp042;Dbxref=GenBank:NP_084817.1,GeneID:802877;Name=NP_084817.1;Note=required for the either the stability or assembly of the cytochrome b6/f complex;gbkey=CDS;gene=petG;locus_tag=LocoCp042;product=cytochrome b6/f complex subunit V;protein_id=NP_084817.1;transl_table=11
+NC_002694.1	RefSeq	gene	63596	63669	.	-	.	ID=gene-LocoCt114;Dbxref=GeneID:802838;Name=trnW;gbkey=Gene;gene=trnW;gene_biotype=tRNA;locus_tag=LocoCt114
+NC_002694.1	RefSeq	tRNA	63596	63669	.	-	.	ID=rna-LocoCt114;Parent=gene-LocoCt114;Dbxref=GeneID:802838;gbkey=tRNA;gene=trnW;locus_tag=LocoCt114;product=tRNA-Trp
+NC_002694.1	RefSeq	exon	63596	63669	.	-	.	ID=exon-LocoCt114-1;Parent=rna-LocoCt114;Dbxref=GeneID:802838;gbkey=tRNA;gene=trnW;locus_tag=LocoCt114;product=tRNA-Trp
+NC_002694.1	RefSeq	gene	63847	63920	.	-	.	ID=gene-LocoCt115;Dbxref=GeneID:802859;Name=trnP;gbkey=Gene;gene=trnP;gene_biotype=tRNA;locus_tag=LocoCt115
+NC_002694.1	RefSeq	tRNA	63847	63920	.	-	.	ID=rna-LocoCt115;Parent=gene-LocoCt115;Dbxref=GeneID:802859;gbkey=tRNA;gene=trnP;locus_tag=LocoCt115;product=tRNA-Pro
+NC_002694.1	RefSeq	exon	63847	63920	.	-	.	ID=exon-LocoCt115-1;Parent=rna-LocoCt115;Dbxref=GeneID:802859;gbkey=tRNA;gene=trnP;locus_tag=LocoCt115;product=tRNA-Pro
+NC_002694.1	RefSeq	gene	64608	64742	.	+	.	ID=gene-LocoCp043;Dbxref=GeneID:802913;Name=psaJ;gbkey=Gene;gene=psaJ;gene_biotype=protein_coding;locus_tag=LocoCp043
+NC_002694.1	RefSeq	CDS	64608	64742	.	+	0	ID=cds-NP_084818.1;Parent=gene-LocoCp043;Dbxref=GenBank:NP_084818.1,GeneID:802913;Name=NP_084818.1;gbkey=CDS;gene=psaJ;locus_tag=LocoCp043;product=photosystem I subunit IX;protein_id=NP_084818.1;transl_table=11
+NC_002694.1	RefSeq	gene	65102	65302	.	+	.	ID=gene-LocoCp044;Dbxref=GeneID:802937;Name=rpl33;gbkey=Gene;gene=rpl33;gene_biotype=protein_coding;locus_tag=LocoCp044
+NC_002694.1	RefSeq	CDS	65102	65302	.	+	0	ID=cds-NP_084819.1;Parent=gene-LocoCp044;Dbxref=GenBank:NP_084819.1,GeneID:802937;Name=NP_084819.1;gbkey=CDS;gene=rpl33;locus_tag=LocoCp044;product=ribosomal protein L33;protein_id=NP_084819.1;transl_table=11
+NC_002694.1	RefSeq	gene	65510	65824	.	+	.	ID=gene-LocoCp045;Dbxref=GeneID:802897;Name=rps18;gbkey=Gene;gene=rps18;gene_biotype=protein_coding;locus_tag=LocoCp045
+NC_002694.1	RefSeq	CDS	65510	65824	.	+	0	ID=cds-NP_084820.1;Parent=gene-LocoCp045;Dbxref=GenBank:NP_084820.1,GeneID:802897;Name=NP_084820.1;gbkey=CDS;gene=rps18;locus_tag=LocoCp045;product=ribosomal protein S18;protein_id=NP_084820.1;transl_table=11
+NC_002694.1	RefSeq	gene	66088	66453	.	-	.	ID=gene-LocoCp046;Dbxref=GeneID:802921;Name=rpl20;gbkey=Gene;gene=rpl20;gene_biotype=protein_coding;locus_tag=LocoCp046
+NC_002694.1	RefSeq	CDS	66088	66453	.	-	0	ID=cds-NP_084821.1;Parent=gene-LocoCp046;Dbxref=GenBank:NP_084821.1,GeneID:802921;Name=NP_084821.1;gbkey=CDS;gene=rpl20;locus_tag=LocoCp046;product=ribosomal protein L20;protein_id=NP_084821.1;transl_table=11
+NC_002694.1	RefSeq	gene	67283	136819	.	-	.	ID=gene-LocoCp047;Dbxref=GeneID:802952;Name=rps12;Note=split gene%3B exon 1 and exons 2 and 3 are encoded on separate transcripts and then covalently ligated;exception=trans-splicing;gbkey=Gene;gene=rps12;gene_biotype=protein_coding;locus_tag=LocoCp047
+NC_002694.1	RefSeq	CDS	67283	67396	.	-	0	ID=cds-NP_084777.1;Parent=gene-LocoCp047;Dbxref=GenBank:NP_084777.1,GeneID:802952;Name=NP_084777.1;exception=trans-splicing;gbkey=CDS;gene=rps12;locus_tag=LocoCp047;part=1;product=ribosomal protein S12;protein_id=NP_084777.1;transl_table=11
+NC_002694.1	RefSeq	CDS	136032	136263	.	+	0	ID=cds-NP_084777.1;Parent=gene-LocoCp047;Dbxref=GenBank:NP_084777.1,GeneID:802952;Name=NP_084777.1;exception=trans-splicing;gbkey=CDS;gene=rps12;locus_tag=LocoCp047;part=2;product=ribosomal protein S12;protein_id=NP_084777.1;transl_table=11
+NC_002694.1	RefSeq	CDS	136794	136819	.	+	2	ID=cds-NP_084777.1;Parent=gene-LocoCp047;Dbxref=GenBank:NP_084777.1,GeneID:802952;Name=NP_084777.1;exception=trans-splicing;gbkey=CDS;gene=rps12;locus_tag=LocoCp047;part=3;product=ribosomal protein S12;protein_id=NP_084777.1;transl_table=11
+NC_002694.1	RefSeq	gene	67560	69589	.	-	.	ID=gene-LocoCp048;Dbxref=GeneID:802884;Name=clpP;gbkey=Gene;gene=clpP;gene_biotype=protein_coding;locus_tag=LocoCp048
+NC_002694.1	RefSeq	CDS	69519	69589	.	-	0	ID=cds-NP_084822.1;Parent=gene-LocoCp048;Dbxref=GenBank:NP_084822.1,GeneID:802884;Name=NP_084822.1;gbkey=CDS;gene=clpP;locus_tag=LocoCp048;product=ATP-dependent Clp protease proteolytic subunit;protein_id=NP_084822.1;transl_table=11
+NC_002694.1	RefSeq	CDS	68428	68719	.	-	1	ID=cds-NP_084822.1;Parent=gene-LocoCp048;Dbxref=GenBank:NP_084822.1,GeneID:802884;Name=NP_084822.1;gbkey=CDS;gene=clpP;locus_tag=LocoCp048;product=ATP-dependent Clp protease proteolytic subunit;protein_id=NP_084822.1;transl_table=11
+NC_002694.1	RefSeq	CDS	67560	67787	.	-	0	ID=cds-NP_084822.1;Parent=gene-LocoCp048;Dbxref=GenBank:NP_084822.1,GeneID:802884;Name=NP_084822.1;gbkey=CDS;gene=clpP;locus_tag=LocoCp048;product=ATP-dependent Clp protease proteolytic subunit;protein_id=NP_084822.1;transl_table=11
+NC_002694.1	RefSeq	gene	70038	71564	.	+	.	ID=gene-LocoCp049;Dbxref=GeneID:802895;Name=psbB;gbkey=Gene;gene=psbB;gene_biotype=protein_coding;locus_tag=LocoCp049
+NC_002694.1	RefSeq	CDS	70038	71564	.	+	0	ID=cds-NP_084823.1;Parent=gene-LocoCp049;Dbxref=GenBank:NP_084823.1,GeneID:802895;Name=NP_084823.1;Note=PSII 47 kDa protein;gbkey=CDS;gene=psbB;locus_tag=LocoCp049;product=photosystem II 47 kDa protein;protein_id=NP_084823.1;transl_table=11
+NC_002694.1	RefSeq	gene	71756	71857	.	+	.	ID=gene-LocoCp050;Dbxref=GeneID:802912;Name=psbT;gbkey=Gene;gene=psbT;gene_biotype=protein_coding;locus_tag=LocoCp050
+NC_002694.1	RefSeq	CDS	71756	71857	.	+	0	ID=cds-NP_084824.1;Parent=gene-LocoCp050;Dbxref=GenBank:NP_084824.1,GeneID:802912;Name=NP_084824.1;gbkey=CDS;gene=psbT;locus_tag=LocoCp050;product=photosystem II protein T;protein_id=NP_084824.1;transl_table=11
+NC_002694.1	RefSeq	gene	71924	72055	.	-	.	ID=gene-LocoCp051;Dbxref=GeneID:802917;Name=psbN;gbkey=Gene;gene=psbN;gene_biotype=protein_coding;locus_tag=LocoCp051
+NC_002694.1	RefSeq	CDS	71924	72055	.	-	0	ID=cds-NP_084825.1;Parent=gene-LocoCp051;Dbxref=GenBank:NP_084825.1,GeneID:802917;Name=NP_084825.1;gbkey=CDS;gene=psbN;locus_tag=LocoCp051;product=photosystem II protein N;protein_id=NP_084825.1;transl_table=11
+NC_002694.1	RefSeq	gene	72162	72383	.	+	.	ID=gene-LocoCp052;Dbxref=GeneID:802931;Name=psbH;gbkey=Gene;gene=psbH;gene_biotype=protein_coding;locus_tag=LocoCp052
+NC_002694.1	RefSeq	CDS	72162	72383	.	+	0	ID=cds-NP_084826.1;Parent=gene-LocoCp052;Dbxref=GenBank:NP_084826.1,GeneID:802931;Name=NP_084826.1;Note=photosystem II phosphoprotein;gbkey=CDS;gene=psbH;locus_tag=LocoCp052;product=photosystem II protein H;protein_id=NP_084826.1;transl_table=11
+NC_002694.1	RefSeq	gene	72516	73987	.	+	.	ID=gene-LocoCp053;Dbxref=GeneID:802872;Name=petB;gbkey=Gene;gene=petB;gene_biotype=protein_coding;locus_tag=LocoCp053
+NC_002694.1	RefSeq	CDS	72516	72521	.	+	0	ID=cds-NP_084827.1;Parent=gene-LocoCp053;Dbxref=GenBank:NP_084827.1,GeneID:802872;Name=NP_084827.1;gbkey=CDS;gene=petB;locus_tag=LocoCp053;product=cytochrome b6;protein_id=NP_084827.1;transl_table=11
+NC_002694.1	RefSeq	CDS	73346	73987	.	+	0	ID=cds-NP_084827.1;Parent=gene-LocoCp053;Dbxref=GenBank:NP_084827.1,GeneID:802872;Name=NP_084827.1;gbkey=CDS;gene=petB;locus_tag=LocoCp053;product=cytochrome b6;protein_id=NP_084827.1;transl_table=11
+NC_002694.1	RefSeq	gene	74193	75403	.	+	.	ID=gene-LocoCp054;Dbxref=GeneID:802874;Name=petD;gbkey=Gene;gene=petD;gene_biotype=protein_coding;locus_tag=LocoCp054
+NC_002694.1	RefSeq	CDS	74193	74200	.	+	0	ID=cds-NP_084828.1;Parent=gene-LocoCp054;Dbxref=GenBank:NP_084828.1,GeneID:802874;Name=NP_084828.1;gbkey=CDS;gene=petD;locus_tag=LocoCp054;product=cytochrome b6/f complex subunit IV;protein_id=NP_084828.1;transl_table=11
+NC_002694.1	RefSeq	CDS	74929	75403	.	+	1	ID=cds-NP_084828.1;Parent=gene-LocoCp054;Dbxref=GenBank:NP_084828.1,GeneID:802874;Name=NP_084828.1;gbkey=CDS;gene=petD;locus_tag=LocoCp054;product=cytochrome b6/f complex subunit IV;protein_id=NP_084828.1;transl_table=11
+NC_002694.1	RefSeq	gene	75619	76620	.	-	.	ID=gene-LocoCp055;Dbxref=GeneID:802948;Name=rpoA;gbkey=Gene;gene=rpoA;gene_biotype=protein_coding;locus_tag=LocoCp055
+NC_002694.1	RefSeq	CDS	75619	76620	.	-	0	ID=cds-NP_084829.1;Parent=gene-LocoCp055;Dbxref=GenBank:NP_084829.1,GeneID:802948;Name=NP_084829.1;gbkey=CDS;gene=rpoA;locus_tag=LocoCp055;product=RNA polymerase alpha subunit;protein_id=NP_084829.1;transl_table=11
+NC_002694.1	RefSeq	gene	76692	77108	.	-	.	ID=gene-LocoCp056;Dbxref=GeneID:802949;Name=rps11;gbkey=Gene;gene=rps11;gene_biotype=protein_coding;locus_tag=LocoCp056
+NC_002694.1	RefSeq	CDS	76692	77108	.	-	0	ID=cds-NP_084830.1;Parent=gene-LocoCp056;Dbxref=GenBank:NP_084830.1,GeneID:802949;Name=NP_084830.1;gbkey=CDS;gene=rps11;locus_tag=LocoCp056;product=ribosomal protein S11;protein_id=NP_084830.1;transl_table=11
+NC_002694.1	RefSeq	gene	77455	77568	.	-	.	ID=gene-LocoCp057;Dbxref=GeneID:802889;Name=rpl36;gbkey=Gene;gene=rpl36;gene_biotype=protein_coding;gene_synonym=secX;locus_tag=LocoCp057
+NC_002694.1	RefSeq	CDS	77455	77568	.	-	0	ID=cds-NP_084831.1;Parent=gene-LocoCp057;Dbxref=GenBank:NP_084831.1,GeneID:802889;Name=NP_084831.1;gbkey=CDS;gene=rpl36;locus_tag=LocoCp057;product=ribosomal protein L36;protein_id=NP_084831.1;transl_table=11
+NC_002694.1	RefSeq	gene	77897	78301	.	-	.	ID=gene-LocoCp058;Dbxref=GeneID:802914;Name=rps8;gbkey=Gene;gene=rps8;gene_biotype=protein_coding;locus_tag=LocoCp058
+NC_002694.1	RefSeq	CDS	77897	78301	.	-	0	ID=cds-NP_084832.1;Parent=gene-LocoCp058;Dbxref=GenBank:NP_084832.1,GeneID:802914;Name=NP_084832.1;gbkey=CDS;gene=rps8;locus_tag=LocoCp058;product=ribosomal protein S8;protein_id=NP_084832.1;transl_table=11
+NC_002694.1	RefSeq	gene	78575	78943	.	-	.	ID=gene-LocoCp059;Dbxref=GeneID:802891;Name=rpl14;gbkey=Gene;gene=rpl14;gene_biotype=protein_coding;locus_tag=LocoCp059
+NC_002694.1	RefSeq	CDS	78575	78943	.	-	0	ID=cds-NP_084833.1;Parent=gene-LocoCp059;Dbxref=GenBank:NP_084833.1,GeneID:802891;Name=NP_084833.1;gbkey=CDS;gene=rpl14;locus_tag=LocoCp059;product=ribosomal protein L14;protein_id=NP_084833.1;transl_table=11
+NC_002694.1	RefSeq	gene	79078	80564	.	-	.	ID=gene-LocoCp060;Dbxref=GeneID:802955;Name=rpl16;gbkey=Gene;gene=rpl16;gene_biotype=protein_coding;locus_tag=LocoCp060
+NC_002694.1	RefSeq	CDS	80556	80564	.	-	0	ID=cds-NP_084834.1;Parent=gene-LocoCp060;Dbxref=GenBank:NP_084834.1,GeneID:802955;Name=NP_084834.1;gbkey=CDS;gene=rpl16;locus_tag=LocoCp060;product=ribosomal protein L16;protein_id=NP_084834.1;transl_table=11
+NC_002694.1	RefSeq	CDS	79078	79476	.	-	0	ID=cds-NP_084834.1;Parent=gene-LocoCp060;Dbxref=GenBank:NP_084834.1,GeneID:802955;Name=NP_084834.1;gbkey=CDS;gene=rpl16;locus_tag=LocoCp060;product=ribosomal protein L16;protein_id=NP_084834.1;transl_table=11
+NC_002694.1	RefSeq	gene	80686	81342	.	-	.	ID=gene-LocoCp061;Dbxref=GeneID:802930;Name=rps3;gbkey=Gene;gene=rps3;gene_biotype=protein_coding;locus_tag=LocoCp061
+NC_002694.1	RefSeq	CDS	80686	81342	.	-	0	ID=cds-NP_084835.1;Parent=gene-LocoCp061;Dbxref=GenBank:NP_084835.1,GeneID:802930;Name=NP_084835.1;gbkey=CDS;gene=rps3;locus_tag=LocoCp061;product=ribosomal protein S3;protein_id=NP_084835.1;transl_table=11
+NC_002694.1	RefSeq	gene	81659	81937	.	-	.	ID=gene-LocoCp062;Dbxref=GeneID:802898;Name=rps19;gbkey=Gene;gene=rps19;gene_biotype=protein_coding;locus_tag=LocoCp062
+NC_002694.1	RefSeq	CDS	81659	81937	.	-	0	ID=cds-NP_084836.1;Parent=gene-LocoCp062;Dbxref=GenBank:NP_084836.1,GeneID:802898;Name=NP_084836.1;gbkey=CDS;gene=rps19;locus_tag=LocoCp062;product=ribosomal protein S19;protein_id=NP_084836.1;transl_table=11
+NC_002694.1	RefSeq	gene	81997	83507	.	-	.	ID=gene-LocoCp063;Dbxref=GeneID:802939;Name=rpl2;gbkey=Gene;gene=rpl2;gene_biotype=protein_coding;locus_tag=LocoCp063
+NC_002694.1	RefSeq	CDS	83118	83507	.	-	0	ID=cds-NP_084837.1;Parent=gene-LocoCp063;Dbxref=GenBank:NP_084837.1,GeneID:802939;Name=NP_084837.1;gbkey=CDS;gene=rpl2;locus_tag=LocoCp063;product=ribosomal protein L2;protein_id=NP_084837.1;transl_table=11
+NC_002694.1	RefSeq	CDS	81997	82431	.	-	0	ID=cds-NP_084837.1;Parent=gene-LocoCp063;Dbxref=GenBank:NP_084837.1,GeneID:802939;Name=NP_084837.1;gbkey=CDS;gene=rpl2;locus_tag=LocoCp063;product=ribosomal protein L2;protein_id=NP_084837.1;transl_table=11
+NC_002694.1	RefSeq	gene	83526	83807	.	-	.	ID=gene-LocoCp064;Dbxref=GeneID:802934;Name=rpl23;gbkey=Gene;gene=rpl23;gene_biotype=protein_coding;locus_tag=LocoCp064
+NC_002694.1	RefSeq	CDS	83526	83807	.	-	0	ID=cds-NP_084838.1;Parent=gene-LocoCp064;Dbxref=GenBank:NP_084838.1,GeneID:802934;Name=NP_084838.1;gbkey=CDS;gene=rpl23;locus_tag=LocoCp064;product=ribosomal protein L23;protein_id=NP_084838.1;transl_table=11
+NC_002694.1	RefSeq	gene	84258	84331	.	-	.	ID=gene-LocoCt116;Dbxref=GeneID:802871;Name=trnI;gbkey=Gene;gene=trnI;gene_biotype=tRNA;locus_tag=LocoCt116
+NC_002694.1	RefSeq	tRNA	84258	84331	.	-	.	ID=rna-LocoCt116;Parent=gene-LocoCt116;Dbxref=GeneID:802871;Note=C in the first position of the anticodon assumed to be post-transcriptionally modified to lysidine%2C which pairs with A rather than G tRNA with a methionine anticodonpost-transcriptionally modified to have tRNA isoleucine activity%3B CAU;gbkey=tRNA;gene=trnI;locus_tag=LocoCt116;product=tRNA-Ile
+NC_002694.1	RefSeq	exon	84258	84331	.	-	.	ID=exon-LocoCt116-1;Parent=rna-LocoCt116;Dbxref=GeneID:802871;Note=C in the first position of the anticodon assumed to be post-transcriptionally modified to lysidine%2C which pairs with A rather than G tRNA with a methionine anticodonpost-transcriptionally modified to have tRNA isoleucine activity%3B CAU;gbkey=tRNA;gene=trnI;locus_tag=LocoCt116;product=tRNA-Ile
+NC_002694.1	RefSeq	gene	84420	91316	.	+	.	ID=gene-LocoCp065;Dbxref=GeneID:802867;Name=ycf2;gbkey=Gene;gene=ycf2;gene_biotype=protein_coding;locus_tag=LocoCp065
+NC_002694.1	RefSeq	CDS	84420	91316	.	+	0	ID=cds-NP_084839.1;Parent=gene-LocoCp065;Dbxref=GenBank:NP_084839.1,GeneID:802867;Name=NP_084839.1;Note=hypothetical protein RF2;gbkey=CDS;gene=ycf2;locus_tag=LocoCp065;product=Ycf2;protein_id=NP_084839.1;transl_table=11
+NC_002694.1	RefSeq	gene	91893	91973	.	-	.	ID=gene-LocoCt117;Dbxref=GeneID:802950;Name=trnL;gbkey=Gene;gene=trnL;gene_biotype=tRNA;locus_tag=LocoCt117
+NC_002694.1	RefSeq	tRNA	91893	91973	.	-	.	ID=rna-LocoCt117;Parent=gene-LocoCt117;Dbxref=GeneID:802950;gbkey=tRNA;gene=trnL;locus_tag=LocoCt117;product=tRNA-Leu
+NC_002694.1	RefSeq	exon	91893	91973	.	-	.	ID=exon-LocoCt117-1;Parent=rna-LocoCt117;Dbxref=GeneID:802950;gbkey=tRNA;gene=trnL;locus_tag=LocoCt117;product=tRNA-Leu
+NC_002694.1	RefSeq	gene	92572	94790	.	-	.	ID=gene-LocoCp066;Dbxref=GeneID:802879;Name=ndhB;gbkey=Gene;gene=ndhB;gene_biotype=protein_coding;gene_synonym=ndh2;locus_tag=LocoCp066
+NC_002694.1	RefSeq	CDS	94014	94790	.	-	0	ID=cds-NP_084840.2;Parent=gene-LocoCp066;Dbxref=GenBank:NP_084840.2,GeneID:802879;Name=NP_084840.2;gbkey=CDS;gene=ndhB;locus_tag=LocoCp066;product=NADH dehydrogenase subunit 2;protein_id=NP_084840.2;transl_except=(pos:complement(94782..94784)%2Caa:Trp);transl_table=11
+NC_002694.1	RefSeq	CDS	92572	93327	.	-	0	ID=cds-NP_084840.2;Parent=gene-LocoCp066;Dbxref=GenBank:NP_084840.2,GeneID:802879;Name=NP_084840.2;gbkey=CDS;gene=ndhB;locus_tag=LocoCp066;product=NADH dehydrogenase subunit 2;protein_id=NP_084840.2;transl_except=(pos:complement(94782..94784)%2Caa:Trp);transl_table=11
+NC_002694.1	RefSeq	gene	95115	95582	.	-	.	ID=gene-LocoCp067;Dbxref=GeneID:802923;Name=rps7;gbkey=Gene;gene=rps7;gene_biotype=protein_coding;locus_tag=LocoCp067
+NC_002694.1	RefSeq	CDS	95115	95582	.	-	0	ID=cds-NP_084841.1;Parent=gene-LocoCp067;Dbxref=GenBank:NP_084841.1,GeneID:802923;Name=NP_084841.1;gbkey=CDS;gene=rps7;locus_tag=LocoCp067;product=ribosomal protein S7;protein_id=NP_084841.1;transl_table=11
+NC_002694.1	RefSeq	gene	97955	98026	.	+	.	ID=gene-LocoCt118;Dbxref=GeneID:802844;Name=trnV;gbkey=Gene;gene=trnV;gene_biotype=tRNA;locus_tag=LocoCt118
+NC_002694.1	RefSeq	tRNA	97955	98026	.	+	.	ID=rna-LocoCt118;Parent=gene-LocoCt118;Dbxref=GeneID:802844;gbkey=tRNA;gene=trnV;locus_tag=LocoCt118;product=tRNA-Val
+NC_002694.1	RefSeq	exon	97955	98026	.	+	.	ID=exon-LocoCt118-1;Parent=rna-LocoCt118;Dbxref=GeneID:802844;gbkey=tRNA;gene=trnV;locus_tag=LocoCt118;product=tRNA-Val
+NC_002694.1	RefSeq	gene	98249	99739	.	+	.	ID=gene-LocoCr086;Dbxref=GeneID:802892;Name=rrn16s;gbkey=Gene;gene=rrn16s;gene_biotype=rRNA;locus_tag=LocoCr086
+NC_002694.1	RefSeq	rRNA	98249	99739	.	+	.	ID=rna-LocoCr086;Parent=gene-LocoCr086;Dbxref=GeneID:802892;gbkey=rRNA;gene=rrn16s;locus_tag=LocoCr086;product=16S ribosomal RNA
+NC_002694.1	RefSeq	exon	98249	99739	.	+	.	ID=exon-LocoCr086-1;Parent=rna-LocoCr086;Dbxref=GeneID:802892;gbkey=rRNA;gene=rrn16s;locus_tag=LocoCr086;product=16S ribosomal RNA
+NC_002694.1	RefSeq	gene	100024	100816	.	+	.	ID=gene-LocoCt119;Dbxref=GeneID:802846;Name=trnI;gbkey=Gene;gene=trnI;gene_biotype=tRNA;locus_tag=LocoCt119
+NC_002694.1	RefSeq	tRNA	100024	100816	.	+	.	ID=rna-LocoCt119;Parent=gene-LocoCt119;Dbxref=GeneID:802846;gbkey=tRNA;gene=trnI;locus_tag=LocoCt119;product=tRNA-Ile
+NC_002694.1	RefSeq	exon	100024	100060	.	+	.	ID=exon-LocoCt119-1;Parent=rna-LocoCt119;Dbxref=GeneID:802846;gbkey=tRNA;gene=trnI;locus_tag=LocoCt119;product=tRNA-Ile
+NC_002694.1	RefSeq	exon	100782	100816	.	+	.	ID=exon-LocoCt119-2;Parent=rna-LocoCt119;Dbxref=GeneID:802846;gbkey=tRNA;gene=trnI;locus_tag=LocoCt119;product=tRNA-Ile
+NC_002694.1	RefSeq	gene	100880	101758	.	+	.	ID=gene-LocoCt120;Dbxref=GeneID:802858;Name=trnA;gbkey=Gene;gene=trnA;gene_biotype=tRNA;locus_tag=LocoCt120
+NC_002694.1	RefSeq	tRNA	100880	101758	.	+	.	ID=rna-LocoCt120;Parent=gene-LocoCt120;Dbxref=GeneID:802858;gbkey=tRNA;gene=trnA;locus_tag=LocoCt120;product=tRNA-Ala
+NC_002694.1	RefSeq	exon	100880	100917	.	+	.	ID=exon-LocoCt120-1;Parent=rna-LocoCt120;Dbxref=GeneID:802858;gbkey=tRNA;gene=trnA;locus_tag=LocoCt120;product=tRNA-Ala
+NC_002694.1	RefSeq	exon	101724	101758	.	+	.	ID=exon-LocoCt120-2;Parent=rna-LocoCt120;Dbxref=GeneID:802858;gbkey=tRNA;gene=trnA;locus_tag=LocoCt120;product=tRNA-Ala
+NC_002694.1	RefSeq	gene	101922	104737	.	+	.	ID=gene-LocoCr087;Dbxref=GeneID:802957;Name=rrn23s;gbkey=Gene;gene=rrn23s;gene_biotype=rRNA;locus_tag=LocoCr087
+NC_002694.1	RefSeq	rRNA	101922	104737	.	+	.	ID=rna-LocoCr087;Parent=gene-LocoCr087;Dbxref=GeneID:802957;gbkey=rRNA;gene=rrn23s;locus_tag=LocoCr087;product=23S ribosomal RNA
+NC_002694.1	RefSeq	exon	101922	104737	.	+	.	ID=exon-LocoCr087-1;Parent=rna-LocoCr087;Dbxref=GeneID:802957;gbkey=rRNA;gene=rrn23s;locus_tag=LocoCr087;product=23S ribosomal RNA
+NC_002694.1	RefSeq	gene	104836	104939	.	+	.	ID=gene-LocoCr088;Dbxref=GeneID:802954;Name=rrn4.5s;gbkey=Gene;gene=rrn4.5s;gene_biotype=rRNA;locus_tag=LocoCr088
+NC_002694.1	RefSeq	rRNA	104836	104939	.	+	.	ID=rna-LocoCr088;Parent=gene-LocoCr088;Dbxref=GeneID:802954;gbkey=rRNA;gene=rrn4.5s;locus_tag=LocoCr088;product=4.5S ribosomal RNA
+NC_002694.1	RefSeq	exon	104836	104939	.	+	.	ID=exon-LocoCr088-1;Parent=rna-LocoCr088;Dbxref=GeneID:802954;gbkey=rRNA;gene=rrn4.5s;locus_tag=LocoCr088;product=4.5S ribosomal RNA
+NC_002694.1	RefSeq	gene	105158	105278	.	+	.	ID=gene-LocoCr089;Dbxref=GeneID:802842;Name=rrn5s;gbkey=Gene;gene=rrn5s;gene_biotype=rRNA;locus_tag=LocoCr089
+NC_002694.1	RefSeq	rRNA	105158	105278	.	+	.	ID=rna-LocoCr089;Parent=gene-LocoCr089;Dbxref=GeneID:802842;gbkey=rRNA;gene=rrn5s;locus_tag=LocoCr089;product=5S ribosomal RNA
+NC_002694.1	RefSeq	exon	105158	105278	.	+	.	ID=exon-LocoCr089-1;Parent=rna-LocoCr089;Dbxref=GeneID:802842;gbkey=rRNA;gene=rrn5s;locus_tag=LocoCr089;product=5S ribosomal RNA
+NC_002694.1	RefSeq	gene	105489	105562	.	+	.	ID=gene-LocoCt121;Dbxref=GeneID:802945;Name=trnR;gbkey=Gene;gene=trnR;gene_biotype=tRNA;locus_tag=LocoCt121
+NC_002694.1	RefSeq	tRNA	105489	105562	.	+	.	ID=rna-LocoCt121;Parent=gene-LocoCt121;Dbxref=GeneID:802945;gbkey=tRNA;gene=trnR;locus_tag=LocoCt121;product=tRNA-Arg
+NC_002694.1	RefSeq	exon	105489	105562	.	+	.	ID=exon-LocoCt121-1;Parent=rna-LocoCt121;Dbxref=GeneID:802945;gbkey=tRNA;gene=trnR;locus_tag=LocoCt121;product=tRNA-Arg
+NC_002694.1	RefSeq	gene	106147	106218	.	-	.	ID=gene-LocoCt122;Dbxref=GeneID:802938;Name=trnN;gbkey=Gene;gene=trnN;gene_biotype=tRNA;locus_tag=LocoCt122
+NC_002694.1	RefSeq	tRNA	106147	106218	.	-	.	ID=rna-LocoCt122;Parent=gene-LocoCt122;Dbxref=GeneID:802938;gbkey=tRNA;gene=trnN;locus_tag=LocoCt122;product=tRNA-Asn
+NC_002694.1	RefSeq	exon	106147	106218	.	-	.	ID=exon-LocoCt122-1;Parent=rna-LocoCt122;Dbxref=GeneID:802938;gbkey=tRNA;gene=trnN;locus_tag=LocoCt122;product=tRNA-Asn
+NC_002694.1	RefSeq	pseudogene	106578	107092	.	+	.	ID=gene-LocoCp068;Dbxref=GeneID:802849;Name=ycf1;gbkey=Gene;gene=ycf1;gene_biotype=pseudogene;locus_tag=LocoCp068;pseudo=true
+NC_002694.1	RefSeq	gene	107092	109335	.	-	.	ID=gene-LocoCp069;Dbxref=GeneID:802885;Name=ndhF;gbkey=Gene;gene=ndhF;gene_biotype=protein_coding;gene_synonym=ndh5;locus_tag=LocoCp069
+NC_002694.1	RefSeq	CDS	107092	109335	.	-	0	ID=cds-NP_084842.1;Parent=gene-LocoCp069;Dbxref=GenBank:NP_084842.1,GeneID:802885;Name=NP_084842.1;gbkey=CDS;gene=ndhF;locus_tag=LocoCp069;product=NADH dehydrogenase subunit 5;protein_id=NP_084842.1;transl_table=11
+NC_002694.1	RefSeq	gene	110150	110302	.	+	.	ID=gene-LocoCp070;Dbxref=GeneID:802916;Name=rpl32;gbkey=Gene;gene=rpl32;gene_biotype=protein_coding;locus_tag=LocoCp070
+NC_002694.1	RefSeq	CDS	110150	110302	.	+	0	ID=cds-NP_084843.1;Parent=gene-LocoCp070;Dbxref=GenBank:NP_084843.1,GeneID:802916;Name=NP_084843.1;gbkey=CDS;gene=rpl32;locus_tag=LocoCp070;product=ribosomal protein L32;protein_id=NP_084843.1;transl_table=11
+NC_002694.1	RefSeq	gene	110565	110644	.	+	.	ID=gene-LocoCt123;Dbxref=GeneID:802920;Name=trnL;gbkey=Gene;gene=trnL;gene_biotype=tRNA;locus_tag=LocoCt123
+NC_002694.1	RefSeq	tRNA	110565	110644	.	+	.	ID=rna-LocoCt123;Parent=gene-LocoCt123;Dbxref=GeneID:802920;gbkey=tRNA;gene=trnL;locus_tag=LocoCt123;product=tRNA-Leu
+NC_002694.1	RefSeq	exon	110565	110644	.	+	.	ID=exon-LocoCt123-1;Parent=rna-LocoCt123;Dbxref=GeneID:802920;gbkey=tRNA;gene=trnL;locus_tag=LocoCt123;product=tRNA-Leu
+NC_002694.1	RefSeq	gene	110740	111711	.	+	.	ID=gene-LocoCp071;Dbxref=GeneID:802903;Name=ccsA;gbkey=Gene;gene=ccsA;gene_biotype=protein_coding;gene_synonym=ycf5;locus_tag=LocoCp071
+NC_002694.1	RefSeq	CDS	110740	111711	.	+	0	ID=cds-NP_084844.1;Parent=gene-LocoCp071;Dbxref=GenBank:NP_084844.1,GeneID:802903;Name=NP_084844.1;gbkey=CDS;gene=ccsA;locus_tag=LocoCp071;product=cytochrome c biogenesis protein;protein_id=NP_084844.1;transl_table=11
+NC_002694.1	RefSeq	gene	111956	113449	.	-	.	ID=gene-LocoCp072;Dbxref=GeneID:802869;Name=ndhD;gbkey=Gene;gene=ndhD;gene_biotype=protein_coding;gene_synonym=ndh4;locus_tag=LocoCp072
+NC_002694.1	RefSeq	CDS	111956	113449	.	-	0	ID=cds-NP_084845.1;Parent=gene-LocoCp072;Dbxref=GenBank:NP_084845.1,GeneID:802869;Name=NP_084845.1;exception=RNA editing;gbkey=CDS;gene=ndhD;locus_tag=LocoCp072;product=NADH dehydrogenase subunit 4;protein_id=NP_084845.1;transl_table=11
+NC_002694.1	RefSeq	gene	113571	113816	.	-	.	ID=gene-LocoCp073;Dbxref=GeneID:802907;Name=psaC;gbkey=Gene;gene=psaC;gene_biotype=protein_coding;locus_tag=LocoCp073
+NC_002694.1	RefSeq	CDS	113571	113816	.	-	0	ID=cds-NP_084846.1;Parent=gene-LocoCp073;Dbxref=GenBank:NP_084846.1,GeneID:802907;Name=NP_084846.1;Note=9 kDa protein;gbkey=CDS;gene=psaC;locus_tag=LocoCp073;product=photosystem I subunit VII;protein_id=NP_084846.1;transl_table=11
+NC_002694.1	RefSeq	gene	114122	114427	.	-	.	ID=gene-LocoCp074;Dbxref=GeneID:802941;Name=ndhE;gbkey=Gene;gene=ndhE;gene_biotype=protein_coding;gene_synonym=ndh4L;locus_tag=LocoCp074
+NC_002694.1	RefSeq	CDS	114122	114427	.	-	0	ID=cds-NP_084847.1;Parent=gene-LocoCp074;Dbxref=GenBank:NP_084847.1,GeneID:802941;Name=NP_084847.1;gbkey=CDS;gene=ndhE;locus_tag=LocoCp074;product=NADH dehydrogenase subunit 4L;protein_id=NP_084847.1;transl_table=11
+NC_002694.1	RefSeq	gene	114672	115202	.	-	.	ID=gene-LocoCp075;Dbxref=GeneID:802835;Name=ndhG;gbkey=Gene;gene=ndhG;gene_biotype=protein_coding;locus_tag=LocoCp075
+NC_002694.1	RefSeq	CDS	114672	115202	.	-	0	ID=cds-NP_084848.1;Parent=gene-LocoCp075;Dbxref=GenBank:NP_084848.1,GeneID:802835;Name=NP_084848.1;gbkey=CDS;gene=ndhG;locus_tag=LocoCp075;product=NADH dehydrogenase subunit 6;protein_id=NP_084848.1;transl_table=11
+NC_002694.1	RefSeq	gene	115595	116080	.	-	.	ID=gene-LocoCp076;Dbxref=GeneID:802943;Name=ndhI;gbkey=Gene;gene=ndhI;gene_biotype=protein_coding;gene_synonym=frxB;locus_tag=LocoCp076
+NC_002694.1	RefSeq	CDS	115595	116080	.	-	0	ID=cds-NP_084849.1;Parent=gene-LocoCp076;Dbxref=GenBank:NP_084849.1,GeneID:802943;Name=NP_084849.1;gbkey=CDS;gene=ndhI;locus_tag=LocoCp076;product=NADH dehydrogenase subunit I;protein_id=NP_084849.1;transl_table=11
+NC_002694.1	RefSeq	gene	116193	118558	.	-	.	ID=gene-LocoCp077;Dbxref=GeneID:802841;Name=ndhA;gbkey=Gene;gene=ndhA;gene_biotype=protein_coding;gene_synonym=ndh1;locus_tag=LocoCp077
+NC_002694.1	RefSeq	CDS	118006	118558	.	-	0	ID=cds-NP_084850.1;Parent=gene-LocoCp077;Dbxref=GenBank:NP_084850.1,GeneID:802841;Name=NP_084850.1;gbkey=CDS;gene=ndhA;locus_tag=LocoCp077;product=NADH dehydrogenase subunit 1;protein_id=NP_084850.1;transl_table=11
+NC_002694.1	RefSeq	CDS	116193	116731	.	-	2	ID=cds-NP_084850.1;Parent=gene-LocoCp077;Dbxref=GenBank:NP_084850.1,GeneID:802841;Name=NP_084850.1;gbkey=CDS;gene=ndhA;locus_tag=LocoCp077;product=NADH dehydrogenase subunit 1;protein_id=NP_084850.1;transl_table=11
+NC_002694.1	RefSeq	gene	118560	119741	.	-	.	ID=gene-LocoCp078;Dbxref=GeneID:802847;Name=ndhH;gbkey=Gene;gene=ndhH;gene_biotype=protein_coding;locus_tag=LocoCp078
+NC_002694.1	RefSeq	CDS	118560	119741	.	-	0	ID=cds-NP_084851.1;Parent=gene-LocoCp078;Dbxref=GenBank:NP_084851.1,GeneID:802847;Name=NP_084851.1;gbkey=CDS;gene=ndhH;locus_tag=LocoCp078;product=NADH dehydrogenase subunit 7;protein_id=NP_084851.1;transl_table=11
+NC_002694.1	RefSeq	gene	119846	120118	.	-	.	ID=gene-LocoCp079;Dbxref=GeneID:802888;Name=rps15;gbkey=Gene;gene=rps15;gene_biotype=protein_coding;locus_tag=LocoCp079
+NC_002694.1	RefSeq	CDS	119846	120118	.	-	0	ID=cds-NP_084852.1;Parent=gene-LocoCp079;Dbxref=GenBank:NP_084852.1,GeneID:802888;Name=NP_084852.1;gbkey=CDS;gene=rps15;locus_tag=LocoCp079;product=ribosomal protein S15;protein_id=NP_084852.1;transl_table=11
+NC_002694.1	RefSeq	gene	120497	125878	.	-	.	ID=gene-LocoCp080;Dbxref=GeneID:802851;Name=ycf1;gbkey=Gene;gene=ycf1;gene_biotype=protein_coding;locus_tag=LocoCp080
+NC_002694.1	RefSeq	CDS	120497	125878	.	-	0	ID=cds-NP_084853.1;Parent=gene-LocoCp080;Dbxref=GenBank:NP_084853.1,GeneID:802851;Name=NP_084853.1;gbkey=CDS;gene=ycf1;locus_tag=LocoCp080;product=hypothetical protein;protein_id=NP_084853.1;transl_table=11
+NC_002694.1	RefSeq	gene	126238	126309	.	+	.	ID=gene-LocoCt124;Dbxref=GeneID:802896;Name=trnN;gbkey=Gene;gene=trnN;gene_biotype=tRNA;locus_tag=LocoCt124
+NC_002694.1	RefSeq	tRNA	126238	126309	.	+	.	ID=rna-LocoCt124;Parent=gene-LocoCt124;Dbxref=GeneID:802896;gbkey=tRNA;gene=trnN;locus_tag=LocoCt124;product=tRNA-Asn
+NC_002694.1	RefSeq	exon	126238	126309	.	+	.	ID=exon-LocoCt124-1;Parent=rna-LocoCt124;Dbxref=GeneID:802896;gbkey=tRNA;gene=trnN;locus_tag=LocoCt124;product=tRNA-Asn
+NC_002694.1	RefSeq	gene	126894	126967	.	-	.	ID=gene-LocoCt125;Dbxref=GeneID:802878;Name=trnR;gbkey=Gene;gene=trnR;gene_biotype=tRNA;locus_tag=LocoCt125
+NC_002694.1	RefSeq	tRNA	126894	126967	.	-	.	ID=rna-LocoCt125;Parent=gene-LocoCt125;Dbxref=GeneID:802878;gbkey=tRNA;gene=trnR;locus_tag=LocoCt125;product=tRNA-Arg
+NC_002694.1	RefSeq	exon	126894	126967	.	-	.	ID=exon-LocoCt125-1;Parent=rna-LocoCt125;Dbxref=GeneID:802878;gbkey=tRNA;gene=trnR;locus_tag=LocoCt125;product=tRNA-Arg
+NC_002694.1	RefSeq	gene	127178	127298	.	-	.	ID=gene-LocoCr090;Dbxref=GeneID:802861;Name=rrn5s;gbkey=Gene;gene=rrn5s;gene_biotype=rRNA;locus_tag=LocoCr090
+NC_002694.1	RefSeq	rRNA	127178	127298	.	-	.	ID=rna-LocoCr090;Parent=gene-LocoCr090;Dbxref=GeneID:802861;gbkey=rRNA;gene=rrn5s;locus_tag=LocoCr090;product=5S ribosomal RNA
+NC_002694.1	RefSeq	exon	127178	127298	.	-	.	ID=exon-LocoCr090-1;Parent=rna-LocoCr090;Dbxref=GeneID:802861;gbkey=rRNA;gene=rrn5s;locus_tag=LocoCr090;product=5S ribosomal RNA
+NC_002694.1	RefSeq	gene	127517	127620	.	-	.	ID=gene-LocoCr091;Dbxref=GeneID:802863;Name=rrn4.5s;gbkey=Gene;gene=rrn4.5s;gene_biotype=rRNA;locus_tag=LocoCr091
+NC_002694.1	RefSeq	rRNA	127517	127620	.	-	.	ID=rna-LocoCr091;Parent=gene-LocoCr091;Dbxref=GeneID:802863;gbkey=rRNA;gene=rrn4.5s;locus_tag=LocoCr091;product=4.5S ribosomal RNA
+NC_002694.1	RefSeq	exon	127517	127620	.	-	.	ID=exon-LocoCr091-1;Parent=rna-LocoCr091;Dbxref=GeneID:802863;gbkey=rRNA;gene=rrn4.5s;locus_tag=LocoCr091;product=4.5S ribosomal RNA
+NC_002694.1	RefSeq	gene	127719	130534	.	-	.	ID=gene-LocoCr092;Dbxref=GeneID:802854;Name=rrn23s;gbkey=Gene;gene=rrn23s;gene_biotype=rRNA;locus_tag=LocoCr092
+NC_002694.1	RefSeq	rRNA	127719	130534	.	-	.	ID=rna-LocoCr092;Parent=gene-LocoCr092;Dbxref=GeneID:802854;gbkey=rRNA;gene=rrn23s;locus_tag=LocoCr092;product=23S ribosomal RNA
+NC_002694.1	RefSeq	exon	127719	130534	.	-	.	ID=exon-LocoCr092-1;Parent=rna-LocoCr092;Dbxref=GeneID:802854;gbkey=rRNA;gene=rrn23s;locus_tag=LocoCr092;product=23S ribosomal RNA
+NC_002694.1	RefSeq	gene	130698	131576	.	-	.	ID=gene-LocoCt126;Dbxref=GeneID:802866;Name=trnA;gbkey=Gene;gene=trnA;gene_biotype=tRNA;locus_tag=LocoCt126
+NC_002694.1	RefSeq	tRNA	130698	131576	.	-	.	ID=rna-LocoCt126;Parent=gene-LocoCt126;Dbxref=GeneID:802866;gbkey=tRNA;gene=trnA;locus_tag=LocoCt126;product=tRNA-Ala
+NC_002694.1	RefSeq	exon	131539	131576	.	-	.	ID=exon-LocoCt126-1;Parent=rna-LocoCt126;Dbxref=GeneID:802866;gbkey=tRNA;gene=trnA;locus_tag=LocoCt126;product=tRNA-Ala
+NC_002694.1	RefSeq	exon	130698	130732	.	-	.	ID=exon-LocoCt126-2;Parent=rna-LocoCt126;Dbxref=GeneID:802866;gbkey=tRNA;gene=trnA;locus_tag=LocoCt126;product=tRNA-Ala
+NC_002694.1	RefSeq	gene	131640	132432	.	-	.	ID=gene-LocoCt127;Dbxref=GeneID:802883;Name=trnI;gbkey=Gene;gene=trnI;gene_biotype=tRNA;locus_tag=LocoCt127
+NC_002694.1	RefSeq	tRNA	131640	132432	.	-	.	ID=rna-LocoCt127;Parent=gene-LocoCt127;Dbxref=GeneID:802883;gbkey=tRNA;gene=trnI;locus_tag=LocoCt127;product=tRNA-Ile
+NC_002694.1	RefSeq	exon	132396	132432	.	-	.	ID=exon-LocoCt127-1;Parent=rna-LocoCt127;Dbxref=GeneID:802883;gbkey=tRNA;gene=trnI;locus_tag=LocoCt127;product=tRNA-Ile
+NC_002694.1	RefSeq	exon	131640	131674	.	-	.	ID=exon-LocoCt127-2;Parent=rna-LocoCt127;Dbxref=GeneID:802883;gbkey=tRNA;gene=trnI;locus_tag=LocoCt127;product=tRNA-Ile
+NC_002694.1	RefSeq	gene	132717	134207	.	-	.	ID=gene-LocoCr093;Dbxref=GeneID:802908;Name=rrn16s;gbkey=Gene;gene=rrn16s;gene_biotype=rRNA;locus_tag=LocoCr093
+NC_002694.1	RefSeq	rRNA	132717	134207	.	-	.	ID=rna-LocoCr093;Parent=gene-LocoCr093;Dbxref=GeneID:802908;gbkey=rRNA;gene=rrn16s;locus_tag=LocoCr093;product=16S ribosomal RNA
+NC_002694.1	RefSeq	exon	132717	134207	.	-	.	ID=exon-LocoCr093-1;Parent=rna-LocoCr093;Dbxref=GeneID:802908;gbkey=rRNA;gene=rrn16s;locus_tag=LocoCr093;product=16S ribosomal RNA
+NC_002694.1	RefSeq	gene	134430	134501	.	-	.	ID=gene-LocoCt128;Dbxref=GeneID:802843;Name=trnV;gbkey=Gene;gene=trnV;gene_biotype=tRNA;locus_tag=LocoCt128
+NC_002694.1	RefSeq	tRNA	134430	134501	.	-	.	ID=rna-LocoCt128;Parent=gene-LocoCt128;Dbxref=GeneID:802843;gbkey=tRNA;gene=trnV;locus_tag=LocoCt128;product=tRNA-Val
+NC_002694.1	RefSeq	exon	134430	134501	.	-	.	ID=exon-LocoCt128-1;Parent=rna-LocoCt128;Dbxref=GeneID:802843;gbkey=tRNA;gene=trnV;locus_tag=LocoCt128;product=tRNA-Val
+NC_002694.1	RefSeq	gene	136874	137341	.	+	.	ID=gene-LocoCp081;Dbxref=GeneID:802876;Name=rps7;gbkey=Gene;gene=rps7;gene_biotype=protein_coding;locus_tag=LocoCp081
+NC_002694.1	RefSeq	CDS	136874	137341	.	+	0	ID=cds-NP_084854.1;Parent=gene-LocoCp081;Dbxref=GenBank:NP_084854.1,GeneID:802876;Name=NP_084854.1;gbkey=CDS;gene=rps7;locus_tag=LocoCp081;product=ribosomal protein S7;protein_id=NP_084854.1;transl_table=11
+NC_002694.1	RefSeq	gene	137666	139884	.	+	.	ID=gene-LocoCp082;Dbxref=GeneID:802870;Name=ndhB;gbkey=Gene;gene=ndhB;gene_biotype=protein_coding;gene_synonym=ndh2;locus_tag=LocoCp082
+NC_002694.1	RefSeq	CDS	137666	138442	.	+	0	ID=cds-NP_084855.2;Parent=gene-LocoCp082;Dbxref=GenBank:NP_084855.2,GeneID:802870;Name=NP_084855.2;Note=possible RNA editing;gbkey=CDS;gene=ndhB;locus_tag=LocoCp082;product=NADH dehydrogenase subunit 2;protein_id=NP_084855.2;transl_except=(pos:137672..137674%2Caa:Trp);transl_table=11
+NC_002694.1	RefSeq	CDS	139129	139884	.	+	0	ID=cds-NP_084855.2;Parent=gene-LocoCp082;Dbxref=GenBank:NP_084855.2,GeneID:802870;Name=NP_084855.2;Note=possible RNA editing;gbkey=CDS;gene=ndhB;locus_tag=LocoCp082;product=NADH dehydrogenase subunit 2;protein_id=NP_084855.2;transl_except=(pos:137672..137674%2Caa:Trp);transl_table=11
+NC_002694.1	RefSeq	gene	140483	140563	.	+	.	ID=gene-LocoCt129;Dbxref=GeneID:802940;Name=trnL;gbkey=Gene;gene=trnL;gene_biotype=tRNA;locus_tag=LocoCt129
+NC_002694.1	RefSeq	tRNA	140483	140563	.	+	.	ID=rna-LocoCt129;Parent=gene-LocoCt129;Dbxref=GeneID:802940;gbkey=tRNA;gene=trnL;locus_tag=LocoCt129;product=tRNA-Leu
+NC_002694.1	RefSeq	exon	140483	140563	.	+	.	ID=exon-LocoCt129-1;Parent=rna-LocoCt129;Dbxref=GeneID:802940;gbkey=tRNA;gene=trnL;locus_tag=LocoCt129;product=tRNA-Leu
+NC_002694.1	RefSeq	gene	141140	148036	.	-	.	ID=gene-LocoCp083;Dbxref=GeneID:802899;Name=ycf2;gbkey=Gene;gene=ycf2;gene_biotype=protein_coding;locus_tag=LocoCp083
+NC_002694.1	RefSeq	CDS	141140	148036	.	-	0	ID=cds-NP_084856.1;Parent=gene-LocoCp083;Dbxref=GenBank:NP_084856.1,GeneID:802899;Name=NP_084856.1;Note=hypothetical protein RF2;gbkey=CDS;gene=ycf2;locus_tag=LocoCp083;product=Ycf2;protein_id=NP_084856.1;transl_table=11
+NC_002694.1	RefSeq	gene	148125	148198	.	+	.	ID=gene-LocoCt130;Dbxref=GeneID:802911;Name=trnI;gbkey=Gene;gene=trnI;gene_biotype=tRNA;locus_tag=LocoCt130
+NC_002694.1	RefSeq	tRNA	148125	148198	.	+	.	ID=rna-LocoCt130;Parent=gene-LocoCt130;Dbxref=GeneID:802911;Note=C in the first position of the anticodon assumed to be post-transcriptionally modified to lysidine%2C which pairs with A rather than G tRNA with a methionine anticodonpost-transcriptionally modified to have tRNA isoleucine activity%3B CAU;gbkey=tRNA;gene=trnI;locus_tag=LocoCt130;product=tRNA-Ile
+NC_002694.1	RefSeq	exon	148125	148198	.	+	.	ID=exon-LocoCt130-1;Parent=rna-LocoCt130;Dbxref=GeneID:802911;Note=C in the first position of the anticodon assumed to be post-transcriptionally modified to lysidine%2C which pairs with A rather than G tRNA with a methionine anticodonpost-transcriptionally modified to have tRNA isoleucine activity%3B CAU;gbkey=tRNA;gene=trnI;locus_tag=LocoCt130;product=tRNA-Ile
+NC_002694.1	RefSeq	gene	148649	148930	.	+	.	ID=gene-LocoCp084;Dbxref=GeneID:802953;Name=rpl23;gbkey=Gene;gene=rpl23;gene_biotype=protein_coding;locus_tag=LocoCp084
+NC_002694.1	RefSeq	CDS	148649	148930	.	+	0	ID=cds-NP_084857.1;Parent=gene-LocoCp084;Dbxref=GenBank:NP_084857.1,GeneID:802953;Name=NP_084857.1;gbkey=CDS;gene=rpl23;locus_tag=LocoCp084;product=ribosomal protein L23;protein_id=NP_084857.1;transl_table=11
+NC_002694.1	RefSeq	gene	148949	150459	.	+	.	ID=gene-LocoCp085;Dbxref=GeneID:802887;Name=rpl2;gbkey=Gene;gene=rpl2;gene_biotype=protein_coding;locus_tag=LocoCp085
+NC_002694.1	RefSeq	CDS	148949	149338	.	+	0	ID=cds-NP_084858.1;Parent=gene-LocoCp085;Dbxref=GenBank:NP_084858.1,GeneID:802887;Name=NP_084858.1;gbkey=CDS;gene=rpl2;locus_tag=LocoCp085;product=ribosomal protein L2;protein_id=NP_084858.1;transl_table=11
+NC_002694.1	RefSeq	CDS	150025	150459	.	+	0	ID=cds-NP_084858.1;Parent=gene-LocoCp085;Dbxref=GenBank:NP_084858.1,GeneID:802887;Name=NP_084858.1;gbkey=CDS;gene=rpl2;locus_tag=LocoCp085;product=ribosomal protein L2;protein_id=NP_084858.1;transl_table=11
+

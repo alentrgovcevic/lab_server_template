@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Lab server</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%232b7a78' stroke-width='4'/%3E%3Cpath d='M16 5a11 11 0 0 1 11 11' fill='none' stroke='%23e07a5f' stroke-width='4'/%3E%3C/svg%3E">
+<script>
+  // Old links pointed at the bank on "/": #<key>/<tab>, #upload, #gg. Send them to /bank.
+  if (/^#(\d|upload|gg|enzymes)/.test(location.hash)) location.replace("/bank" + location.hash);
+</script>
+<style>
+:root {
+  --bg: #f7f7f5; --panel: #ffffff; --ink: #1d2327; --muted: #5f6b73; --line: #dde1e4;
+  --accent: #2b7a78; --accent-soft: #d8ecea; --on-accent: #fff; --warn: #b7791f; --warn-soft: #fbf0d9;
+  --bad: #c0392b; --bad-soft: #f8dedb; --good: #2f855a; --good-soft: #dcefe3;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15191c; --panel: #1d2327; --ink: #e6e9eb; --muted: #9aa5ad; --line: #333b41;
+    --accent: #5fb3b0; --accent-soft: #1f3a3a; --on-accent: #15191c; --warn: #e2b04a; --warn-soft: #3a3020;
+    --bad: #f07b6e; --bad-soft: #3d2422; --good: #6cc495; --good-soft: #1e3529;
+  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--ink); }
+header { display: flex; align-items: baseline; gap: 16px; padding: 12px 20px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
+header h1 { font-size: 17px; margin: 0; }
+header .me { margin-left: auto; color: var(--muted); font-size: 13px; }
+a { color: var(--accent); }
+main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
+h2 { font-size: 15px; margin: 26px 0 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.tile { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; color: var(--ink); text-decoration: none; }
+a.tile:hover, #banktile:hover { border-color: var(--accent); background: var(--accent-soft); }
+.tilelink { color: inherit; text-decoration: none; display: block; }
+.sublink { display: inline-block; margin-top: 8px; font-size: 13px; }
+.hsearch { display: flex; gap: 8px; margin: 4px 0 6px; }
+.hsearch input { flex: 1; min-width: 0; font: inherit; font-size: 15px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); color: var(--ink); }
+.tile b { display: block; font-size: 15px; margin-bottom: 3px; }
+.tile span { color: var(--muted); font-size: 13px; }
+.tile.off { opacity: .55; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 8px 0; }
+input[type=text], input[type=search], textarea, select { font: inherit; color: var(--ink); padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
+textarea { width: 100%; min-height: 70px; resize: vertical; }
+button { font: inherit; color: var(--ink); border: 1px solid var(--line); background: var(--panel); border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+button.primary { background: var(--accent); color: var(--on-accent); border: 0; }
+button:disabled { opacity: .5; cursor: default; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { color: var(--muted); font-weight: 500; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+.id { font-family: var(--mono); font-weight: 600; }
+.badge { display: inline-block; font-size: 11px; padding: 0 7px; border-radius: 9px; }
+.b-draft { background: var(--warn-soft); color: var(--warn); }
+tr.flash td { animation: flash 2.4s ease-out; }
+@keyframes flash { from { background: var(--warn-soft); } to { background: transparent; } }
+.b-link { background: var(--accent-soft); color: var(--accent); }
+.b-bad { background: var(--bad-soft); color: var(--bad); }
+.note { color: var(--muted); font-size: 12px; }
+.ok { color: var(--good); } .err { color: var(--bad); }
+.plist .item { padding: 8px 10px; border-bottom: 1px solid var(--line); cursor: pointer; display: flex; gap: 10px; align-items: baseline; }
+.plist .item:hover { background: var(--accent-soft); }
+.hits div { padding: 3px 8px; cursor: pointer; }
+.hits div:hover { background: var(--accent-soft); }
+.fb { border-bottom: 1px solid var(--line); padding: 6px 0; font-size: 13px; white-space: pre-wrap; }
+@media print {
+  header .me, .row, button, textarea, #feedback form { display: none !important; }
+  body { background: #fff; color: #000; }
+  .card, .tile { break-inside: avoid; }
+}
+</style>
+<script src="/ui.js"></script>
+<script src="/tour.js"></script>
+<script src="/whatsnew.js"></script>
+<script src="/deploy-notice.js" defer></script>  <!-- restart warning, served by Caddy (deploy/errors/) -->
+</head>
+<body>
+<header><h1>Lab server</h1><span class="note" id="stats"></span><span class="me"><span id="uictl"></span> · <a href="#" id="whatsnew" title="What changed in the latest release, with guided tours">What's new</a> · <a href="/changelog" title="Every release, newest first">Changelog</a> · <a href="#" id="guide" title="A one-minute tour of this page">Guide</a> · <span id="me"></span></span></header>
+<main>
+  <div class="card" id="pwcard" hidden>
+    <b id="pwtitle">Change your password</b>
+    <form id="pwform" class="row">
+      <input type="password" id="pwcur" placeholder="current password" autocomplete="current-password" required>
+      <input type="password" id="pwnew" placeholder="new password (10+ characters)" autocomplete="new-password" minlength="10" required>
+      <input type="password" id="pwnew2" placeholder="new password again" autocomplete="new-password" minlength="10" required>
+      <button class="primary">Save</button> <span class="note" id="pwmsg"></span>
+    </form>
+  </div>
+  <form id="hsearch" role="search" class="hsearch">
+    <input type="search" id="hq" placeholder="Search the map bank: ID, name or feature (e.g. PMC-04752, GFP, 35S)" aria-label="Search the map bank">
+    <button class="primary">Search</button>
+  </form>
+  <h2>Go to</h2>
+  <div class="tiles">
+    <div class="tile" id="banktile"><a class="tilelink" href="/bank"><b>Plasmid map bank</b><span id="bankinfo">Search maps, verify clones, primers, design</span></a>
+      <a class="sublink" id="bankupload" href="/bank#upload" title="With the PMC/EC number from your lab's records; copied to the share hourly. No number yet? It goes to My workspace">＋ Upload a new map</a></div>
+    <a class="tile" id="genomes" href="#" target="_blank" rel="noopener"><b>Genome browser</b><span>Your lab's genomes, with gene models and insertion lines</span></a>
+    <!-- Your own modules plug in here: see "Adding a module" in the README and plasmidbank/app/modules.py.
+         Turn a stub into a link (<a class="tile" href="/your-module">) once its page and routes exist. -->
+    <div class="tile off" title="not part of this template: add it as your own module"><b>Safety quiz</b><span>Add your own module — e.g. a lab safety quiz and wiki</span></div>
+    <div class="tile off" title="not part of this template: add it as your own module"><b>Chemical register</b><span>Add your own module — e.g. your chemical list, hazards and orders</span></div>
+  </div>
+
+  <h2>Toolbox</h2>
+  <div class="tiles">
+    <a class="tile" href="/bank#gg"><b>Golden Gate</b><span>Pick parts and an enzyme: order, orientation and overhangs are worked out, and mismatches explained</span></a>
+    <a class="tile" href="/bank#enzymes"><b>Enzyme finder</b><span>Cuts once in the vector and never in the insert, from the lab's own freezer list</span></a>
+  </div>
+  <p class="note" style="margin-top:8px">Primers, digest, gel and alignment are tabs inside a map in the bank.</p>
+
+  <h2>Projects</h2>
+  <p class="note" style="margin-top:-4px"><b>My workspace</b> is yours alone: your own files (copies you edit, linear sequences, in-silico clones), in folders, and copied to your folder on the share. A <b>project</b> is shared: you invite colleagues, and it mostly holds links to maps in the bank (☆ on a map) plus a few shared drafts.</p>
+  <div id="projects"></div>
+
+  <h2>Wishes and gripes</h2>
+  <div class="card" id="feedback">
+    <form id="fbform">
+      <p class="note" style="margin-top:0">What would save you time? What annoys you in CLC, SnapGene, Benchling or here? Everyone in the lab can read these.</p>
+      <textarea id="fbtext" placeholder="e.g. Let me rotate a plasmid so it starts where its parent starts"></textarea>
+      <div class="row"><button class="primary" id="fbsend" type="submit">Send</button><span id="fbres" class="note"></span></div>
+    </form>
+    <div id="fblist"></div>
+  </div>
+</main>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;"}[c]));
+const api = async (url, opt) => {
+  const r = await fetch(url, opt);
+  if (r.status === 401) { location.href = "/login"; throw new Error("signed out"); }
+  if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail || r.statusText);
+  return r.json();
+};
+const post = (url, body) => api(url, {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(body)});
+let me = {user: "local", auth: "none"};
+
+async function init() {
+  try {
+    me = await api("/api/me");
+    if (me.auth !== "none") $("#me").innerHTML = `${esc(me.user)}${me.role === "admin" ? ` · <a href="/admin">admin</a>` : ""}`
+      + `${me.auth === "local" ? ` · <a href="#password" id="pwlink">password</a>` : ""} · <a href="/logout">sign out</a>`;
+    else if (me.role === "admin") $("#me").innerHTML = `<a href="/admin">admin</a>`;
+    $("#pwlink")?.addEventListener("click", e => { e.preventDefault(); $("#pwcard").hidden = !$("#pwcard").hidden; });
+    if (me.must_change || location.hash === "#password") {
+      $("#pwcard").hidden = false;
+      if (me.must_change) $("#pwtitle").textContent = "You signed in with a one-time password: please choose your own now.";
+    }
+    $("#pwform").onsubmit = changePassword;
+  } catch (e) { /* ignore */ }
+  api("/api/links").then(l => $("#genomes").href = l.genomes).catch(() => {});
+  if (me.must_change) return;  // everything below answers 403 until then; the page reloads after the change
+  $("#hsearch").onsubmit = e => { e.preventDefault(); const q = $("#hq").value.trim(); location.href = "/bank" + (q ? "#q=" + encodeURIComponent(q) : ""); };
+  api("/api/stats").then(st => $("#bankinfo").textContent = `${st.maps.toLocaleString()} map files · ${st.oligos.toLocaleString()} oligos`).catch(() => {});
+  const m = location.hash.match(/^#project\/(\d+)(?:\/(\d+))?/);  // #project/<id>[/<item>] from the bank's "open" links
+  const w = location.hash.match(/^#whatsnew(?:\/(\w+))?/);  // from the bank's What's new card; read before listProjects() clears the hash
+  if (m) openProject(+m[1], {scroll: true, item: m[2] ? +m[2] : null}); else listProjects();
+  loadFeedback();
+  $("#fbform").onsubmit = sendFeedback;
+  $("#guide").onclick = e => { e.preventDefault(); window.pmTour?.("pmt-home", TOUR, true); };
+  $("#whatsnew").onclick = e => { e.preventDefault(); window.pmWhatsNew?.({page: "home", run: whatsNewTour, force: true}); };
+  if (w) { history.replaceState(null, "", location.pathname); whatsNewTour(w[1] ? [w[1]] : HOME_NEW); return; }
+  // before the guide: someone who has never seen the guide is new here, so the card is marked seen instead
+  if (!m && !window.pmWhatsNew?.({page: "home", run: whatsNewTour, guideKey: "pmt-home"})) window.pmTour?.("pmt-home", TOUR);
+}
+
+/* What's new on this page (whatsnew.js lists the release; these are the steps for its "home" items) */
+const HOME_NEW = (window.pmWhatsNewItems || []).filter(x => x.page === "home").map(x => x.id);
+function whatsNewTour(ids, next) {
+  const openWorkspace = async () => {
+    const mine = (await api("/api/projects").catch(() => [])).find(p => p.personal);
+    if (mine) await openProject(mine.id); else await listProjects();
+    $("#projects").scrollIntoView({block: "start"});
+  };
+  const steps = {
+    workspace: [{sel: "#projects", before: openWorkspace, title: "My workspace", text: "Your own files, in folders: working copies, linear sequences, in-silico clones. <b>open</b> shows a file in the map viewer, where you edit it and <b>Save</b> writes it in place; <b>Move…</b> changes its folder or name."},
+                {sel: "#projects", title: "Synced with your folder on the share", text: "Everything here is copied every hour to <i>Plasmid map bank/Workspaces/&lt;you&gt;/</i>, and GenBank or FASTA files you put there appear here. Edited on both sides? You get both copies. Nothing is deleted for good: removed files go to <i>_deleted/</i>."}],
+    theme: [{sel: "#uictl", title: "Your view", text: "Basic or Advanced, and Auto / Light / Dark. Remembered in this browser."}],
+    copies: [{sel: "#genomes", title: "Every copy of a gene", text: "Open a gene in the genome browser: its card lists the other genes of the same family in the genome, and a click takes you to each one."}],
+    genomes: [{sel: "#genomes", title: "Genome browser", text: "Gene arrows now show which way each gene reads. Choose an insertion line and all its insertions are ringed on the track; click an exon to see its sequence (copy or FASTA)."}],
+  };
+  const all = ids.flatMap(id => steps[id] || []);
+  if (next) all.push({title: "More in the map bank", text: `The rest of what's new is in the map bank. <a href="${next}">Continue there →</a>`});
+  if (all.length) window.pmTour?.("pmt-whatsnew-home", all, true);
+}
+
+const TOUR = [
+  {sel: "#hsearch", title: "Search the map bank", text: "Type an ID, a name or a feature and press Enter: the bank opens with the results."},
+  {sel: "#banktile", title: "The plasmid map bank", text: "Every PMC and EC map on the share, searchable. Open a map to see it, find the lab's primers on it, design, verify clones, digest and align."},
+  {sel: "#bankupload", title: "Add a new map", text: "Use the PMC/EC number from your lab's records and it is copied to the share within the hour. No number yet? It is saved in <b>My workspace</b> below."},
+  {sel: "#genomes", title: "Genome browser", text: "The lab's genomes, with gene models and insertion lines. Opens in a new tab."},
+  {sel: 'a.tile[href="/bank#gg"]', title: "Toolbox", text: "Golden Gate, enzyme finder, and (inside a map) primers, digest, gel and alignment."},
+  {sel: "#projects", title: "Projects and My workspace", text: "<b>My workspace</b> holds your own files in folders: working copies, linear sequences, in-silico clones. Open them in the map viewer and edit them; they are copied to the share under <i>Plasmid map bank/Workspaces/</i>. A cloned construct gets its lab ID with <b>Give it an ID…</b>. Projects collect maps to share with colleagues."},
+  {sel: "#feedback", title: "Wishes and gripes", text: "Tell us what is missing or annoying. Everyone in the lab can read these."},
+  {sel: "#guide", title: "That's it", text: "Reopen this guide here any time. The map bank has its own short guide the first time you open it."},
+];
+
+async function changePassword(e) {
+  e.preventDefault();
+  if ($("#pwnew").value !== $("#pwnew2").value) {
+    $("#pwmsg").innerHTML = `<span class="err">The two new passwords don't match.</span>`;
+    return;
+  }
+  try {
+    await post("/api/account/password", {current: $("#pwcur").value, new: $("#pwnew").value});
+    $("#pwform").reset(); $("#pwtitle").textContent = "Change your password";
+    $("#pwmsg").innerHTML = `<span class="ok">Password changed.</span>`;
+    if (location.hash === "#password") history.replaceState(null, "", location.pathname);
+    // after a one-time password the server refused the rest of the page's data (_MUST_CHANGE_OK): reload it
+    setTimeout(() => { if (me.must_change) location.reload(); else { $("#pwcard").hidden = true; $("#pwmsg").textContent = ""; } }, 1500);
+  } catch (err) { $("#pwmsg").innerHTML = `<span class="err">${esc(err.message)}</span>`; }
+}
+
+/* ── projects ─────────────────────────────────────────────────────── */
+async function listProjects() {
+  history.replaceState(null, "", location.pathname);
+  const box = $("#projects");
+  let rows = [];
+  try { rows = await api("/api/projects"); } catch (e) { box.innerHTML = `<p class="err">${esc(e.message)}</p>`; return; }
+  box.innerHTML = `<div class="card">
+    ${rows.length ? `<div class="plist">${rows.map(p => `<div class="item" data-p="${p.id}"><b>${esc(p.name)}</b>
+      <span class="note">${p.n_items} map(s) · ${p.n_members} member(s) · owner ${esc(p.owner)}</span></div>`).join("")}</div>`
+      : `<p class="note" style="margin-top:0">No projects yet. A project collects links to bank maps and your new drafts, shared with the colleagues you invite.</p>`}
+    <div class="row"><input type="text" id="pname" placeholder="New project name" style="width:260px">
+      <input type="text" id="pdesc" placeholder="Description (optional)" style="flex:1;min-width:200px">
+      <button class="primary" id="pnew">Create</button><span id="pres" class="note"></span></div></div>`;
+  box.querySelectorAll("[data-p]").forEach(el => el.onclick = () => openProject(+el.dataset.p));
+  $("#pnew").onclick = async () => {
+    try { const r = await post("/api/projects", {name: $("#pname").value, description: $("#pdesc").value}); openProject(r.id); }
+    catch (e) { $("#pres").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+  };
+}
+
+async function openProject(pid, {scroll = false, item = null} = {}) {
+  history.replaceState(null, "", `#project/${pid}`);
+  const box = $("#projects");
+  let p;
+  try { p = await api(`/api/projects/${pid}`); } catch (e) { box.innerHTML = `<p class="err">${esc(e.message)}</p> <button id="pback">← all projects</button>`; $("#pback").onclick = listProjects; return; }
+  const row = it => {
+    const open = it.kind === "ref" && it.key != null ? `<a href="/bank#${it.key}/features">open</a>`
+      : it.kind === "draft" ? `${it.key != null && !it.error ? `<a href="/bank#${it.key}/features">open</a> · ` : ""}<a href="/api/projects/${pid}/items/${it.id}/file">download</a>`
+      : `<span class="note">not in the bank yet</span>`;
+    const kind = it.kind === "draft" ? `<span class="badge b-draft" title="Only project members can see this file">draft</span>`
+      : `<span class="badge b-link" title="A link to the map in the bank (on the share)">link</span>`;
+    return `<tr data-i="${it.id}"><td><input type="checkbox" data-sel="${it.id}"${it.length ? "" : " disabled"}></td>
+      <td>${kind}</td><td class="id">${esc(it.plasmid_id || "—")}</td><td>${esc(it.label || it.name || it.file || it.path || "")}${it.error ? ` <span class="badge b-bad">${esc(it.error)}</span>` : ""}</td>
+      <td class="num">${it.length ? it.length.toLocaleString() + " bp" : ""}</td><td class="note">${esc(it.added_by)}</td><td>${open}</td>
+      <td>${it.kind === "draft" ? `<button data-promote="${it.id}" title="It has a PMC/EC number: put it on the share and keep a link here">Give it an ID…</button>` : ""}
+        ${it.kind === "draft" && p.personal ? `<button data-mv="${it.id}" title="Move to another folder or rename">Move…</button>` : ""}
+        <button data-rm="${it.id}" title="Remove from this project (the bank is not touched)">✕</button></td></tr>
+      ${p.personal && it.kind === "draft" ? `<tr hidden data-mf="${it.id}"><td colspan="8"><div class="row"><input type="text" list="pfolders" data-mfolder="${it.id}" value="${esc(it.folder || "")}" placeholder="folder, e.g. RinRK1/constructs (empty = top)" style="width:280px">
+        <input type="text" data-mlabel="${it.id}" value="${esc(it.label || "")}" placeholder="name" style="width:240px">
+        <button class="primary" data-mgo="${it.id}">Save</button><span class="note" data-mres="${it.id}"></span></div></td></tr>` : ""}
+      <tr hidden data-pf="${it.id}"><td colspan="8"><div class="row"><input type="text" data-pid="${it.id}" placeholder="PMC-07383 or EC58489" style="width:170px">
+        <input type="text" data-pname="${it.id}" placeholder="construct name" value="${esc(it.label || "")}" style="width:280px">
+        <button class="primary" data-pgo="${it.id}">Upload to the bank</button><span class="note" data-pres="${it.id}">The file goes to the share by the hourly sync; this row becomes a link.</span></div></td></tr>`;
+  };
+  // My workspace: drafts sit in folders, sorted by folder, with a header row per folder
+  const folders = [...new Set(p.items.map(it => it.folder || "").filter(Boolean))].sort();
+  const items = p.personal ? [...p.items].sort((a, b) => (a.folder || "").localeCompare(b.folder || "") || a.id - b.id) : p.items;
+  let last = null;
+  const body = items.map(it => {
+    const head = p.personal && (it.folder || "") !== last ? `<tr><td colspan="8" class="note" style="padding-top:12px"><b>📁 ${esc(it.folder || "(top level)")}</b></td></tr>` : "";
+    last = it.folder || "";
+    return head + row(it);
+  }).join("");
+  box.innerHTML = `<div class="card">
+    <div class="row" style="margin-top:0"><button id="pback">← all projects</button><b style="font-size:16px">${esc(p.name)}</b>
+      <span class="note">${esc(p.description)}</span></div>
+    <datalist id="pfolders">${folders.map(f => `<option value="${esc(f)}">`).join("")}</datalist>
+    ${p.items.length ? `<table><thead><tr><th></th><th></th><th>ID</th><th>Name</th><th class="num">Length</th><th>Added by</th><th></th><th></th></tr></thead>
+      <tbody>${body}</tbody></table>` : `<p class="note">Empty: add maps from the bank, or upload a draft.</p>`}
+    <div class="row"><button class="primary" id="pgg" disabled>Golden Gate with selected</button><span class="note" id="pselnote">Tick two or more maps.</span></div>
+    <div class="row"><input type="search" id="padd" placeholder="Add a map from the bank: search ID or name…" style="width:340px"></div>
+    <div class="hits" id="phits"></div>
+    <div class="row"><label class="note">${p.personal ? "Add a file (GenBank or FASTA; a linear sequence is fine)" : "Upload a draft (a map without an ID yet, members only)"}: <input type="file" id="pdraft" accept=".gb,.gbk,.genbank,.fa,.fasta,.fas,.txt"></label>
+      ${p.personal ? `<input type="text" id="pdfolder" list="pfolders" placeholder="into folder (optional)" style="width:200px">` : ""}<span id="pdres" class="note"></span></div>
+    ${p.personal ? `<p class="note">Synced both ways with your folder on the share, <i>Plasmid map bank/Workspaces/${esc(p.owner)}/</i>, every hour.
+      Files you save there (GenBank or FASTA, in folders if you like) appear here; edits on either side are copied to the other; if both change, you get both copies.
+      Nothing is deleted for good: removed files go to <i>_deleted/</i> on the share. CLC files (.clc) cannot be read: export them as GenBank first.</p>` : ""}
+    <details style="margin-top:8px"><summary class="note" style="cursor:pointer">Members: ${p.members.map(esc).join(", ")}</summary>
+      ${p.is_owner ? `<div class="row">${p.members.filter(u => u !== p.owner).map(u => `<span class="badge b-link">${esc(u)} <a href="#" data-unm="${esc(u)}">✕</a></span>`).join(" ")}</div>
+        <div class="row"><input type="text" id="pmem" placeholder="colleague's sign-in name" style="width:220px"><button id="pinv">Invite</button><span class="note" id="pmres"></span></div>
+        <div class="row"><button id="pdel" style="color:var(--bad)">Delete this project</button><span class="note">Removes the project, its links and its drafts. Maps in the bank are not touched.</span></div>`
+      : `<p class="note">Owner: ${esc(p.owner)}. Only the owner can invite people.</p>`}</details></div>`;
+  $("#pback").onclick = listProjects;
+  const sel = () => [...box.querySelectorAll("[data-sel]:checked")].map(c => +c.dataset.sel);
+  box.querySelectorAll("[data-sel]").forEach(c => c.onchange = () => { const n = sel().length; $("#pgg").disabled = n < 2; $("#pselnote").textContent = n < 2 ? "Tick two or more maps." : `${n} selected`; });
+  $("#pgg").onclick = () => location.href = `/bank#gg/p${pid}/${sel().join(",")}`;
+  box.querySelectorAll("[data-rm]").forEach(b => b.onclick = async () => { await api(`/api/projects/${pid}/items/${b.dataset.rm}`, {method: "DELETE"}); openProject(pid); });
+  box.querySelectorAll("[data-promote]").forEach(b => b.onclick = () => { const r = box.querySelector(`[data-pf="${b.dataset.promote}"]`); r.hidden = !r.hidden; });
+  box.querySelectorAll("[data-mv]").forEach(b => b.onclick = () => { const r = box.querySelector(`[data-mf="${b.dataset.mv}"]`); r.hidden = !r.hidden; });
+  box.querySelectorAll("[data-mgo]").forEach(b => b.onclick = async () => {
+    const i = b.dataset.mgo;
+    try { await post(`/api/projects/${pid}/items/${i}/move`, {folder: box.querySelector(`[data-mfolder="${i}"]`).value, label: box.querySelector(`[data-mlabel="${i}"]`).value}); openProject(pid, {item: +i}); }
+    catch (e) { box.querySelector(`[data-mres="${i}"]`).innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+  });
+  box.querySelectorAll("[data-pgo]").forEach(b => b.onclick = async () => {
+    const i = b.dataset.pgo, out = box.querySelector(`[data-pres="${i}"]`);
+    try {
+      const r = await post(`/api/projects/${pid}/items/${i}/promote`, {plasmid_id: box.querySelector(`[data-pid="${i}"]`).value, construct_name: box.querySelector(`[data-pname="${i}"]`).value});
+      out.innerHTML = `<span class="ok">Saved as ${esc(r.file)}.</span>`; setTimeout(() => openProject(pid), 900);
+    } catch (e) { out.innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+  });
+  let t; $("#padd").oninput = e => { clearTimeout(t); t = setTimeout(async () => {
+    const q = e.target.value.trim(); if (!q) { $("#phits").innerHTML = ""; return; }
+    const rows = (await api("/api/maps?q=" + encodeURIComponent(q))).slice(0, 25);
+    $("#phits").innerHTML = rows.map(m => `<div data-k="${m.key}"><span class="id">${esc(m.plasmid_id || "—")}</span> <span class="note">${esc(m.file.split("/").pop())}${m.length ? " · " + m.length.toLocaleString() + " bp" : ""}</span></div>`).join("") || `<p class="note">No matches.</p>`;
+    $("#phits").querySelectorAll("[data-k]").forEach(d => d.onclick = async () => { await post(`/api/projects/${pid}/refs`, {key: +d.dataset.k}); openProject(pid); });
+  }, 200); };
+  $("#pdraft").onchange = async e => {
+    const f = e.target.files[0]; if (!f) return;
+    const fd = new FormData(); fd.append("file", f); if ($("#pdfolder")) fd.append("folder", $("#pdfolder").value);
+    try { await api(`/api/projects/${pid}/drafts`, {method: "POST", body: fd}); openProject(pid); }
+    catch (err) { $("#pdres").innerHTML = `<span class="err">${esc(err.message)}</span>`; }
+  };
+  if (p.is_owner) {
+    $("#pinv").onclick = async () => {
+      try { await post(`/api/projects/${pid}/members`, {user: $("#pmem").value}); openProject(pid); }
+      catch (e) { $("#pmres").innerHTML = `<span class="err">${esc(e.message)}</span>`; }
+    };
+    box.querySelectorAll("[data-unm]").forEach(a => a.onclick = async ev => { ev.preventDefault(); await api(`/api/projects/${pid}/members/${encodeURIComponent(a.dataset.unm)}`, {method: "DELETE"}); openProject(pid); });
+    $("#pdel").onclick = async () => { if (confirm(`Delete project "${p.name}"? Maps in the bank are not touched.`)) { await api(`/api/projects/${pid}`, {method: "DELETE"}); listProjects(); } };
+  }
+  // arriving from a link: the project card sits below the tiles, so bring it (and the new item) into view
+  const hit = item != null && box.querySelector(`tr[data-i="${item}"]`);
+  if (hit) { hit.classList.add("flash"); hit.scrollIntoView({block: "center"}); }
+  else if (scroll) box.scrollIntoView({block: "start"});
+}
+
+/* ── feedback ─────────────────────────────────────────────────────── */
+async function loadFeedback() {
+  try {
+    const rows = await api("/api/feedback?limit=20");
+    $("#fblist").innerHTML = rows.length ? `<p class="note">Recent</p>` + rows.map(r => `<div class="fb"><span class="note">${esc(r.user)} · ${esc(r.time.replace("T", " ").slice(0, 16))}</span>\n${esc(r.text)}</div>`).join("") : "";
+  } catch (e) { /* ignore */ }
+}
+
+async function sendFeedback(e) {
+  e.preventDefault();
+  const text = $("#fbtext").value.trim(); if (!text) return;
+  $("#fbsend").disabled = true;
+  try { await post("/api/feedback", {text, page: "dashboard"}); $("#fbtext").value = ""; $("#fbres").innerHTML = `<span class="ok">Thanks, sent.</span>`; loadFeedback(); }
+  catch (err) { $("#fbres").innerHTML = `<span class="err">${esc(err.message)}</span>`; }
+  $("#fbsend").disabled = false;
+}
+
+init();
+</script>
+</body>
+</html>
